@@ -20,3 +20,6 @@
 
 # Ignore IDE-specific files.
 /.idea/
+
+# Ignore dotenv files.
+.env*

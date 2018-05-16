@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  team_1_id: 1
+  team_2_id: 1
+  venue: MyString
+  kick_off: 2018-05-16 12:06:05
+  team_1_goals: 1
+  team_2_goals: 1
+  knock_out: false
+  decider: MyString
+
+two:
+  team_1_id: 1
+  team_2_id: 1
+  venue: MyString
+  kick_off: 2018-05-16 12:06:05
+  team_1_goals: 1
+  team_2_goals: 1
+  knock_out: false
+  decider: MyString

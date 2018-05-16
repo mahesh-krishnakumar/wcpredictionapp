@@ -1,0 +1,24 @@
+@import "bootstrap";
+@import "users";
+
+.header-bg {
+  background-image: asset_url('navbar-bg.jpg');
+  background-size: cover;
+}
+
+.navbar-logo {
+  height: 100px;
+}
+
+.white-text {
+  color: white !important;
+}
+
+.navbar-nav__nav-item {
+  @include media-breakpoint-down(md) {
+    text-align: center;
+    a {
+      font-size: 14px;
+    }
+  }
+}

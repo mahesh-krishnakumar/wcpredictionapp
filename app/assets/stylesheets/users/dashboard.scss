@@ -1,0 +1,43 @@
+.match-list__header {
+  text-align: center;
+  color: white;
+  border-radius: 0;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  background-color: #D30208;
+}
+
+.match-list__card {
+  border-radius: 0;
+  margin-bottom: 5px;
+}
+
+.match-list__card-header {
+  color: white;
+  font-size: 20px;
+  padding: 0;
+  background-color: #0074B1;
+}
+
+.match-card__flag {
+  height: 50px;
+}
+
+.match-card__left-flag {
+  margin-right: 5px;
+  #border-right: 3px solid white;
+}
+
+.match-card__right-flag {
+  margin-left: 5px;
+  #border-left: 3px solid white;
+}
+
+.match-card__kick-off {
+  font-size: 12px;
+  text-align: center;
+}
+
+.match-card__team-name {
+  min-width: 20%;
+}

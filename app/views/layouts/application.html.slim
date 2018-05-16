@@ -1,0 +1,28 @@
+doctype html
+html lang='en'
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    title World Cup 2018
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    header.header-bg
+      .container
+        nav.navbar.navbar-expand-lg.navbar-light.rounded-bottom
+          .navbar-brand
+            = image_tag 'wc_logo.jpg', class: 'navbar-logo'
+          button.navbar-toggler type="button" data-toggle="collapse" data-target="#navLinks" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation"
+            span.navbar-toggler-icon
+          #navLinks.collapse.navbar-collapse
+            ul.navbar-nav.ml-auto
+              li.nav-item.active.navbar-nav__nav-item
+                a.nav-link.white-text href='#' Dashboard
+              li.nav-item.navbar-nav__nav-item
+                a.nav-link.white-text href='#' Leaderboard
+              li.nav-item.navbar-nav__nav-item
+                a.nav-link.white-text href='#' Match Results
+              li.nav-item.navbar-nav__nav-item
+                a.nav-link.white-text href='#' Log Out
+    = yield

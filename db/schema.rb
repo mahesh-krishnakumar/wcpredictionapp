@@ -49,6 +49,17 @@ ActiveRecord::Schema.define(version: 2018_05_16_063605) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "predictions", force: :cascade do |t|
+    t.integer "match_id"
+    t.integer "user_id"
+    t.string "decider"
+    t.integer "winner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_predictions_on_match_id"
+    t.index ["user_id"], name: "index_predictions_on_user_id"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string "full_name"
     t.string "short_name"

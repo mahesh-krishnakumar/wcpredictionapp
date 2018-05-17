@@ -17,8 +17,11 @@ body {
 }
 
 .header-bg {
-  background-image: asset_url('navbar-bg.jpg');
+  background-image: asset_url('navbar-bg-red.png');
   background-size: cover;
+  @include media-breakpoint-up(md) {
+    background-size: 100%;
+  }
 }
 
 .navbar-logo {

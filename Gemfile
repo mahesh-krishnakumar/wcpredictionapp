@@ -69,5 +69,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # HTML Slim
-
 gem 'slim'
+
+# A simple gem to group by day, week etc.
+gem 'groupdate'

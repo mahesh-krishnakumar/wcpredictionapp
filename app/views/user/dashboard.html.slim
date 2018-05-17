@@ -1,21 +1,22 @@
 #dashboard.container.mt-3
   #match-list
-    .card.match-list__header
-      .card-header UPCOMING MATCHES
+    - @matches_by_date.each do |day, matches|
+      .card.match-list__header
+        .card-header #{day.strftime('%b %d')}
 
-    - @matches.each do |match|
-      .card.match-list__card
-        .card-header.d-flex.justify-content-center.match-list__card-header id="match#{match.id}-header" data-toggle="collapse" data-target="#match#{match.id}-details" aria-expanded="true" aria-controls="match#{match.id}-details"
+      - matches.each do |match|
+        .card.match-list__card
+          .card-header.d-flex.justify-content-center.match-list__card-header id="match#{match.id}-header" data-toggle="collapse" data-target="#match#{match.id}-details" aria-expanded="true" aria-controls="match#{match.id}-details"
 
-          .d-none.d-md-block.my-auto.match-card__team-name.text-right #{match.team_1.full_name.capitalize}
-          .d-md-none.my-auto.match-card__team-name.text-right #{match.team_1.short_name.upcase}
-          = image_tag match.team_1.flag, class: 'match-card__flag match-card__left-flag'
-          .match-card__kick-off.my-auto
-            .kick-off__date #{match.kick_off.strftime('%b %e')}
-            .kick-off__time #{match.kick_off.strftime('%H:%M')}
-          = image_tag match.team_2.flag, class: 'match-card__flag match-card__right-flag'
-          .d-none.my-auto.d-md-block.match-card__team-name.text-left #{match.team_2.full_name.capitalize}
-          .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}
+            .d-none.d-md-block.my-auto.match-card__team-name.text-right #{match.team_1.full_name.capitalize}
+            .d-md-none.my-auto.match-card__team-name.text-right #{match.team_1.short_name.upcase}
+            = image_tag match.team_1.flag, class: 'match-card__flag match-card__left-flag'
+            .match-card__kick-off.my-auto
+              .kick-off__date #{match.kick_off.strftime('%b %e')}
+              .kick-off__time #{match.kick_off.strftime('%H:%M')}
+            = image_tag match.team_2.flag, class: 'match-card__flag match-card__right-flag'
+            .d-none.my-auto.d-md-block.match-card__team-name.text-left #{match.team_2.full_name.capitalize}
+            .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}
 
-        .collapse.show id="match#{match.id}-details" aria-labelledby="match#{match.id}-header" data-parent="#match-list"
-          .card-body Match 1 Details
+          .collapse.show id="match#{match.id}-details" aria-labelledby="match#{match.id}-header" data-parent="#match-list"
+            .card-body Match #{match.id} Details

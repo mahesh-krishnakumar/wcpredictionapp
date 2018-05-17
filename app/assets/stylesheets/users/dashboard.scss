@@ -3,20 +3,21 @@
   color: white;
   border-radius: 0;
   margin-bottom: 10px;
-  margin-top: 20px;
-  background-color: #D30208;
+  margin-top: 40px;
+  background-color: #015386;
 }
 
 .match-list__card {
   border-radius: 0;
   margin-bottom: 5px;
+  cursor: pointer;
 }
 
 .match-list__card-header {
   color: white;
   font-size: 22px;
   padding: 0;
-  background-color: #015386;
+  background-color: #0074B1;
   border: 0;
   height: 50px;
 }
@@ -39,7 +40,7 @@
 }
 
 .match-card__kick-off {
-  background-color: #0074B1;
+  background-color: #015386;
   font-size: 12px;
   text-align: center;
   height: 100%;

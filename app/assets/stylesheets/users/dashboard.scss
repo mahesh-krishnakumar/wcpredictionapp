@@ -17,6 +17,10 @@
   font-size: 22px;
   padding: 0;
   background-color: #0074B1;
+  border: 0;
+}
+.match-list__card-header:first-child {
+  border-radius: 0;
 }
 
 .match-card__flag {
@@ -37,6 +41,7 @@
   background-color: #E5C685;
   font-size: 12px;
   text-align: center;
+  color: black;
   min-width: 17%;
   padding-top: 7px;
   padding-bottom: 7px;

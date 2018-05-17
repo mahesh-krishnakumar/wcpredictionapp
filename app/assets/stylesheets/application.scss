@@ -1,6 +1,21 @@
 @import "bootstrap";
 @import "users";
 
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background-image: asset-url('Russia_2018_BG.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @include media-breakpoint-up(md) {
+    background-size: 100% 100%;
+  }
+}
+
 .header-bg {
   background-image: asset_url('navbar-bg.jpg');
   background-size: cover;

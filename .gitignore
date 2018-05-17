@@ -23,3 +23,6 @@
 
 # Ignore dotenv files.
 .env*
+
+# Ignore locally stored files by ActiveStorage
+/storage/

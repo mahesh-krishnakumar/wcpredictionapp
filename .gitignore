@@ -26,3 +26,6 @@
 
 # Ignore locally stored files by ActiveStorage
 /storage/
+
+Ignore all macOS's DS_Stores
+*.DS_Store

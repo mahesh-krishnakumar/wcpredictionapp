@@ -1,0 +1,6 @@
+= semantic_form_for [:admin, @team] do |f|
+  = f.inputs do
+    = f.input :full_name
+    = f.input :short_name
+    = f.input :flag, as: :file
+    = f.actions

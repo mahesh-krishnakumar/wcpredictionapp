@@ -13,6 +13,7 @@ gem 'rails', '~> 5.2.0'
 gem 'dotenv-rails', '~> 2.2', groups: %i[development test]
 
 gem 'activeadmin', '~> 1.1'
+gem 'active_admin_datetimepicker'
 
 gem 'bootsnap', require: false
 

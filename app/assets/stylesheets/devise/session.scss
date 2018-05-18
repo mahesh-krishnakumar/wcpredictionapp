@@ -1,0 +1,23 @@
+.login-form-container {
+  height: 100vh;
+}
+
+.login-form {
+  margin: auto;
+}
+
+.login-form__text-field {
+  width: 300px;
+  margin-bottom: 20px;
+  height: 45px;
+}
+
+.login-form__remember-me-label {
+  margin-left: 5px;
+  margin-bottom: 0;
+  color: white;
+}
+
+.login-form__login-button {
+  margin-top: 20px;
+}

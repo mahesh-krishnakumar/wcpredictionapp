@@ -1,11 +1,19 @@
 after 'development:teams' do
   puts 'Seeding Matches'
 
-  brazil = Team.find_by short_name: 'BRA'
-  argentina = Team.find_by short_name: 'ARG'
-  spain = Team.find_by short_name: 'SPA'
-  portugal = Team.find_by short_name: 'POR'
+  require 'csv'
 
-  Match.create!(team_1: brazil, team_2: argentina, kick_off: 10.days.from_now)
-  Match.create!(team_1: spain, team_2: portugal, kick_off: 11.days.from_now)
+  fixture_csv = File.read(Rails.root.join('WCFixtures_UTC.csv'))
+
+  csv = CSV.parse(fixture_csv, headers: true)
+
+  csv.each do |row|
+    match_details = row.to_hash
+    Match.create!(
+      team_1: Team.find_by(full_name: match_details['team_1']),
+      team_2: Team.find_by(full_name: match_details['team_2']),
+      venue: match_details['venue'],
+      kick_off: DateTime.parse(match_details['kick_off'])
+    )
+  end
 end

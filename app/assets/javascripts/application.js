@@ -17,5 +17,7 @@
 //= require popper
 //= require bootstrap
 
+//= require user
+
 //= require_tree .
 

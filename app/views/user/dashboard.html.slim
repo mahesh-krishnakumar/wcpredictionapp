@@ -18,5 +18,17 @@
               .d-none.my-auto.d-md-block.match-card__team-name.text-left #{match.team_2.full_name.capitalize}
               .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}
             .collapse.show id="match#{match.id}-details" aria-labelledby="match#{match.id}-header" data-parent="#match-list"
-              .card-body Match #{match.id} Details
+              .card-body.match-card__card-body
+                - prediction = current_user.predictions.where(match: match).first || Prediction.new
+                = form_with model: prediction, class: 'row js-new-prediction-form', data: { match_id: match.id } do |f|
+                  .col-md-2
+                  .form-group.d-flex.flex-column.col-md-8.align-items-center
+                    .prediction-form__notice
+                      .prediction-form__notice-title Make your prediction!
+                      .prediction-form__notice-subtext
+                        | Deadline: #{(match.kick_off - 1.hour).strftime('%b %d, %H:%M')}
+                    = f.hidden_field :match_id, value: match.id
+                    = f.select :winner_id, [[match.team_1.full_name, match.team_1_id], [match.team_2.full_name, match.team_2_id], ['Draw', nil]], {}, class: 'prediction-form__field form-control'
+                    = f.submit 'Submit', class: 'btn btn-primary prediction-form__field'
+                  .col-md-2
     .col-md-2

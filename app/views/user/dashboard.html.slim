@@ -23,12 +23,18 @@
                 = form_with model: prediction, class: 'row js-new-prediction-form', data: { match_id: match.id } do |f|
                   .col-md-2
                   .form-group.d-flex.flex-column.col-md-8.align-items-center
-                    .prediction-form__notice
-                      .prediction-form__notice-title Make your prediction!
+                    .prediction-form__notice class="#{prediction.persisted? ? 'prediction-form__notice--predicted' : ''}"
+                      .prediction-form__notice-title
+                        - if prediction.persisted?
+                          - prediction_text = prediction.winner.present? ? "#{prediction.winner.full_name} will win." : "It will be a draw."
+                          | Your prediction: #{prediction_text}
+                        - else
+                          | Make your prediction!
                       .prediction-form__notice-subtext
                         | Deadline: #{(match.kick_off - 1.hour).strftime('%b %d, %H:%M')}
                     = f.hidden_field :match_id, value: match.id
                     = f.select :winner_id, [[match.team_1.full_name, match.team_1_id], [match.team_2.full_name, match.team_2_id], ['Draw', nil]], {}, class: 'prediction-form__field form-control'
-                    = f.submit 'Submit', class: 'btn btn-primary prediction-form__field'
+                    - submit_text = prediction.persisted? ? 'Update' : 'Submit'
+                    = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
                   .col-md-2
     .col-md-2

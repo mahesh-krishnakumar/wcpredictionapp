@@ -25,6 +25,11 @@
   border-radius: 0;
 }
 
+.match-list__card-header--predicted {
+  border-right: 20px solid greenyellow;
+  border-left: 20px solid greenyellow;
+}
+
 .match-card__flag {
   height: 100%;
 }

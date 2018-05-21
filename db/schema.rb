@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_17_062625) do
+ActiveRecord::Schema.define(version: 2018_05_21_103109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,10 @@ ActiveRecord::Schema.define(version: 2018_05_17_062625) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+  end
+
   create_table "matches", force: :cascade do |t|
     t.integer "team_1_id"
     t.integer "team_2_id"
@@ -113,7 +117,9 @@ ActiveRecord::Schema.define(version: 2018_05_17_062625) do
     t.string "nick_name"
     t.string "avatar"
     t.string "type"
+    t.bigint "group_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["group_id"], name: "index_users_on_group_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

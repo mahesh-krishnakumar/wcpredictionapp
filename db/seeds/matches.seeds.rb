@@ -1,4 +1,4 @@
-after 'development:teams' do
+after 'teams' do
   puts 'Seeding Matches'
 
   require 'csv'

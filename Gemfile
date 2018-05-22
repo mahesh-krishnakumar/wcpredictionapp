@@ -62,7 +62,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'seedbank'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'pry-rails'
@@ -76,6 +75,8 @@ gem 'slim'
 
 # A simple gem to group by day, week etc.
 gem 'groupdate'
+
+gem 'seedbank' # For seeding both in dev and production.
 
 group :production do
   gem 'google-cloud-storage', '~> 1.8', require: false

@@ -76,3 +76,7 @@ gem 'slim'
 
 # A simple gem to group by day, week etc.
 gem 'groupdate'
+
+group :production do
+  gem 'google-cloud-storage', '~> 1.8', require: false
+end

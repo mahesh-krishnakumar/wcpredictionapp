@@ -7,6 +7,10 @@
   background-color: #015386;
 }
 
+.match-list__header:first-child {
+  margin-top: 10px;
+}
+
 .match-list__card {
   border-radius: 0;
   margin-bottom: 5px;

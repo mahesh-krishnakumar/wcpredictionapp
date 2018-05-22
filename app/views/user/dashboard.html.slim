@@ -5,8 +5,9 @@
       ul.nav.nav-tabs.justify-content-center.match-list__tabs role='tablist' id='myTab'
         li.nav-item
           a.nav-link.active id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true" Upcoming
-        li.nav-item
-          a.nav-link id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="true" Completed
+        - if @completed_matches.present?
+          li.nav-item
+            a.nav-link id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="true" Completed
       .tab-content id='myTabContent'
         .tab-pane.fade.show.active id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab"
           - @upcoming_matches.each do |day, matches|
@@ -27,9 +28,9 @@
                   .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}
                 .collapse id="match#{match.id}-details" aria-labelledby="match#{match.id}-header" data-parent="#match-list"
                   .card-body.match-card__card-body
-                    = form_with model: prediction, class: 'row js-new-prediction-form', data: { match_id: match.id } do |f|
+                    .row
                       .col-md-2
-                      .form-group.d-flex.flex-column.col-md-8.align-items-center
+                      .col-md-8
                         .prediction-form__notice class="#{prediction.persisted? ? 'prediction-form__notice--predicted' : ''}"
                           .prediction-form__notice-title
                             - if prediction.persisted?
@@ -39,45 +40,50 @@
                               | Make your prediction!
                           .prediction-form__notice-subtext
                             | Deadline: #{(match.kick_off - 1.hour).strftime('%b %d, %H:%M')}
+                      .col-md-2
+                    = form_with model: prediction, class: 'row js-new-prediction-form', data: { match_id: match.id } do |f|
+                      .col-md-2
+                      .form-group.d-flex.flex-column.col-md-8.align-items-center
                         = f.hidden_field :match_id, value: match.id
                         = f.select :winner_id, [[match.team_1.full_name, match.team_1_id], [match.team_2.full_name, match.team_2_id], ['Draw', nil]], {}, class: 'prediction-form__field form-control'
                         - submit_text = prediction.persisted? ? 'Update' : 'Submit'
                         = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
                       .col-md-2
-        .tab-pane.fade.show.active id="completed" role="tabpanel" aria-labelledby="completed-tab"
-          - @completed_matches.each do |day, matches|
-            .card.match-list__header
-              .card-header #{day.strftime('%b %d')}
+        - if @completed_matches.present?
+          .tab-pane.fade.show.active id="completed" role="tabpanel" aria-labelledby="completed-tab"
+            - @completed_matches.each do |day, matches|
+              .card.match-list__header
+                .card-header #{day.strftime('%b %d')}
 
-            - matches.each do |match|
-              - prediction = current_user.predictions.where(match: match).first || Prediction.new
-              .card.match-list__card
-                .card-header.d-flex.justify-content-center.match-list__card-header class="#{prediction.persisted? ? 'match-list__card-header--predicted' : ''}" id="match#{match.id}-header" data-toggle="collapse" data-target="#match#{match.id}-details" aria-expanded="true" aria-controls="match#{match.id}-details"
-                  .d-none.d-md-block.my-auto.match-card__team-name.text-right #{match.team_1.full_name.capitalize}
-                  .d-md-none.my-auto.match-card__team-name.text-right #{match.team_1.short_name.upcase}
-                  = image_tag match.team_1.flag, class: 'match-card__flag match-card__left-flag'
-                  .match-card__kick-off.d-flex
-                    .kick-off__time #{match.kick_off.strftime('%H:%M')}
-                  = image_tag match.team_2.flag, class: 'match-card__flag match-card__right-flag'
-                  .d-none.my-auto.d-md-block.match-card__team-name.text-left #{match.team_2.full_name.capitalize}
-                  .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}
-                .collapse id="match#{match.id}-details" aria-labelledby="match#{match.id}-header" data-parent="#match-list"
-                  .card-body.match-card__card-body
-                    = form_with model: prediction, class: 'row js-new-prediction-form', data: { match_id: match.id } do |f|
-                      .col-md-2
-                      .form-group.d-flex.flex-column.col-md-8.align-items-center
-                        .prediction-form__notice class="#{prediction.persisted? ? 'prediction-form__notice--predicted' : ''}"
-                          .prediction-form__notice-title
-                            - if prediction.persisted?
-                              - prediction_text = prediction.winner.present? ? "#{prediction.winner.full_name} will win." : "It will be a draw."
-                              | Your prediction: #{prediction_text}
-                            - else
-                              | Make your prediction!
-                          .prediction-form__notice-subtext
-                            | Deadline: #{(match.kick_off - 1.hour).strftime('%b %d, %H:%M')}
-                        = f.hidden_field :match_id, value: match.id
-                        = f.select :winner_id, [[match.team_1.full_name, match.team_1_id], [match.team_2.full_name, match.team_2_id], ['Draw', nil]], {}, class: 'prediction-form__field form-control'
-                        - submit_text = prediction.persisted? ? 'Update' : 'Submit'
-                        = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
-                      .col-md-2
+              - matches.each do |match|
+                - prediction = current_user.predictions.where(match: match).first || Prediction.new
+                .card.match-list__card
+                  .card-header.d-flex.justify-content-center.match-list__card-header class="#{prediction.persisted? ? 'match-list__card-header--predicted' : ''}" id="match#{match.id}-header" data-toggle="collapse" data-target="#match#{match.id}-details" aria-expanded="true" aria-controls="match#{match.id}-details"
+                    .d-none.d-md-block.my-auto.match-card__team-name.text-right #{match.team_1.full_name.capitalize}
+                    .d-md-none.my-auto.match-card__team-name.text-right #{match.team_1.short_name.upcase}
+                    = image_tag match.team_1.flag, class: 'match-card__flag match-card__left-flag'
+                    .match-card__kick-off.d-flex
+                      .kick-off__time #{match.kick_off.strftime('%H:%M')}
+                    = image_tag match.team_2.flag, class: 'match-card__flag match-card__right-flag'
+                    .d-none.my-auto.d-md-block.match-card__team-name.text-left #{match.team_2.full_name.capitalize}
+                    .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}
+                  .collapse id="match#{match.id}-details" aria-labelledby="match#{match.id}-header" data-parent="#match-list"
+                    .card-body.match-card__card-body
+                      = form_with model: prediction, class: 'row js-new-prediction-form', data: { match_id: match.id } do |f|
+                        .col-md-2
+                        .form-group.d-flex.flex-column.col-md-8.align-items-center
+                          .prediction-form__notice class="#{prediction.persisted? ? 'prediction-form__notice--predicted' : ''}"
+                            .prediction-form__notice-title
+                              - if prediction.persisted?
+                                - prediction_text = prediction.winner.present? ? "#{prediction.winner.full_name} will win." : "It will be a draw."
+                                | Your prediction: #{prediction_text}
+                              - else
+                                | Make your prediction!
+                            .prediction-form__notice-subtext
+                              | Deadline: #{(match.kick_off - 1.hour).strftime('%b %d, %H:%M')}
+                          = f.hidden_field :match_id, value: match.id
+                          = f.select :winner_id, [[match.team_1.full_name, match.team_1_id], [match.team_2.full_name, match.team_2_id], ['Draw', nil]], {}, class: 'prediction-form__field form-control'
+                          - submit_text = prediction.persisted? ? 'Update' : 'Submit'
+                          = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
+                        .col-md-2
     .col-md-2

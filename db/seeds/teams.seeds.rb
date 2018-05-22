@@ -38,7 +38,7 @@ end
 
 Team.all.each do |team|
   team.flag.attach(
-    io: Rails.root.join("app/assets/images/flags/#{team.full_name}.png").open,
+    io: Rails.root.join("app/assets/images/flags/#{team.short_name.downcase}.png").open,
     filename: "#{team.full_name}.png"
   )
 end

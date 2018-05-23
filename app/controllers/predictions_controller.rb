@@ -1,12 +1,18 @@
 class PredictionsController < ApplicationController
   def create
     prediction = current_user.predictions.new(prediction_params)
-    head :ok if prediction.save!
+    match = Match.find(prediction_params[:match_id])
+    return head(:bad_request) if match.locked?
+    prediction.save!
+    head :ok
   end
 
   def update
     prediction = Prediction.find_by(match_id: prediction_params[:match_id])
-    head :ok if prediction.update!(winner_id: prediction_params[:winner_id])
+    match = Match.find(prediction_params[:match_id])
+    return head(:bad_request) if match.locked?
+    prediction.update!(winner_id: prediction_params[:winner_id])
+    head :ok
   end
 
   private

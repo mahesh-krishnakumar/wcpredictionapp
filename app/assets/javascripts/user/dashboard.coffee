@@ -1,5 +1,4 @@
 handlePredictionSubmission = ->
-  console.log('Ready')
   $('.js-new-prediction-form').on 'ajax:success', (event) ->
     form = $(event.target)
     matchId = form.data('matchId')
@@ -9,9 +8,6 @@ handlePredictionSubmission = ->
     notice = details.find('.prediction-form__notice')
     notice.addClass('prediction-form__notice--predicted')
     notice.find('.prediction-form__notice-title').html('Prediction saved!')
-
-    # update submit button text
-    form.find('input[type=submit]').val('Update')
 
     # change header styling to predicted
     header = $('#match' + matchId + '-header')
@@ -35,6 +31,13 @@ handlePredictionSubmission = ->
     matchId = form.data('matchId')
     notice = $('#match' + matchId + '-details').find('.prediction-form__notice')
     notice.removeClass('prediction-form__notice--error prediction-form__notice--predicted')
+
+  $('.js-match-details').on 'show.bs.collapse', (event) ->
+    detailsOpened = $(event.target)
+    submitButton = detailsOpened.find('input[type=submit]')
+    notice = detailsOpened.find('.prediction-form__notice')
+    if (submitButton.val() != 'Update') && notice.hasClass('prediction-form__notice--predicted')
+      submitButton.val('Update')
 
 $(document).on 'turbolinks:load', ->
   if $('.js-new-prediction-form').length

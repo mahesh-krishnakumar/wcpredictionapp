@@ -8,4 +8,8 @@ class Match < ApplicationRecord
   scope :locked_for_prediction, -> { where('kick_off < ?', Time.now + 1.hour) }
   scope :upcoming, -> { where(team_1_goals: nil) }
   scope :completed, -> { where.not(team_1_goals: nil) }
+
+  def locked?
+    Time.now >= (kick_off - 1.hour)
+  end
 end

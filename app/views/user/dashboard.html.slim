@@ -36,19 +36,22 @@
                             - if prediction.persisted?
                               - prediction_text = prediction.winner.present? ? "#{prediction.winner.full_name} will win." : "It will be a draw."
                               | Your prediction: #{prediction_text}
-                            - else
+                            - elsif !match.locked?
                               | Make your prediction!
+                            - else
+                              | The match is locked for prediction
                           .prediction-form__notice-subtext
                             | Deadline: #{(match.kick_off - 1.hour).strftime('%b %d, %H:%M')}
                       .col-md-2
-                    = form_with model: prediction, class: 'row js-new-prediction-form', data: { match_id: match.id } do |f|
-                      .col-md-2
-                      .form-group.d-flex.flex-column.col-md-8.align-items-center
-                        = f.hidden_field :match_id, value: match.id
-                        = f.select :winner_id, [[match.team_1.full_name, match.team_1_id], [match.team_2.full_name, match.team_2_id], ['Draw', nil]], {}, class: 'prediction-form__field form-control'
-                        - submit_text = prediction.persisted? ? 'Update' : 'Submit'
-                        = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
-                      .col-md-2
+                    - if !match.locked?
+                      = form_with model: prediction, class: 'row js-new-prediction-form', data: { match_id: match.id } do |f|
+                        .col-md-2
+                        .form-group.d-flex.flex-column.col-md-8.align-items-center
+                          = f.hidden_field :match_id, value: match.id
+                          = f.select :winner_id, [[match.team_1.full_name, match.team_1_id], [match.team_2.full_name, match.team_2_id], ['Draw', nil]], {}, class: 'prediction-form__field form-control'
+                          - submit_text = prediction.persisted? ? 'Update' : 'Submit'
+                          = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
+                        .col-md-2
         - if @completed_matches.present?
           .tab-pane.fade.show.active id="completed" role="tabpanel" aria-labelledby="completed-tab"
             - @completed_matches.each do |day, matches|

@@ -1,6 +1,7 @@
 .container.d-flex.login-form-container
   .login-form
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      = devise_login_error_messages!
       .field
         = f.email_field :email, autofocus: true, placeholder: 'Your email', class: 'login-form__text-field'
       .field

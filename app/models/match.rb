@@ -26,7 +26,7 @@ class Match < ApplicationRecord
   end
 
   def have_decider_only_for_knockout
-    errors.add(:decider, 'Select decider for knockout match') if knock_out && decider.blank?
-    errors.add(:decider, 'Decider is only applicable for group matches') if !knock_out && decider.present?
+    errors.add(:decider, 'Select decider for knockout match') if knock_out && decider.blank? && team_1_goals.present?
+    errors.add(:decider, 'Decider is only applicable for group matches') if !knock_out && decider.present? && team_1_goals.present?
   end
 end

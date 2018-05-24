@@ -37,7 +37,7 @@
                               - prediction_text = prediction.winner.present? ? "#{prediction.winner.full_name} will win." : "It will be a draw."
                               | Your prediction: #{prediction_text}
                             - elsif !match.locked?
-                              | Make your prediction!
+                              | Enter your predicted score below
                             - else
                               | The match is locked for prediction
                           .prediction-form__notice-subtext
@@ -48,7 +48,9 @@
                         .col-md-2
                         .form-group.d-flex.flex-column.col-md-8.align-items-center
                           = f.hidden_field :match_id, value: match.id
-                          = f.select :winner_id, [[match.team_1.full_name, match.team_1_id], [match.team_2.full_name, match.team_2_id], ['Draw', nil]], {}, class: 'prediction-form__field form-control'
+                          .d-flex.justify-content-between.prediction-form__score-inputs
+                            = f.number_field :team_1_goals, class: 'prediction-form__score-input', min: 0, max: 20
+                            = f.number_field :team_2_goals, class: 'prediction-form__score-input', min: 0, max: 20
                           - submit_text = prediction.persisted? ? 'Update' : 'Submit'
                           = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
                         .col-md-2

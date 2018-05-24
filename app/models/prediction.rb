@@ -5,4 +5,7 @@ class Prediction < ApplicationRecord
 
   validates :match, presence: true
   validates :user, presence: true
+  validates :team_1_goals, presence: true
+  validates :team_2_goals, presence: true
+  validates :decider, inclusion: { in: Match.valid_decider_types }, allow_nil: true
 end

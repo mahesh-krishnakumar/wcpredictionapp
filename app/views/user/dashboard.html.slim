@@ -44,34 +44,7 @@
                             | Deadline: #{(match.kick_off - 1.hour).strftime('%b %d, %H:%M')}
                       .col-md-2
                     - if !match.locked?
-                      = form_with model: prediction, class: 'row js-new-prediction-form', data: { match_id: match.id } do |f|
-                        .col-md-2
-                        .form-group.d-flex.flex-column.col-md-8.align-items-center
-                          = f.hidden_field :match_id, value: match.id
-                          .d-flex.justify-content-between.prediction-form__score-inputs
-                            = f.number_field :team_1_goals, class: 'prediction-form__score-input', min: 0, max: 20
-                            = f.number_field :team_2_goals, class: 'prediction-form__score-input', min: 0, max: 20
-                          - submit_text = prediction.persisted? ? 'Update' : 'Submit'
-                          = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
-                        .col-md-2
+                      = render 'prediction_form', prediction: prediction, match: match
         - if @completed_matches.present?
-          .tab-pane.fade.show.active id="completed" role="tabpanel" aria-labelledby="completed-tab"
-            - @completed_matches.each do |day, matches|
-              .card.match-list__header
-                .card-header #{day.strftime('%b %d')}
-
-              - matches.each do |match|
-                - prediction = current_user.predictions.where(match: match).first || Prediction.new
-                .card.match-list__card
-                  .card-header.d-flex.justify-content-center.match-list__card-header class="#{prediction.persisted? ? 'match-list__card-header--predicted' : ''}" id="match#{match.id}-header" data-toggle="collapse" data-target="#match#{match.id}-details" aria-expanded="true" aria-controls="match#{match.id}-details"
-                    .d-none.d-md-block.my-auto.match-card__team-name.text-right #{match.team_1.full_name.capitalize}
-                    .d-md-none.my-auto.match-card__team-name.text-right #{match.team_1.short_name.upcase}
-                    = image_tag match.team_1.flag, class: 'match-card__flag match-card__left-flag'
-                    .match-card__kick-off.d-flex
-                      .kick-off__time #{match.team_1_goals.to_s + '-' +match.team_2_goals.to_s}
-                    = image_tag match.team_2.flag, class: 'match-card__flag match-card__right-flag'
-                    .d-none.my-auto.d-md-block.match-card__team-name.text-left #{match.team_2.full_name.capitalize}
-                    .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}
-                  .collapse id="match#{match.id}-details" aria-labelledby="match#{match.id}-header" data-parent="#match-list"
-                    .card-body.match-card__card-body Test
+          = render 'completed_matches_data', completed_matches: @completed_matches
     .col-md-2

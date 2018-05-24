@@ -1,0 +1,19 @@
+.tab-pane.fade.show.active id="completed" role="tabpanel" aria-labelledby="completed-tab"
+  - completed_matches.each do |day, matches|
+    .card.match-list__header
+      .card-header #{day.strftime('%b %d')}
+
+    - matches.each do |match|
+      - prediction = current_user.predictions.where(match: match).first || Prediction.new
+      .card.match-list__card
+        .card-header.d-flex.justify-content-center.match-list__card-header class="#{prediction.persisted? ? 'match-list__card-header--predicted' : ''}" id="match#{match.id}-header" data-toggle="collapse" data-target="#match#{match.id}-details" aria-expanded="true" aria-controls="match#{match.id}-details"
+          .d-none.d-md-block.my-auto.match-card__team-name.text-right #{match.team_1.full_name.capitalize}
+          .d-md-none.my-auto.match-card__team-name.text-right #{match.team_1.short_name.upcase}
+          = image_tag match.team_1.flag, class: 'match-card__flag match-card__left-flag'
+          .match-card__kick-off.d-flex
+            .kick-off__time #{match.team_1_goals.to_s + '-' +match.team_2_goals.to_s}
+          = image_tag match.team_2.flag, class: 'match-card__flag match-card__right-flag'
+          .d-none.my-auto.d-md-block.match-card__team-name.text-left #{match.team_2.full_name.capitalize}
+          .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}
+        .collapse id="match#{match.id}-details" aria-labelledby="match#{match.id}-header" data-parent="#match-list"
+          .card-body.match-card__card-body Test

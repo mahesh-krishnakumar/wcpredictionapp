@@ -1,3 +1,4 @@
+- decider_label_class = prediction.decider.present? ? 'prediction-form__decider-label--predicted' : ''
 = form_with model: prediction, class: 'row js-new-prediction-form', data: { match_id: match.id } do |f|
   .col-md-2
   .form-group.d-flex.flex-column.col-md-8.align-items-center
@@ -7,8 +8,8 @@
       = f.number_field :team_2_goals, class: 'prediction-form__score-input', min: 0, max: 20
     - if match.knock_out?
       .prediction-form__decider-select.align-items-center
-        = f.label :decider, 'Select Decider', for: 'prediction_decider', class: 'prediction-form__decider-label'
-        = f.select :decider, options_for_select(Match.valid_decider_types), {}, { id: 'prediction_decider', class: 'form-control text-center' }
+        = f.label :decider, 'Select Decider', class: "prediction-form__decider-label + ' ' + #{decider_label_class}"
+        = f.select :decider, options_for_select(Match.valid_decider_types, prediction.decider), {}, { class: 'form-control text-center' }
     - submit_text = prediction.persisted? ? 'Update' : 'Submit'
     = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
   .col-md-2

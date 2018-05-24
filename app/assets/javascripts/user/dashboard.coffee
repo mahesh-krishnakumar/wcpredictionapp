@@ -6,8 +6,12 @@ handlePredictionSubmission = ->
     # change content of notice
     details = $('#match' + matchId + '-details')
     notice = details.find('.prediction-form__notice')
+    deciderLabel = details.find('.prediction-form__decider-label')
     notice.addClass('prediction-form__notice--predicted')
+    deciderLabel.addClass('prediction-form__decider-label--predicted')
     notice.find('.prediction-form__notice-title').html('Prediction saved!')
+    deciderLabel.html('Selected Decider')
+
 
     # change header styling to predicted
     header = $('#match' + matchId + '-header')

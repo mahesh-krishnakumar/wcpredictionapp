@@ -7,4 +7,6 @@ class User < ApplicationRecord
   belongs_to :group
 
   validates :group, presence: true
+  validates :name, presence: true
+  validates :nick_name, presence: true
 end

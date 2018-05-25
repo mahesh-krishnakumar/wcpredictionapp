@@ -30,8 +30,8 @@
 }
 
 .match-list__card-header--predicted {
-  border-right: 20px solid greenyellow;
-  border-left: 20px solid greenyellow;
+  border-right: 20px solid #00FF87;
+  border-left: 20px solid #00FF87;
 }
 
 .match-card__flag {
@@ -100,7 +100,7 @@
 }
 
 .prediction-form__notice--predicted {
-  background-color: greenyellow;
+  background-color: #00FF87;
 }
 
 .prediction-form__notice--error {
@@ -124,10 +124,15 @@
   text-align: center;
 }
 
+.prediction-form__score-input--error {
+  border-color: red;
+}
+
 .prediction-form__decider-select {
   align-items: center;
   margin-top: 10px;
   margin-bottom: 10px;
+  width: 200px;
 }
 
 .prediction-form__decider-label {
@@ -138,5 +143,14 @@
 }
 
 .prediction-form__decider-label--predicted {
-  background-color: greenyellow;
+  background-color: #00FF87;
+}
+
+.prediction-form__score-danger-alert {
+  color: red;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  width: 200px;
+  text-align: center;
 }

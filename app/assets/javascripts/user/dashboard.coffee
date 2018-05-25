@@ -11,7 +11,7 @@ handlePredictionSubmission = ->
     deciderLabel.addClass('prediction-form__decider-label--predicted')
     notice.find('.prediction-form__notice-title').html('Prediction saved!')
     deciderLabel.html('Selected Decider')
-
+    submitButton = details.find('input[type=submit]')
 
     # change header styling to predicted
     header = $('#match' + matchId + '-header')
@@ -42,6 +42,19 @@ handlePredictionSubmission = ->
     notice = detailsOpened.find('.prediction-form__notice')
     if (submitButton.val() != 'Update') && notice.hasClass('prediction-form__notice--predicted')
       submitButton.val('Update')
+
+
+  $('.js-knockout-score').on 'change', (event) ->
+    teamOneScore = $('.js-knockout-score')[0].value
+    teamTwoScore = $('.js-knockout-score')[1].value
+    if (teamOneScore == teamTwoScore)
+      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', true)
+      $(event.target).closest('div.form-group').find('div.prediction-form__score-danger-alert').removeClass('d-none')
+      $('.js-knockout-score').addClass('prediction-form__score-input--error')
+    else
+      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', false)
+      $(event.target).closest('div.form-group').find('div.prediction-form__score-danger-alert').addClass('d-none')
+      $('.js-knockout-score').removeClass('prediction-form__score-input--error')
 
 $(document).on 'turbolinks:load', ->
   if $('.js-new-prediction-form').length

@@ -67,6 +67,19 @@
   min-width: 34px;
 }
 
+.kick-off__live {
+  margin: auto;
+  min-width: 34px;
+  color: red;
+  animation:blinkingText 2s infinite;
+}
+
+@keyframes blinkingText{
+  0%{		color: red;	}
+  50%{	color: transparent;	}
+  100%{	color: red;	}
+}
+
 .match-card__team-name {
   min-width: 28%;
   font-weight: bold;

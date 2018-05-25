@@ -22,7 +22,10 @@
                   .d-md-none.my-auto.match-card__team-name.text-right #{match.team_1.short_name.upcase}
                   = image_tag match.team_1.flag, class: 'match-card__flag match-card__left-flag'
                   .match-card__kick-off.d-flex
-                    .kick-off__time #{match.kick_off.strftime('%H:%M')}
+                    - if match.ongoing?
+                      .kick-off__live &#8226; LIVE
+                    - else
+                      .kick-off__time #{match.kick_off.strftime('%H:%M')}
                   = image_tag match.team_2.flag, class: 'match-card__flag match-card__right-flag'
                   .d-none.my-auto.d-md-block.match-card__team-name.text-left #{match.team_2.full_name.capitalize}
                   .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}

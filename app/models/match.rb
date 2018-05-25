@@ -29,4 +29,8 @@ class Match < ApplicationRecord
     errors.add(:decider, 'Select decider for knockout match') if knock_out && decider.blank? && team_1_goals.present?
     errors.add(:decider, 'Decider is only applicable for group matches') if !knock_out && decider.present? && team_1_goals.present?
   end
+
+  def ongoing?
+    Time.now.between?(kick_off, kick_off + 2.hours)
+  end
 end

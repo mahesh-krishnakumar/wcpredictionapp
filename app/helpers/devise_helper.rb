@@ -12,7 +12,7 @@ module DeviseHelper
     messages = flash_alerts.map { |msg| content_tag(:li, msg) }.join
 
     html = <<-HTML
-    <div id="error_explanation" class="alert alert-danger">
+    <div id="error_explanation" class="alert alert-danger login-form__error-box">
       <ul class="mb-0 pl-3">#{messages}</ul>
     </div>
     HTML

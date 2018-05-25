@@ -1,0 +1,6 @@
+.update-form__container.d-flex
+  = bootstrap_form_for(resource, as: resource_name, url: user_registration_path, html: { method: :patch, class: 'update-form__form' }) do |f|
+    = f.password_field :password, autocomplete: "off"
+    = f.password_field :password_confirmation, autocomplete: "off"
+    = f.password_field :current_password, autocomplete: "off"
+    = f.submit 'Update'

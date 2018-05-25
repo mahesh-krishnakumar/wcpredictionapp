@@ -76,7 +76,13 @@ gem 'slim'
 # A simple gem to group by day, week etc.
 gem 'groupdate'
 
-gem 'seedbank' # For seeding both in dev and production.
+# For seeding both in dev and production.
+gem 'seedbank'
+
+# Rails form builder using Bootstrap 4
+gem 'bootstrap_form',
+  git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
+  branch: 'master'
 
 group :production do
   gem 'google-cloud-storage', '~> 1.8', require: false

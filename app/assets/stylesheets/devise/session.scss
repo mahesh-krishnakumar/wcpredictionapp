@@ -3,7 +3,14 @@
 }
 
 .login-form {
+  background-color: rgba(52, 98, 183, 0.8);
+  width: 350px;
+  height: 500px;
   margin: auto;
+  display: flex;
+  form {
+    margin: auto;
+  }
 }
 
 .login-form__text-field {

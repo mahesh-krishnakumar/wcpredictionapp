@@ -18,7 +18,12 @@ html {
 }
 
 .body-with-bg--zabivaka {
-  background-image: asset-url('Zabivaka_login.jpg');
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-image: asset-url('login_bg.jpg');
+  min-width: 100%;
+  max-width: 100%;
 }
 
 .header-bg {

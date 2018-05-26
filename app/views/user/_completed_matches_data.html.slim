@@ -37,7 +37,7 @@
                 tbody.text-center
                   - results[match.id].each do |result|
                     tr
-                      td #{User.find(result[:user_id]).name}
+                      td #{User.find(result[:user_id]).nick_name}
                       - user_prediction = prediction.persisted? ? prediction.short_text : 'NA'
                       td #{user_prediction}
                       - icon_for_result = result[:match_result] ? right_prediction_icon : wrong_prediction_icon

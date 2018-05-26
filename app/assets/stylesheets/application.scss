@@ -10,7 +10,8 @@ html {
   min-height: 100%;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: asset-url('Russia_2018_BG.jpg');
+  background-color: #DDDDDD;
+  //background-image: asset-url('Russia_2018_BG.jpg');
   background-size: cover;
   @include media-breakpoint-up(md) {
     background-size: 100% 100%;

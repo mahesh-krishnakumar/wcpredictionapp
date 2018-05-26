@@ -56,6 +56,15 @@ handlePredictionSubmission = ->
       $(event.target).closest('div.form-group').find('div.prediction-form__score-danger-alert').addClass('d-none')
       $('.js-knockout-score').removeClass('prediction-form__score-input--error')
 
+  $('.js-decider-select').on 'change', (event) ->
+    console.log('Test')
+    selectedValue = $('.js-decider-select').val()
+    if selectedValue == 'Penalty'
+      $('.prediction-form__penalty-notice').removeClass('d-none')
+    else
+      $('.prediction-form__penalty-notice').addClass('d-none')
+
+
 $(document).on 'turbolinks:load', ->
   if $('.js-new-prediction-form').length
     handlePredictionSubmission()

@@ -4,10 +4,10 @@
     #match-list.col-md-8
       ul.nav.nav-tabs.justify-content-center.match-list__tabs role='tablist' id='myTab'
         li.nav-item
-          a.nav-link.active id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true" Upcoming
+          a.nav-link.font-weight-bold.active id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true" Upcoming
         - if @completed_matches.present?
           li.nav-item
-            a.nav-link id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="true" Completed
+            a.nav-link.font-weight-bold id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="true" Completed
       .tab-content id='myTabContent'
         .tab-pane.fade.show.active id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab"
           - @upcoming_matches.each do |day, matches|

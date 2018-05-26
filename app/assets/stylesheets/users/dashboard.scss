@@ -154,3 +154,22 @@
   width: 200px;
   text-align: center;
 }
+
+.match-result__correct-prediction {
+  color: #00FF87;
+}
+
+.match-result__wrong-prediction {
+  color: red;
+}
+
+.match-result__decider-notice {
+  background-color: #00FF87;
+  font-size: 15px;
+  font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+}

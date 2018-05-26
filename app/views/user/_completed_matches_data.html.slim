@@ -1,3 +1,6 @@
+- right_prediction_icon = 'fa-check match-result__correct-prediction'
+- wrong_prediction_icon = 'fa-times match-result__wrong-prediction'
+
 .tab-pane.fade.show.active id="completed" role="tabpanel" aria-labelledby="completed-tab"
   - completed_matches.each do |day, matches|
     .card.match-list__header
@@ -17,4 +20,33 @@
           .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}
         .collapse id="match#{match.id}-details" aria-labelledby="match#{match.id}-header" data-parent="#match-list"
           .card-body.match-card__card-body
-            | #{results[match.id]}
+            - if match.knock_out?
+              .match-result__decider-notice
+                | Match Decider: #{match.decider}
+
+            .table-responsive
+              table.table.table-striped
+                thead.text-center
+                  tr
+                    th Player
+                    th Prediction
+                    th Result
+                    th Score
+                    - if match.knock_out?
+                      th Decider
+                tbody.text-center
+                  - results[match.id].each do |result|
+                    tr
+                      td #{User.find(result[:user_id]).name}
+                      - user_prediction = prediction.persisted? ? prediction.short_text : 'NA'
+                      td #{user_prediction}
+                      - icon_for_result = result[:match_result] ? right_prediction_icon : wrong_prediction_icon
+                      td
+                        i.fa class='#{icon_for_result}'
+                      - icon_for_score = result[:score] ? right_prediction_icon : wrong_prediction_icon
+                      td
+                        i.fa class='#{icon_for_score}'
+                      - if match.knock_out?
+                        - icon_for_decider = result[:decider] ? right_prediction_icon : wrong_prediction_icon
+                        td
+                          i.fa class='#{icon_for_decider}'

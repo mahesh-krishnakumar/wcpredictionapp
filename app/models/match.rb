@@ -14,7 +14,7 @@ class Match < ApplicationRecord
   belongs_to :team_2, class_name: 'Team'
 
   validate :have_decider_only_for_knockout
-
+  validate :both_teams_should_have_goals
 
   scope :open_for_prediction, -> { where('kick_off > ?', Time.now + 1.hour) }
   scope :locked_for_prediction, -> { where('kick_off < ?', Time.now + 1.hour) }
@@ -30,7 +30,20 @@ class Match < ApplicationRecord
     errors.add(:decider, 'Decider is only applicable for group matches') if !knock_out && decider.present? && team_1_goals.present?
   end
 
+  def both_teams_should_have_goals
+    if team_1_goals.present? && !team_2_goals.present?
+      errors.add(:team_2_goals, 'Goals should be updated for both teams')
+    elsif team_2_goals.present? && !team_1_goals.present?
+      errors.add(:team_1_goals, 'Goals should be updated for both teams')
+    end
+  end
+
   def ongoing?
     Time.now.between?(kick_off, kick_off + 2.hours)
+  end
+
+  def winner
+    return if team_1_goals == team_2_goals
+    team_1_goals > team_2_goals ? team_1 : team_2
   end
 end

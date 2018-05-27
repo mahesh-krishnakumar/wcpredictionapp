@@ -38,11 +38,12 @@
                   - results[match.id].each do |result|
                     tr
                       td #{User.find(result[:user_id]).nick_name}
-                      - user_prediction = prediction.persisted? ? prediction.short_text : 'NA'
-                      td #{user_prediction}
+                      - user_prediction = Prediction.where(user_id: result[:user_id], match_id: match.id).first
+                      - prediction_text = user_prediction.present? ? user_prediction.short_text : 'N/A'
+                      td #{prediction_text}
                       - icon_for_result = result[:match_result] ? right_prediction_icon : wrong_prediction_icon
                       td
-                        i.fa class='#{icon_for_result}'
+                        i.fa class='#{gicon_for_result}'
                       - icon_for_score = result[:score] ? right_prediction_icon : wrong_prediction_icon
                       td
                         i.fa class='#{icon_for_score}'

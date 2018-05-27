@@ -5,7 +5,7 @@ class PredictionsController < ApplicationController
     return head(:bad_request) if match.locked?
     prediction.decider = prediction_params[:decider] if match.knock_out?
     prediction.save!
-    head :ok
+    render status: :ok, json: prediction
   end
 
   def update
@@ -14,7 +14,7 @@ class PredictionsController < ApplicationController
     return head(:bad_request) if match.locked?
     prediction.update!(team_1_goals: prediction_params[:team_1_goals], team_2_goals: prediction_params[:team_2_goals])
     prediction.update!(decider: prediction_params[:decider]) if match.knock_out?
-    head :ok
+    render status: :ok, json: prediction
   end
 
   private

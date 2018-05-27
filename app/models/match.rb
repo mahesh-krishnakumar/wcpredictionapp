@@ -72,4 +72,8 @@ class Match < ApplicationRecord
   def knock_out?
     stage.in? [STAGE_PRE_QUARTER, STAGE_QUARTER, STAGE_SEMI_FINAL, STAGE_FINAL]
   end
+
+  def score_as_string
+    "#{team_1_goals}:#{team_2_goals}"
+  end
 end

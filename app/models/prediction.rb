@@ -2,7 +2,7 @@ class Prediction < ApplicationRecord
   belongs_to :match
   belongs_to :user
 
-  validates :match, presence: true
+  validates :match, presence: true, uniqueness: { scope: :user }
   validates :user, presence: true
   validates :team_1_goals, presence: true, inclusion: { in: 0..99 }
   validates :team_2_goals, presence: true, inclusion: { in: 0..99 }

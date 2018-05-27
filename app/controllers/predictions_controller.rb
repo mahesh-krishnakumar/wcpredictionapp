@@ -9,7 +9,7 @@ class PredictionsController < ApplicationController
   end
 
   def update
-    prediction = Prediction.find_by(match_id: prediction_params[:match_id])
+    prediction = current_user.predictions.find_by(match_id: prediction_params[:match_id])
     match = Match.find(prediction_params[:match_id])
     return head(:bad_request) if match.locked?
     prediction.update!(team_1_goals: prediction_params[:team_1_goals], team_2_goals: prediction_params[:team_2_goals])

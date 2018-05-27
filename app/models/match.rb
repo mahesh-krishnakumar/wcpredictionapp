@@ -15,6 +15,7 @@ class Match < ApplicationRecord
 
   validate :have_decider_only_for_knockout
   validate :both_teams_should_have_goals
+  validate :scores_cannot_be_equal_for_knockout
 
   scope :open_for_prediction, -> { where('kick_off > ?', Time.now + 1.hour) }
   scope :locked_for_prediction, -> { where('kick_off < ?', Time.now + 1.hour) }
@@ -35,6 +36,12 @@ class Match < ApplicationRecord
       errors.add(:team_2_goals, 'Goals should be updated for both teams')
     elsif team_2_goals.present? && !team_1_goals.present?
       errors.add(:team_1_goals, 'Goals should be updated for both teams')
+    end
+  end
+
+  def scores_cannot_be_equal_for_knockout
+    if knock_out? && team_1_goals.present? && team_2_goals.present? && (team_1_goals == team_2_goals)
+      errors.add(:team_1_goals, 'Knockouts cannot end in a draw')
     end
   end
 

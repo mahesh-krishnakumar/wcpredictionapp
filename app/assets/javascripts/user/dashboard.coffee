@@ -51,19 +51,26 @@ handlePredictionSubmission = ->
     notice = detailsOpened.find('.prediction-form__notice')
     if (submitButton.val() != 'Update') && notice.hasClass('prediction-form__notice--predicted')
       submitButton.val('Update')
+    teamOneScore = $(event.target).find('input[type=number]')[0].value
+    teamTwoScore = $(event.target).find('input[type=number]')[1].value
+    if (teamOneScore == teamTwoScore)
+      $(event.target).find('input[type=submit]').attr('disabled', true)
+      $(event.target).find('div.prediction-form__score-danger-alert').removeClass('d-none')
+      $(event.target).find('.js-knockout-score').addClass('prediction-form__score-input--error')
 
 
   $('.js-knockout-score').on 'change', (event) ->
-    teamOneScore = $('.js-knockout-score')[0].value
-    teamTwoScore = $('.js-knockout-score')[1].value
+    teamOneScore = $(event.target.parentElement).find('input[type=number]')[0].value
+    teamTwoScore = $(event.target.parentElement).find('input[type=number]')[1].value
     if (teamOneScore == teamTwoScore)
+      debugger;
       $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', true)
       $(event.target).closest('div.form-group').find('div.prediction-form__score-danger-alert').removeClass('d-none')
-      $('.js-knockout-score').addClass('prediction-form__score-input--error')
+      $(event.target.parentElement).find('input[type=number]').addClass('prediction-form__score-input--error')
     else
       $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', false)
       $(event.target).closest('div.form-group').find('div.prediction-form__score-danger-alert').addClass('d-none')
-      $('.js-knockout-score').removeClass('prediction-form__score-input--error')
+      $(event.target.parentElement).find('.js-knockout-score').removeClass('prediction-form__score-input--error')
 
   $('.js-decider-select').on 'change', (event) ->
     console.log('Test')

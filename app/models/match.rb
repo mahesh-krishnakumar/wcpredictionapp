@@ -10,6 +10,18 @@ class Match < ApplicationRecord
   validates :kick_off, presence: true
   validates :decider, inclusion: { in: valid_decider_types }, allow_blank: true
 
+  STAGE_GROUP = -'group'
+  STAGE_PRE_QUARTER = -'pre_quarter'
+  STAGE_QUARTER = -'quarter'
+  STAGE_SEMI_FINAL = -'semi_final'
+  STAGE_FINAL = -'final'
+
+  def self.valid_stages
+    [STAGE_GROUP, STAGE_PRE_QUARTER, STAGE_QUARTER, STAGE_SEMI_FINAL, STAGE_FINAL].freeze
+  end
+
+  validates :stage, inclusion: { in: valid_stages }
+
   belongs_to :team_1, class_name: 'Team'
   belongs_to :team_2, class_name: 'Team'
 
@@ -22,13 +34,16 @@ class Match < ApplicationRecord
   scope :upcoming, -> { where(team_1_goals: nil) }
   scope :completed, -> { where.not(team_1_goals: nil) }
 
+  scope :group_stage, -> { where(stage: STAGE_GROUP) }
+  scope :knock_out_stage, -> { where(stage: [STAGE_PRE_QUARTER, STAGE_QUARTER, STAGE_SEMI_FINAL, STAGE_FINAL])}
+
   def locked?
     Time.now >= (kick_off - 1.hour)
   end
 
   def have_decider_only_for_knockout
-    errors.add(:decider, 'Select decider for knockout match') if knock_out && decider.blank? && team_1_goals.present?
-    errors.add(:decider, 'Decider is only applicable for group matches') if !knock_out && decider.present? && team_1_goals.present?
+    errors.add(:decider, 'Select decider for knockout match') if knock_out? && decider.blank? && team_1_goals.present?
+    errors.add(:decider, 'Decider is only applicable for group matches') if !knock_out? && decider.present? && team_1_goals.present?
   end
 
   def both_teams_should_have_goals
@@ -52,5 +67,9 @@ class Match < ApplicationRecord
   def winner
     return if team_1_goals == team_2_goals
     team_1_goals > team_2_goals ? team_1 : team_2
+  end
+
+  def knock_out?
+    stage.in? [STAGE_PRE_QUARTER, STAGE_QUARTER, STAGE_SEMI_FINAL, STAGE_FINAL]
   end
 end

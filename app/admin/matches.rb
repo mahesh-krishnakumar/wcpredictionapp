@@ -1,5 +1,8 @@
 ActiveAdmin.register Match do
-  permit_params :team_1_id, :team_2_id, :venue, :kick_off, :team_1_goals, :team_2_goals, :knock_out, :decider
+  permit_params :team_1_id, :team_2_id, :venue, :kick_off, :team_1_goals, :team_2_goals, :stage, :decider
+
+  scope :group_stage
+  scope :knock_out_stage
 
   form do |f|
     f.inputs 'Match Details' do
@@ -7,7 +10,7 @@ ActiveAdmin.register Match do
       f.input :team_2
       f.input :venue
       f.input :kick_off, as: :date_time_picker, datepicker_options: { start_date: '2018-06-1', min_date: '2018-06-14', max_date: '2018-07-15', step: 30 }
-      f.input :knock_out
+      f.input :stage, as: :select, collection: Match.valid_stages, include_blank: false
     end
 
     f.inputs 'Match Results' do

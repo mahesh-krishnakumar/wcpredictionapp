@@ -1,7 +1,7 @@
 - right_prediction_icon = 'fa-check match-result__correct-prediction'
 - wrong_prediction_icon = 'fa-times match-result__wrong-prediction'
 
-.tab-pane.fade.show.active id="completed" role="tabpanel" aria-labelledby="completed-tab"
+.tab-pane.fade id="completed" role="tabpanel" aria-labelledby="completed-tab"
   - completed_matches.each do |day, matches|
     .card.match-list__header
       .card-header #{day.strftime('%b %d')}

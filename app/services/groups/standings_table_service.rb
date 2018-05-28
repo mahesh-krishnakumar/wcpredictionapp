@@ -20,21 +20,21 @@ module Groups
         end
 
         # Add the score pot share, except if it was penalties
-        if match.decider != Match::DECIDER_TYPE_PENALTY && score_pot_share(match).present?
+        if match.decider != Match::DECIDER_TYPE_PENALTY && pot_share(match, :score).present?
           pot_share(match, :score).each do |user_id, share|
             result[user_id] += share
           end
         end
 
         # Add the decider pot share, except for group stage
-        if match.knock_out? && decider_pot_share(match).present?
+        if match.knock_out? && pot_share(match, :decider).present?
           pot_share(match, :decider).each do |user_id, share|
             result[user_id] += share
           end
         end
       end
 
-      result
+      result.sort_by { |user_id, points| points }.reverse
     end
 
     private

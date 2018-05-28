@@ -12,23 +12,23 @@ module Groups
       
       Match.completed.each do |match|
         # skip if nobody is even got the winners right
-        next unless winner_pot_share(match).present?
+        next unless pot_share(match, :winner).present?
 
         # Add the winner pot share
-        winner_pot_share(match).each do |user_id, share|
+        pot_share(match, :winner).each do |user_id, share|
           result[user_id] += share
         end
 
         # Add the score pot share, except if it was penalties
         if match.decider != Match::DECIDER_TYPE_PENALTY && score_pot_share(match).present?
-          score_pot_share(match).each do |user_id, share|
+          pot_share(match, :score).each do |user_id, share|
             result[user_id] += share
           end
         end
 
         # Add the decider pot share, except for group stage
         if match.knock_out? && decider_pot_share(match).present?
-          decider_pot_share(match).each do |user_id, share|
+          pot_share(match, :decider).each do |user_id, share|
             result[user_id] += share
           end
         end
@@ -39,33 +39,13 @@ module Groups
 
     private
 
-    def winner_pot_share(match)
-      return if correct_winner_predictors(match).empty?
-      
-      total_winner_pot = predictions_count(match) * pot_split[match.stage][:winner]
-      correct_winner_share = total_winner_pot / correct_winner_predictors(match).count
-      correct_winner_predictors(match).each_with_object({}) do |user, result|
-        result[user] = correct_winner_share
-      end
-    end
+    def pot_share(match, metric)
+      return if correct_predictors(match, metric).empty?
 
-    def score_pot_share(match)
-      return if correct_score_predictors(match).empty?
-
-      total_score_pot = predictions_count(match) * pot_split[match.stage][:score]
-      correct_score_share = total_score_pot / correct_score_predictors(match).count
-      correct_score_predictors(match).each_with_object({}) do |user, result|
-        result[user] = correct_score_share
-      end
-    end
-
-    def decider_pot_share(match)
-      return if correct_decider_predictors(match).empty?
-
-      total_decider_pot = predictions_count(match) * pot_split[match.stage][:decider]
-      correct_decider_share = total_decider_pot / correct_decider_predictors(match).count
-      correct_decider_predictors(match).each_with_object({}) do |user, result|
-        result[user] = correct_decider_share
+      total_pot = predictions_count(match) * pot_split[match.stage][metric]
+      per_head_share = total_pot / correct_predictors(match, metric).count
+      correct_predictors(match, metric).each_with_object({}) do |user, result|
+        result[user] = per_head_share
       end
     end
     
@@ -85,31 +65,21 @@ module Groups
       @predictions_count[match]
     end
 
-    def correct_winner_predictors(match)
-      @correct_winner_predictors ||= Hash.new do |hash, key|
-        true_winner = key.winner
-        hash[key] = predictions(key).select{ |p| p.winner == true_winner }.pluck(:user_id)
+    def correct_predictors(match, metric)
+      @correct_predictors ||= Hash.new do |hash,key|
+        matchx = key[0]; metricx = key[1]
+        true_winner = matchx.winner
+        correct_winner_predictors = predictions(matchx).select{ |p| p.winner == true_winner }.pluck(:user_id)
+        hash[key] = if metricx == :winner
+          correct_winner_predictors
+        else
+          true_result = matchx.send(metric_method[metricx])
+          predictions(matchx).where(user: correct_winner_predictors)
+            .select{ |p| p.send(metric_method[metricx]) == true_result }.pluck(:user_id)
+        end
       end
 
-      @correct_winner_predictors[match]
-    end
-    
-    def correct_score_predictors(match)
-      @correct_score_predictors ||= Hash.new do |hash, key|
-        true_score_as_string = key.score_as_string
-        hash[key] = predictions(key).select{ |p| p.score_as_string == true_score_as_string }.pluck(:user_id)
-      end
-
-      @correct_score_predictors[match]
-    end
-
-    def correct_decider_predictors(match)
-      @correct_decider_predictors ||= Hash.new do |hash,key|
-        true_decider = key.decider
-        hash[key] = predictions(key).select{ |p| p.decider == true_decider }.pluck(:user_id)
-      end
-
-      @correct_decider_predictors[match]
+      @correct_predictors[[match, metric]]
     end
 
     def pot_split
@@ -120,6 +90,14 @@ module Groups
         semi_final: { winner: 30, score: 10, decider: 10 },
         final: { winner: 70, score: 10, decider: 20 }
       }.with_indifferent_access
+    end
+
+    def metric_method
+      {
+        winner: :winner,
+        score: :score_as_string,
+        decider: :decider
+      }
     end
   end
 end

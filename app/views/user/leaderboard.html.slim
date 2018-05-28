@@ -2,20 +2,26 @@
   .row
     .col-md-2
     .col-md-8
-      - @leaderboards.each do |group_id, leaderboard|
-        | Leaderboard for group: #{@groups.find(group_id).name}
-        table.table
-          thead.thead-dark
-            tr
-              th scope='col' #
-              th scope='col' Name
-              th scope='col' Matches
-              th scope='col' Points
-          tbody
-            - leaderboard.each.with_index(1) do |(user_id, (matches, points)), index|
-              tr
-                th scope='row' #{index}
-                th #{User.find(user_id).nick_name}
-                th #{matches}
-                th #{points}
+      ul.nav.nav-tabs.justify-content-center.match-list__tabs role='tablist' id='leaderboardTabs'
+        - @groups.each_with_index do |group, index|
+          li.nav-item
+            a.nav-link.font-weight-bold id="group#{group.id}-tab" data-toggle="tab" href="#group#{group.id}" role="tab" class=(index == 0 ? 'active' : '') #{group.name}
+
+      .tab-content id='leaderboardTabsContent'
+        - @leaderboards.each_with_index do |(group_id, leaderboard), index|
+          .tab-pane.fade id="group#{group_id}" role="tabpanel" class=(index == 0 ? 'show active' : '')
+            table.table
+              thead.thead-dark
+                tr
+                  th scope='col' #
+                  th scope='col' Name
+                  th scope='col' Matches
+                  th scope='col' Points
+              tbody
+                - leaderboard.each.with_index(1) do |(user_id, (matches, points)), index|
+                  tr
+                    th scope='row' #{index}
+                    th #{User.find(user_id).nick_name}
+                    th #{matches}
+                    th #{points}
     .col-md-2

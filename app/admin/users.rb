@@ -1,29 +1,48 @@
 ActiveAdmin.register User do
-  controller do
-    actions :all, except: [:edit, :destroy]
-  end
-  permit_params :email, :password, :password_confirmation, :group_id, :name, :nick_name
+  permit_params :name, :nick_name, group_ids: []
 
   index do
     selectable_column
     id_column
     column :email
     column :name
-    column :group
+    column :groups do |user|
+      div do
+        user.groups.each do |group|
+          span do
+            link_to group.name, [:admin, group]
+          end
+        end
+      end
+    end
     actions
   end
 
+  show do |user|
+    attributes_table do
+      row :email
+      row :name
+      row :nick_name
+      row :groups do
+        div do
+          user.groups.each do |group|
+            span do
+              link_to group.name, [:admin, group]
+            end
+          end
+        end
+      end
+    end
+  end
+
   filter :email
-  filter :group
+  # filter :groups
 
   form do |f|
     f.inputs do
-      f.input :email
       f.input :name
       f.input :nick_name
-      f.input :password
-      f.input :password_confirmation
-      f.input :group
+      f.input :group_ids, as: :select, collection: Group.all, input_html: {:multiple => true}
     end
     f.actions
   end

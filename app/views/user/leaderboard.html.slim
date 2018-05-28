@@ -1,0 +1,19 @@
+#leaderboard.container.mt-3
+  .row
+    .col-md-2
+    .col-md-8
+      table.table
+        thead.thead-dark
+          tr
+            th scope='col' #
+            th scope='col' Name
+            th scope='col' Matches
+            th scope='col' Points
+        tbody
+          - @leaderboard.each.with_index(1) do |(user_id, (matches, points)), index|
+            tr
+              th scope='row' #{index}
+              th #{@users.find(user_id).nick_name}
+              th #{matches}
+              th #{points}
+    .col-md-2

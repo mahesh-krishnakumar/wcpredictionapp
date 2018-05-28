@@ -47,6 +47,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails' #Required by bootstrap
 gem 'bootstrap', '~> 4.0.0'
 gem 'font-awesome-rails'
+gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

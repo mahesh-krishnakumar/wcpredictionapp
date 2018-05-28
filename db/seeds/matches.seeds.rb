@@ -17,4 +17,6 @@ after 'teams' do
       stage: Match::STAGE_GROUP
     )
   end
+
+  Match.where(stage: Match::STAGE_GROUP).first.update!(team_1_goals: 2, team_2_goals: 1)
 end

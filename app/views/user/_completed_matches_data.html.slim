@@ -23,31 +23,38 @@
             - if match.knock_out?
               .match-result__decider-notice
                 | Match Decider: #{match.decider}
+            ul.nav.nav-tabs.justify-content-center.match-list__tabs role='tablist' id='resultTabs'
+              - @groups.each_with_index do |group, index|
+                li.nav-item
+                  a.nav-link.font-weight-bold id="group#{group.id}-tab" data-toggle="tab" href="#group#{group.id}match#{match.id}" role="tab" class=(index == 0 ? 'active' : '') #{group.name}
 
-            .table-responsive
-              table.table.table-striped
-                thead.text-center
-                  tr
-                    th Player
-                    th Prediction
-                    th Result
-                    th Score
-                    - if match.knock_out?
-                      th Decider
-                tbody.text-center
-                  - results[match.id].each do |result|
-                    tr
-                      td #{User.find(result[:user_id]).nick_name}
-                      - user_prediction = Prediction.where(user_id: result[:user_id], match_id: match.id).first
-                      - prediction_text = user_prediction.present? ? user_prediction.short_text : 'N/A'
-                      td #{prediction_text}
-                      - icon_for_result = result[:match_result] ? right_prediction_icon : wrong_prediction_icon
-                      td
-                        i.fa class='#{icon_for_result}'
-                      - icon_for_score = result[:score] ? right_prediction_icon : wrong_prediction_icon
-                      td
-                        i.fa class='#{icon_for_score}'
-                      - if match.knock_out?
-                        - icon_for_decider = result[:decider] ? right_prediction_icon : wrong_prediction_icon
-                        td
-                          i.fa class='#{icon_for_decider}'
+            .tab-content id='resultTabsContent'
+              - @results.each_with_index do |(group_id, results), index|
+                .tab-pane.fade id="group#{group_id}match#{match.id}" role="tabpanel" class=(index == 0 ? 'show active' : '')
+                  .table-responsive
+                    table.table.table-striped
+                      thead.text-center
+                        tr
+                          th Player
+                          th Prediction
+                          th Result
+                          th Score
+                          - if match.knock_out?
+                            th Decider
+                      tbody.text-center
+                        - results[match.id].each do |result|
+                          tr
+                            td #{User.find(result[:user_id]).nick_name}
+                            - user_prediction = Prediction.where(user_id: result[:user_id], match_id: match.id).first
+                            - prediction_text = user_prediction.present? ? user_prediction.short_text : 'N/A'
+                            td #{prediction_text}
+                            - icon_for_result = result[:match_result] ? right_prediction_icon : wrong_prediction_icon
+                            td
+                              i.fa class='#{icon_for_result}'
+                            - icon_for_score = result[:score] ? right_prediction_icon : wrong_prediction_icon
+                            td
+                              i.fa class='#{icon_for_score}'
+                            - if match.knock_out?
+                              - icon_for_decider = result[:decider] ? right_prediction_icon : wrong_prediction_icon
+                              td
+                                i.fa class='#{icon_for_decider}'

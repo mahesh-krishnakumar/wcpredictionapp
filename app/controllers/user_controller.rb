@@ -4,7 +4,10 @@ class UserController < ApplicationController
   def dashboard
     @upcoming_matches = Match.upcoming.group_by_day { |m| m.kick_off }
     @completed_matches = Match.completed.group_by_day { |m| m.kick_off }
-    @results = Matches::PredictionResultService.new(current_user.group).results
+    @groups = current_user.groups
+    @results = @groups.each_with_object({}) do |group, result|
+      result[group.id] = Matches::PredictionResultService.new(group).results
+    end
   end
 
   def leaderboard

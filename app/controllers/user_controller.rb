@@ -8,8 +8,9 @@ class UserController < ApplicationController
   end
 
   def leaderboard
-    @group = current_user.group
-    @users = @group.users
-    @leaderboard = Groups::StandingsTableService.new(@group).table
+    @groups = current_user.groups
+    @leaderboards = @groups.each_with_object({}) do |group, leaderboard|
+      leaderboard[group.id] = Groups::StandingsTableService.new(group).table
+    end
   end
 end

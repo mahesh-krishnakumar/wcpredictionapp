@@ -15,5 +15,6 @@ class UserController < ApplicationController
     @leaderboards = @groups.each_with_object({}) do |group, leaderboard|
       leaderboard[group.id] = Groups::StandingsTableService.new(group).table
     end
+    @global_leaderboard = Groups::StandingsTableService.new.table
   end
 end

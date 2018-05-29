@@ -1,12 +1,14 @@
 module Groups
   class StandingsTableService
-    def initialize(group)
+    def initialize(group= nil)
       @group = group
+      @users = group.present? ? group.users : User.all
+      @all_predictions = group.present? ? group.predictions : Prediction.all
     end
 
     def table
       # Initialize an empty result
-      result = @group.users.each_with_object({}) do |user, resultx|
+      result = @users.each_with_object({}) do |user, resultx|
         resultx[user.id] = 0
       end
 
@@ -43,9 +45,9 @@ module Groups
     def pot_share(match, metric)
       return if correct_predictors(match, metric).empty?
 
-      total_pot = @group.users.count * pot_split[match.stage][metric]
+      total_pot = @users.count * pot_split[match.stage][metric]
       winners_share = total_pot.to_f / correct_predictors(match, metric).count
-      @group.users.pluck(:id).each_with_object({}) do |user_id, result|
+      @users.pluck(:id).each_with_object({}) do |user_id, result|
         result[user_id] = -pot_split[match.stage][metric]
         result[user_id] += winners_share if user_id.in?(correct_predictors(match, metric))
       end
@@ -53,7 +55,7 @@ module Groups
 
     def predictions(match)
       @predictions ||= Hash.new do |hash, key|
-        hash[key] = @group.predictions.where(match: key)
+        hash[key] = @all_predictions.where(match: key)
       end
 
       @predictions[match]

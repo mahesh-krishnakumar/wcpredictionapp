@@ -4,40 +4,54 @@
     .col-md-8#leaderboard
       - @groups.each_with_index do |group, index|
         .card.leaderboard__card
-          .card-header.d-flex.justify-content-center.leaderboard__card-header id="group#{group.id}-header" data-toggle="collapse" data-target="#group#{group.id}-table" aria-expanded="true" aria-controls="group#{group.id}-table"
+          .card-header.d-flex.pl-3.leaderboard__card-header id="group#{group.id}-header" data-toggle="collapse" data-target="#group#{group.id}-table" aria-expanded="true" aria-controls="group#{group.id}-table"
             .my-auto
               | #{group.name}
+            .ml-auto.my-auto.pr-3
+              = fa_icon 'chevron-down'
           .collapse id="group#{group.id}-table" aria-labelledby="group#{group.id}-table" data-parent="#leaderboard" class="#{index.zero? ? 'show' : ''}"
             .card-body.leaderboard__card-body
               table.table.table-striped.leaderboard__table
                 thead.leaderboard-table__header
                   tr
-                    th scope='col' #
+                    th.fit scope='col' #
+                    th.fit scope='col'
                     th scope='col' Name
                     th scope='col' Points
                 tbody
                   - @leaderboards[group.id].each.with_index(1) do |(user_id, points), index|
+                    - user = User.find(user_id)
                     tr
-                      th scope='row' #{index}
-                      th #{User.find(user_id).nick_name}
-                      th class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{'%g' % points.round(1)}
+                      td.fit scope='row' #{index}
+                      td.fit scope='row'
+                        - if user.team.present?
+                          = image_tag user.team.flag, class: 'leaderboard__flag'
+                      td #{user.nick_name}
+                      td class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{'%g' % points.round(1)}
       / Also the Global ranking
       .card.leaderboard__card
-        .card-header.d-flex.justify-content-center.leaderboard__card-header id="groupglobal-header" data-toggle="collapse" data-target="#groupglobal-table" aria-expanded="true" aria-controls="groupglobal-table"
+        .card-header.d-flex.pl-3.leaderboard__card-header id="groupglobal-header" data-toggle="collapse" data-target="#groupglobal-table" aria-expanded="true" aria-controls="groupglobal-table"
           .my-auto
             | Global Ranking
+          .ml-auto.my-auto.pr-3
+            = fa_icon 'chevron-down'
         .collapse id="groupglobal-table" aria-labelledby="groupglobal-table" data-parent="#leaderboard"
           .card-body.leaderboard__card-body
             table.table.table-striped.leaderboard__table
               thead.leaderboard-table__header
                 tr
-                  th scope='col' #
+                  th.fit scope='col' #
+                  th.fit scope='col'
                   th scope='col' Name
                   th scope='col' Points
               tbody
                 - @global_leaderboard.each.with_index(1) do |(user_id, points), index|
+                  - user = User.find(user_id)
                   tr
-                    th scope='row' #{index}
-                    th #{User.find(user_id).nick_name}
-                    th class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{'%g' % points.round(1)}
+                    td.fit scope='row' #{index}
+                    td.fit scope='row'
+                      - if user.team.present?
+                        = image_tag user.team.flag, class: 'leaderboard__flag'
+                    td #{user.nick_name}
+                    td class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{'%g' % points.round(1)}
     .col-md-2

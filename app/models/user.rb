@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   has_many :predictions
   has_and_belongs_to_many :groups
+  belongs_to :team, optional: true # her favourite team
 
   # validates :group, presence: true
   validates :name, presence: true

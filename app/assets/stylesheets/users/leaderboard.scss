@@ -40,3 +40,13 @@
 .green-text {
   color: green;
 }
+
+.leaderboard__flag {
+  height: 20px;
+  white-space: nowrap;
+}
+
+.table td.fit, .table th.fit {
+  white-space: nowrap;
+  width: 1%;
+}

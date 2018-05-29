@@ -26,7 +26,15 @@ module Groups
         result = add_to_pot(result, match, :decider) if match.knock_out?
       end
 
-      result.sort_by { |_user_id, points| points }.reverse
+      # round all points to one decimal
+      result = result.map { |user_id, points| [user_id, points.round(1)] }
+
+      # sort by points
+      result.sort_by! { |e| -(e.second) }
+
+      # add ranks
+      sorted_points = result.map(&:second).sort.uniq.reverse
+      result.each { |e| e << sorted_points.index(e[1]) + 1 }
     end
 
     private

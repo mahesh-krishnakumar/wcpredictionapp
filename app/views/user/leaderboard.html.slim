@@ -14,15 +14,15 @@
               table.table.table-striped.leaderboard__table
                 thead.leaderboard-table__header
                   tr
-                    th.fit scope='col' #
+                    th.fit scope='col' Rank
                     th.fit scope='col'
                     th scope='col' Name
                     th scope='col' Points
                 tbody
-                  - @leaderboards[group.id].each.with_index(1) do |(user_id, points), index|
+                  - @leaderboards[group.id].each.with_index(1) do |(user_id, points, rank), index|
                     - user = User.find(user_id)
                     tr
-                      td.fit scope='row' #{index}
+                      td.fit scope='row' #{rank}
                       td.fit scope='row'
                         - if user.team.present?
                           = image_tag user.team.flag, class: 'leaderboard__flag'
@@ -40,15 +40,15 @@
             table.table.table-striped.leaderboard__table
               thead.leaderboard-table__header
                 tr
-                  th.fit scope='col' #
+                  th.fit scope='col' Rank
                   th.fit scope='col'
                   th scope='col' Name
                   th scope='col' Points
               tbody
-                - @global_leaderboard.each.with_index(1) do |(user_id, points), index|
+                - @global_leaderboard.each.with_index(1) do |(user_id, points, rank), index|
                   - user = User.find(user_id)
                   tr
-                    td.fit scope='row' #{index}
+                    td.fit scope='row' #{rank}
                     td.fit scope='row'
                       - if user.team.present?
                         = image_tag user.team.flag, class: 'leaderboard__flag'

@@ -48,21 +48,22 @@ module Groups
     def pot_share(match, metric)
       return if correct_predictors(match, metric).empty?
 
-      total_pot = predictions_count(match) * pot_split[match.stage][metric]
-      per_head_share = total_pot / correct_predictors(match, metric).count
-      correct_predictors(match, metric).each_with_object({}) do |user, result|
-        result[user] = per_head_share
+      total_pot = @group.users.count * pot_split[match.stage][metric]
+      winners_share = total_pot / correct_predictors(match, metric).count
+      @group.users.pluck(:id).each_with_object({}) do |user_id, result|
+        result[user_id] = -pot_split[match.stage][metric]
+        result[user_id] += winners_share if user_id.in?(correct_predictors(match, metric))
       end
     end
-    
+
     def predictions(match)
-      @predictions ||= Hash.new do |hash,key|
+      @predictions ||= Hash.new do |hash, key|
         hash[key] = @group.predictions.where(match: key)
       end
 
       @predictions[match]
     end
-    
+
     def predictions_count(match)
       @predictions_count ||= Hash.new do |hash, key|
         hash[key] = predictions(key).count
@@ -72,16 +73,16 @@ module Groups
     end
 
     def correct_predictors(match, metric)
-      @correct_predictors ||= Hash.new do |hash,key|
+      @correct_predictors ||= Hash.new do |hash, key|
         matchx = key[0]; metricx = key[1]
         true_winner = matchx.winner
-        correct_winner_predictors = predictions(matchx).select{ |p| p.winner == true_winner }.pluck(:user_id)
+        correct_winner_predictors = predictions(matchx).select { |p| p.winner == true_winner }.pluck(:user_id)
         hash[key] = if metricx == :winner
           correct_winner_predictors
         else
           true_result = matchx.send(metric_method[metricx])
           predictions(matchx).where(user: correct_winner_predictors)
-            .select{ |p| p.send(metric_method[metricx]) == true_result }.pluck(:user_id)
+            .select { |p| p.send(metric_method[metricx]) == true_result }.pluck(:user_id)
         end
       end
 

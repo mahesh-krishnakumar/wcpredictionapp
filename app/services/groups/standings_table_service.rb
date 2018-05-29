@@ -7,12 +7,7 @@ module Groups
     def table
       # Initialize an empty result
       result = @group.users.each_with_object({}) do |user, resultx|
-        resultx[user.id] = [0, 0]
-      end
-
-      # Populate matches count
-      @group.users.each do |user|
-        result[user.id][0] = user.predictions.where(match: Match.completed).count
+        resultx[user.id] = 0
       end
 
       # Populate points
@@ -22,25 +17,25 @@ module Groups
 
         # Add the winner pot share
         pot_share(match, :winner).each do |user_id, share|
-          result[user_id][1] += share
+          result[user_id] += share
         end
 
         # Add the score pot share, except if it was penalties
         if match.decider != Match::DECIDER_TYPE_PENALTY && pot_share(match, :score).present?
           pot_share(match, :score).each do |user_id, share|
-            result[user_id][1] += share
+            result[user_id] += share
           end
         end
 
         # Add the decider pot share, except for group stage
         if match.knock_out? && pot_share(match, :decider).present?
           pot_share(match, :decider).each do |user_id, share|
-            result[user_id][1] += share
+            result[user_id] += share
           end
         end
       end
 
-      result.sort_by { |_user_id, (_matches, points)| points }.reverse
+      result.sort_by { |_user_id, points| points }.reverse
     end
 
     private

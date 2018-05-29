@@ -1,0 +1,42 @@
+.leaderboard__card {
+  border-radius: 0;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.leaderboard__card-header {
+  color: white;
+  font-size: 22px;
+  padding: 0;
+  background-color: #015386;
+  border: 0;
+  border-radius: 0;
+  height: 50px;
+}
+
+.leaderboard__card-header:first-child {
+  border: 0;
+  border-radius: 0;
+}
+
+.leaderboard__card-body {
+  padding: 0;
+}
+
+.leaderboard__table {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.leaderboard-table__header {
+  background-color: #0074B1;
+  color: white;
+}
+
+.red-text {
+  color: red;
+}
+
+.green-text {
+  color: green;
+}

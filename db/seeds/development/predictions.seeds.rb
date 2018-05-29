@@ -21,4 +21,8 @@ after 'development:users', 'matches', 'development:knock_out_matches' do
       decider: Match.valid_decider_types.sample
     )
   end
+
+  # Create a result for predicted matches
+  Match.where(stage: Match::STAGE_GROUP).first.update!(team_1_goals: 2, team_2_goals: 1)
+  Match.where.not(stage: Match::STAGE_GROUP).first.update!(team_1_goals: 2, team_2_goals: 1, decider: Match::DECIDER_TYPE_EXTRA_TIME)
 end

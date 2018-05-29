@@ -44,7 +44,7 @@ module Groups
       return if correct_predictors(match, metric).empty?
 
       total_pot = @group.users.count * pot_split[match.stage][metric]
-      winners_share = total_pot / correct_predictors(match, metric).count
+      winners_share = total_pot.to_f / correct_predictors(match, metric).count
       @group.users.pluck(:id).each_with_object({}) do |user_id, result|
         result[user_id] = -pot_split[match.stage][metric]
         result[user_id] += winners_share if user_id.in?(correct_predictors(match, metric))

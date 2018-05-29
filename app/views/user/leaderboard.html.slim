@@ -20,5 +20,5 @@
                     tr
                       th scope='row' #{index}
                       th #{User.find(user_id).nick_name}
-                      th class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{points}
+                      th class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{'%g' % points.round(1)}
     .col-md-2

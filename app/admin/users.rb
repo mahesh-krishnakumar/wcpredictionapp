@@ -39,6 +39,7 @@ ActiveAdmin.register User do
 
   filter :email
   filter :team
+  filter :groups
 
   form do |f|
     f.inputs do

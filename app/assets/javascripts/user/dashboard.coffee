@@ -51,8 +51,9 @@ handlePredictionSubmission = ->
     notice = detailsOpened.find('.prediction-form__notice')
     if (submitButton.val() != 'Update') && notice.hasClass('prediction-form__notice--predicted')
       submitButton.val('Update')
-    teamOneScore = $(event.target).find('input[type=number]')[0].value
-    teamTwoScore = $(event.target).find('input[type=number]')[1].value
+    if $(event.target).find('input[type=number]').length
+      teamOneScore = $(event.target).find('input[type=number]')[0].value
+      teamTwoScore = $(event.target).find('input[type=number]')[1].value
     if (teamOneScore == teamTwoScore) && $(event.target).find('.js-knockout-score').length
       $(event.target).find('input[type=submit]').attr('disabled', true)
       $(event.target).find('div.prediction-form__score-danger-alert').removeClass('d-none')

@@ -48,6 +48,8 @@
                       .col-md-2
                     - if !match.locked?
                       = render 'prediction_form', prediction: prediction, match: match
+                    - else
+                      = render 'locked_matches_data', match: match, predictions: @predictions, groups: @groups
         - if @completed_matches.present?
           = render 'completed_matches_data', completed_matches: @completed_matches, results: @results, groups: @groups
     .col-md-2

@@ -8,6 +8,9 @@ class UserController < ApplicationController
     @results = @groups.each_with_object({}) do |group, result|
       result[group.id] = Matches::PredictionResultService.new(group).results
     end
+    @predictions = @groups.each_with_object({}) do |group, predictions|
+      predictions[group.id] = Matches::PredictionListService.new(group).list
+    end
   end
 
   def leaderboard

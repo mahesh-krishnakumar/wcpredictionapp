@@ -3,6 +3,7 @@ module Groups
     def initialize(group= nil)
       @group = group
       @users = group.present? ? group.users : User.all
+      @users_count = @users.count
       @all_predictions = group.present? ? group.predictions : Prediction.all
     end
 
@@ -18,23 +19,11 @@ module Groups
         next unless pot_share(match, :winner).present?
 
         # Add the winner pot share
-        pot_share(match, :winner).each do |user_id, share|
-          result[user_id] += share
-        end
-
+        result = add_to_pot(result, match, :winner)
         # Add the score pot share, except if it was penalties
-        if match.decider != Match::DECIDER_TYPE_PENALTY && pot_share(match, :score).present?
-          pot_share(match, :score).each do |user_id, share|
-            result[user_id] += share
-          end
-        end
-
+        result = add_to_pot(result, match, :score) unless match.decider == Match::DECIDER_TYPE_PENALTY
         # Add the decider pot share, except for group stage
-        if match.knock_out? && pot_share(match, :decider).present?
-          pot_share(match, :decider).each do |user_id, share|
-            result[user_id] += share
-          end
-        end
+        result = add_to_pot(result, match, :decider) if match.knock_out?
       end
 
       result.sort_by { |_user_id, points| points }.reverse
@@ -42,10 +31,25 @@ module Groups
 
     private
 
+    def add_to_pot(current_pot, match, metric)
+      pot_share = pot_share(match, metric)
+
+      # Return the pot as is if no one got this metric right.
+      return current_pot unless pot_share.present?
+
+      # else update the pot accordingly
+      new_pot = current_pot
+      pot_share.each do |user_id, share|
+        new_pot[user_id] += share
+      end
+
+      new_pot
+    end
+
     def pot_share(match, metric)
       return if correct_predictors(match, metric).empty?
 
-      total_pot = @users.count * pot_split[match.stage][metric]
+      total_pot = @users_count * pot_split[match.stage][metric]
       winners_share = total_pot.to_f / correct_predictors(match, metric).count
       @users.pluck(:id).each_with_object({}) do |user_id, result|
         result[user_id] = -pot_split[match.stage][metric]
@@ -59,14 +63,6 @@ module Groups
       end
 
       @predictions[match]
-    end
-
-    def predictions_count(match)
-      @predictions_count ||= Hash.new do |hash, key|
-        hash[key] = predictions(key).count
-      end
-
-      @predictions_count[match]
     end
 
     def correct_predictors(match, metric)

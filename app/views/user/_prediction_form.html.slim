@@ -15,7 +15,7 @@
         = f.label :decider, decider_text, class: "prediction-form__decider-label #{decider_label_class}"
         = f.select :decider, options_for_select(Match.valid_decider_types, prediction.decider), {}, { class: 'js-decider-select form-control text-center' }
       .prediction-form__penalty-notice.align-items-center.d-none
-        | Note: Predicted scores will just be used to decide the winning side
+        | Note: If predicting a penalty, score will only be used to decide your winner
     - submit_text = prediction.persisted? ? 'Update' : 'Submit'
     = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
   .col-md-2

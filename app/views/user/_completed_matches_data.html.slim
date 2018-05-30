@@ -43,8 +43,9 @@
                             th Decider
                       tbody.text-center
                         - results[match.id].each do |result|
-                          tr
-                            td #{User.find(result[:user_id]).nick_name}
+                          - user = User.find(result[:user_id])
+                          tr class="#{user == current_user ? 'current-user-row' : ''}"
+                            td #{user.nick_name}
                             - user_prediction = Prediction.where(user_id: result[:user_id], match_id: match.id).first
                             - prediction_text = user_prediction.present? ? user_prediction.short_text : 'N/A'
                             td #{prediction_text}

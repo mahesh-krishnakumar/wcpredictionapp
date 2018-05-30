@@ -44,7 +44,7 @@
                             - else
                               | The match is locked for prediction
                           .prediction-form__notice-subtext
-                            | Deadline: #{(match.kick_off - 1.hour).strftime('%b %d, %H:%M')}
+                            | Deadline: #{(match.kick_off - 15.minutes).strftime('%b %d, %H:%M')}
                       .col-md-2
                     - if !match.locked?
                       = render 'prediction_form', prediction: prediction, match: match

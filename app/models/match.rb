@@ -29,8 +29,8 @@ class Match < ApplicationRecord
   validate :both_teams_should_have_goals
   validate :scores_cannot_be_equal_for_knockout
 
-  scope :open_for_prediction, -> { where('kick_off > ?', Time.now + 1.hour) }
-  scope :locked_for_prediction, -> { where('kick_off < ?', Time.now + 1.hour) }
+  scope :open_for_prediction, -> { where('kick_off > ?', Time.now + 15.minutes) }
+  scope :locked_for_prediction, -> { where('kick_off < ?', Time.now + 15.minutes) }
   scope :upcoming, -> { where(team_1_goals: nil) }
   scope :completed, -> { where.not(team_1_goals: nil) }
 
@@ -38,7 +38,7 @@ class Match < ApplicationRecord
   scope :knock_out_stage, -> { where(stage: [STAGE_PRE_QUARTER, STAGE_QUARTER, STAGE_SEMI_FINAL, STAGE_FINAL])}
 
   def locked?
-    Time.now >= (kick_off - 1.hour)
+    Time.now >= (kick_off - 15.minutes)
   end
 
   def have_decider_only_for_knockout

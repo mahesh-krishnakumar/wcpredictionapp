@@ -1,6 +1,27 @@
-.update-form__container.d-flex
-  = bootstrap_form_for(resource, as: resource_name, url: user_registration_path, html: { method: :patch, class: 'update-form__form' }) do |f|
-    = f.password_field :password, autocomplete: "off"
-    = f.password_field :password_confirmation, autocomplete: "off"
-    = f.password_field :current_password, autocomplete: "off"
-    = f.submit 'Update'
+.container.d-flex.update-form__container
+  .card.update-form__card#update-form__card
+    .card-header.update-form__header
+      | Edit Your Profile
+    .card-body
+      = bootstrap_form_for(resource, as: resource_name, url: user_registration_path, html: { method: :patch }) do |f|
+        .card.mb-3.update-form__sub-card
+          .card-header.d-flex.update-form__sub-header data-toggle="collapse" data-target="#basic-info-fields"
+            | Basic Info
+            .ml-auto.my-auto.pr-3
+              = fa_icon 'chevron-down'
+          .card-body.collapse.show#basic-info-fields data-parent="#update-form__card"
+            = f.text_field :name
+            = f.text_field :nick_name
+            = f.select :team_id, Team.all.map { |team| [team.full_name, team.id] }
+        .card.mb-3.update-form__sub-card
+          .card-header.d-flex.bg-warning.text-white.update-form__sub-header data-toggle="collapse" data-target="#change-password-fields"
+            .my-auto.mr-1
+              = fa_icon 'exclamation-triangle'
+            | Change Password
+            .ml-auto.my-auto.pr-3
+              = fa_icon 'chevron-down'
+          .card-body.collapse#change-password-fields data-parent="#update-form__card"
+            = f.password_field :password, autocomplete: "off"
+            = f.password_field :password_confirmation, autocomplete: "off"
+            = f.password_field :current_password, autocomplete: "off"
+        = f.submit 'Update'

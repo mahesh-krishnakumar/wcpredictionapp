@@ -2,6 +2,26 @@
   height: 100vh;
 }
 
-.update-form__form {
+.update-form__card {
   margin: auto;
+  border-radius: 0;
+  border: 0;
+  min-width: 450px;
+  min-height: 600px;
+}
+
+.update-form__header {
+  background-color: #015386;
+  color: white;
+  &:first-child {
+    border-radius: 0;
+  }
+}
+
+.update-form__sub-header, .update-form__sub-header:first-child {
+  border-radius: 0;
+}
+
+.update-form__sub-card, .update-form__sub-card:first-child {
+  border-radius: 0;
 }

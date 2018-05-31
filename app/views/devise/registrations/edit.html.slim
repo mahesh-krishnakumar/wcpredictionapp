@@ -21,7 +21,7 @@
             .ml-auto.my-auto.pr-3
               = fa_icon 'chevron-down'
           .card-body.collapse#change-password-fields data-parent="#update-form__card"
-            = f.password_field :password, autocomplete: "off"
-            = f.password_field :password_confirmation, autocomplete: "off"
             = f.password_field :current_password, autocomplete: "off"
+            = f.password_field :password, autocomplete: "off", label: 'New Password'
+            = f.password_field :password_confirmation, label: 'Confirm New Password', autocomplete: "off"
         = f.submit 'Update'

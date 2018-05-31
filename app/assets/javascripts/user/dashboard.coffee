@@ -61,8 +61,8 @@ handlePredictionSubmission = ->
 
 
   $('.js-knockout-score').on 'change', (event) ->
-    teamOneScore = $(event.target.parentElement).find('input[type=number]')[0].value
-    teamTwoScore = $(event.target.parentElement).find('input[type=number]')[1].value
+    teamOneScore = parseInt($(event.target.parentElement).find('input[type=number]')[0].value)
+    teamTwoScore = parseInt($(event.target.parentElement).find('input[type=number]')[1].value)
     if (teamOneScore == teamTwoScore)
       debugger;
       $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', true)

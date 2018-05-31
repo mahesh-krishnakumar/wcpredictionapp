@@ -203,7 +203,12 @@
   color: darkgrey;
 }
 
-.profile-card__rankings-header {
+.profile-card__flag-icon {
+  width: 15px;
+  margin-left: 5px;
+}
+
+.profile-card__rankings-header, .profile-card__rankings {
   margin-bottom: 0.25rem;
 }
 
@@ -234,11 +239,12 @@
   overflow: hidden;
 }
 .marquee p {
+  margin-bottom: 0;
   text-align: left;
   width: 100%;
-  animation: marquee 10s linear infinite;
+  animation: marquee 20s linear infinite;
 }
 @keyframes marquee {
   0%   { transform: translate(100%, 0); }
-  100% { transform: translate(-100%, 0); }
+  100% { transform: translate(-400%, 0); }
 }

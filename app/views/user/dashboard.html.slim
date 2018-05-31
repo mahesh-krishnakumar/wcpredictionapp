@@ -5,11 +5,15 @@
       .card.profile-card.my-3
         .card-body
           .row.profile-card__info-row
-            .col-md-3.d-flex.profile-card__flag-container.px-0
+            .d-none.d-lg-flex.col-lg-3.profile-card__flag-container.px-0
               - if current_user.team.present?
                 = image_tag current_user.team.flag, class: 'profile-card__flag'
-            .col-md-9.profile-card__info-container
+            .col-lg-9.profile-card__info-container
               h5 Welcome, #{current_user.name}.
+              - if current_user.team.present?
+                .d-block.d-lg-none
+                  | Your team: #{current_user.team.short_name}
+                  = image_tag current_user.team.flag, class: 'profile-card__flag-icon'
               .profile-card__rankings-header Your current rankings:
               .profile-card__rankings.d-flex
                 .pr-3.mr-3.rankings__group-container

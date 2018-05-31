@@ -27,9 +27,10 @@
                     .rankings__rank #{rank}
                     .rankings__point class="#{points.negative? ? 'red-text' : 'green-text'}"
                       | (#{points})
-          .row.marquee.mx-3
-            - closing_soon_list = @matches_closing_soon.map{ |m| "#{m.team_1.short_name} vs #{m.team_2.short_name}(#{m.kick_off.strftime('%b %d')})" }.join(', ')
-            p Closing soon: #{closing_soon_list}
+          - if @matches_closing_soon.present?
+            .row.marquee.mx-3
+              - closing_soon_list = @matches_closing_soon.map{ |m| "#{m.team_1.short_name} vs #{m.team_2.short_name}(#{m.kick_off.strftime('%b %d')})" }.join(', ')
+              p Closing soon: #{closing_soon_list}
 
       ul.nav.nav-tabs.justify-content-center.match-list__tabs role='tablist' id='myTab'
         li.nav-item

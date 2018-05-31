@@ -2,6 +2,30 @@
   .row
     .col-md-2
     #match-list.col-md-8
+      .card.profile-card.my-3
+        .card-body
+          .row.profile-card__info-row
+            .col-md-3.d-flex.profile-card__flag-container.px-0
+              - if current_user.team.present?
+                = image_tag current_user.team.flag, class: 'profile-card__flag'
+            .col-md-9.profile-card__info-container
+              h5 Welcome, #{current_user.name}.
+              .profile-card__rankings-header Your current rankings:
+              .profile-card__rankings.d-flex
+                .pr-3.mr-3.rankings__group-container
+                  .rankings__group-name Global
+                  .rankings__rank 23
+                  .rankings__point.red-text
+                    | (-43.5)
+                - current_user.groups.each do |group|
+                  .pr-3.mr-3.rankings__group-container
+                    .rankings__group-name #{group.name}
+                    .rankings__rank 1
+                    .rankings__point.green-text
+                      | (+23.5)
+          .row.marquee.mx-3
+            p Closing soon: ARG vs ENG, BRA vs URU, ESP vs ITA, GER vs AUS
+
       ul.nav.nav-tabs.justify-content-center.match-list__tabs role='tablist' id='myTab'
         li.nav-item
           a.nav-link.font-weight-bold.active id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true" Upcoming

@@ -180,3 +180,65 @@
   margin: 5px 0;
   text-align: center;
 }
+
+.profile-card {
+  border-radius: 0;
+}
+
+.profile-card__info-row {
+  height: 175px;
+}
+
+.profile-card__flag-container {
+  border-right: 1px solid lightgrey;
+}
+
+.profile-card__flag {
+  width: 120px;
+  margin: auto;
+}
+
+.profile-card__info-container {
+  padding-left: 29.25px;
+  color: darkgrey;
+}
+
+.profile-card__rankings-header {
+  margin-bottom: 0.25rem;
+}
+
+.rankings__group-container {
+  border-right: 1px dotted lightgrey;
+  text-align: center;
+}
+
+.rankings__group-container:last-child {
+  border-right: 0;
+}
+
+.rankings__group-name {
+  font-size: small;
+}
+
+.rankings__rank {
+  font-size: xx-large;
+}
+
+.rankings__point {
+  font-size: smaller;
+}
+
+.marquee {
+  color: darkgrey;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.marquee p {
+  text-align: left;
+  width: 100%;
+  animation: marquee 10s linear infinite;
+}
+@keyframes marquee {
+  0%   { transform: translate(100%, 0); }
+  100% { transform: translate(-100%, 0); }
+}

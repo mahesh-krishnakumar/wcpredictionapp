@@ -37,6 +37,15 @@ module Groups
       result.each { |e| e << sorted_points.index(e[1]) + 1 }
     end
 
+    def match_share(match, user_id)
+      share = 0
+      share += pot_share(match, :winner)[user_id] if pot_share(match, :winner).present?
+      share += pot_share(match, :score)[user_id] if pot_share(match, :score).present?
+      share += pot_share(match, :decider)[user_id] if match.knock_out? && pot_share(match, :decider).present?
+
+      share
+    end
+
     private
 
     def add_to_pot(current_pot, match, metric)

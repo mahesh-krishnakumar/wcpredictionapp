@@ -6,9 +6,10 @@ module Matches
     end
 
     def results
-      @completed_matches.each_with_object({}) do |match, results|
+      results = @completed_matches.each_with_object({}) do |match, results|
         results[match.id] = result(match)
       end
+      add_match_share(results)
     end
 
     private
@@ -48,6 +49,16 @@ module Matches
         user_result[:score] = true
       end
       user_result
+    end
+
+    def add_match_share(results)
+      @standings_table_service = Groups::StandingsTableService.new(@group)
+      results.each_with_object({}) do |(match_id, result), results_with_share|
+        match = Match.find(match_id)
+        results_with_share[match_id] = result.each do |user_result|
+          user_result[:match_share] = @standings_table_service.match_share(match, user_result[:user_id])
+        end
+      end
     end
   end
 end

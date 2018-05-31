@@ -41,6 +41,7 @@
                           th Score
                           - if match.knock_out?
                             th Decider
+                          th Points
                       tbody.text-center
                         - results[match.id].each do |result|
                           - user = User.find(result[:user_id])
@@ -59,3 +60,4 @@
                               - icon_for_decider = result[:decider] ? right_prediction_icon : wrong_prediction_icon
                               td
                                 i.fa class='#{icon_for_decider}'
+                            td class="#{result[:match_share].negative? ? 'red-text' : 'green-text'}" #{result[:match_share].positive? ? '+' : ''}#{'%g' % result[:match_share].round(1)}

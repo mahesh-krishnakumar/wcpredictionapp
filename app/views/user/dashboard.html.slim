@@ -13,18 +13,23 @@
               .profile-card__rankings-header Your current rankings:
               .profile-card__rankings.d-flex
                 .pr-3.mr-3.rankings__group-container
+                  - global_rank = @current_user_ranks[:global][:rank]
+                  - global_points = @current_user_ranks[:global][:points]
                   .rankings__group-name Global
-                  .rankings__rank 23
-                  .rankings__point.red-text
-                    | (-43.5)
+                  .rankings__rank #{global_rank}
+                  .rankings__point class="#{global_points.negative? ? 'red-text' : 'green-text'}"
+                    | (#{global_points})
                 - current_user.groups.each do |group|
                   .pr-3.mr-3.rankings__group-container
+                    - rank = @current_user_ranks[group.id][:rank]
+                    - points = @current_user_ranks[group.id][:points]
                     .rankings__group-name #{group.name}
-                    .rankings__rank 1
-                    .rankings__point.green-text
-                      | (+23.5)
+                    .rankings__rank #{rank}
+                    .rankings__point class="#{points.negative? ? 'red-text' : 'green-text'}"
+                      | (#{points})
           .row.marquee.mx-3
-            p Closing soon: ARG vs ENG, BRA vs URU, ESP vs ITA, GER vs AUS
+            - closing_soon_list = @matches_closing_soon.map{ |m| "#{m.team_1.short_name} vs #{m.team_2.short_name}(#{m.kick_off.strftime('%b %d')})" }.join(', ')
+            p Closing soon: #{closing_soon_list}
 
       ul.nav.nav-tabs.justify-content-center.match-list__tabs role='tablist' id='myTab'
         li.nav-item

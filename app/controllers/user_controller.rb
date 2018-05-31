@@ -11,6 +11,9 @@ class UserController < ApplicationController
     @predictions = @groups.each_with_object({}) do |group, predictions|
       predictions[group.id] = Matches::PredictionListService.new(group).list
     end
+
+    @current_user_ranks = Users::RanksService.new(current_user).ranks
+    @matches_closing_soon = Match.closing_soon
   end
 
   def leaderboard

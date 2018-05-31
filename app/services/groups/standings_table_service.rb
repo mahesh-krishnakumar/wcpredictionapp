@@ -46,6 +46,11 @@ module Groups
       share
     end
 
+    def standing(user)
+      entry = table.find { |entry| entry.first == user.id }
+      { rank: entry[2], points: entry[1] }
+    end
+
     private
 
     def add_to_pot(current_pot, match, metric)

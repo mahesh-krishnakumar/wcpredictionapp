@@ -1,0 +1,29 @@
+.card.profile-card.my-3
+  .card-body
+    .row.profile-card__info-row
+      .d-none.d-lg-flex.col-lg-3.profile-card__flag-container.px-0
+        - if current_user.team.present?
+          = image_tag current_user.team.flag, class: 'profile-card__flag'
+      .col-lg-9.profile-card__info-container
+        h5 Welcome, #{current_user.name}.
+        - if current_user.team.present?
+          .d-block.d-lg-none
+            | Your team: #{current_user.team.short_name}
+            = image_tag current_user.team.flag, class: 'profile-card__flag-icon'
+        .profile-card__rankings-header Your current rankings:
+        .profile-card__rankings.d-flex
+          - @presenter.groups.each do |group|
+            .pr-3.mr-3.rankings__group-container
+              - rank = @presenter.current_standing[group.id][:rank]
+              - points = @presenter.current_standing[group.id][:points]
+              .rankings__group-name #{group.name}
+              .rankings__rank #{rank}
+              .rankings__point class="#{points.negative? ? 'red-text' : 'green-text'}"
+                | (#{points})
+          .pr-3.mr-3.rankings__group-container
+            - global_rank = @presenter.current_standing[:global][:rank]
+            - global_points = @presenter.current_standing[:global][:points]
+            .rankings__group-name Global
+            .rankings__rank #{global_rank}
+            .rankings__point class="#{global_points.negative? ? 'red-text' : 'green-text'}"
+              | (#{global_points})

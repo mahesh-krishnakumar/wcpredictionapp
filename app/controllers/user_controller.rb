@@ -2,18 +2,7 @@ class UserController < ApplicationController
   before_action :authenticate_user!
 
   def dashboard
-    @upcoming_matches = Match.upcoming.group_by_day { |m| m.kick_off }
-    @completed_matches = Match.completed.group_by_day { |m| m.kick_off }
-    @groups = current_user.groups
-    @results = @groups.each_with_object({}) do |group, result|
-      result[group.id] = Matches::PredictionResultService.new(group).results
-    end
-    @predictions = @groups.each_with_object({}) do |group, predictions|
-      predictions[group.id] = Matches::PredictionListService.new(group).list
-    end
-
-    @current_user_ranks = Users::RanksService.new(current_user).ranks
-    @matches_closing_soon = Match.closing_soon
+    @presenter = Users::DashboardPresenter.new(current_user)
   end
 
   def leaderboard

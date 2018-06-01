@@ -1,3 +1,39 @@
+.predictions-card {
+  text-align: center;
+  color: darkgrey;
+  background-color: white;
+  border-radius: 0;
+}
+
+.predictions-card__header {
+  background-color: white;
+  border-radius: 0;
+  border: 0;
+  padding: 0;
+  margin: 1rem 3rem;
+  border-bottom: 1px solid darkgrey;
+}
+
+.prediction-card-header__sub-title {
+  font-size: smaller;
+}
+
+.prediction-card-header__marquee {
+  margin-top: 1rem;
+  margin-bottom: .75rem;
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.predictions-card__body {
+  padding: 0;
+}
+
+.match-list__tab, .match-list__tab .match-list__tab-link {
+  border-radius: 0;
+}
+
 .match-list__header {
   text-align: center;
   color: white;
@@ -8,7 +44,7 @@
 }
 
 .match-list__header:first-child {
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .match-list__card {
@@ -234,15 +270,13 @@
 }
 
 .marquee {
-  color: darkgrey;
   white-space: nowrap;
   overflow: hidden;
 }
 .marquee p {
-  margin-bottom: 0;
   text-align: left;
   width: 100%;
-  animation: marquee 20s linear infinite;
+  animation: marquee 30s linear infinite;
 }
 @keyframes marquee {
   0%   { transform: translate(100%, 0); }

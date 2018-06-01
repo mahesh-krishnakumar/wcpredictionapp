@@ -10,12 +10,12 @@
       = f.number_field :team_2_goals, value: (f.object.team_2_goals || 0), class: "prediction-form__score-input #{knockout_score_class}", min: 0, max: 20
     - if match.knock_out?
       .prediction-form__score-danger-alert.d-none role='alert'
-        | Knockouts cannot be a tie!
+        | Draw is allowed only for a penalty decider!
       .prediction-form__decider-select.align-items-center
         = f.label :decider, decider_text, class: "prediction-form__decider-label #{decider_label_class}"
         = f.select :decider, options_for_select(Match.valid_decider_types, prediction.decider), {}, { class: 'js-decider-select form-control text-center' }
-      .prediction-form__penalty-notice.align-items-center.d-none
-        | Note: If predicting a penalty, score will only be used to decide your winner
+      .prediction-form__penalty-winner.align-items-center.d-none
+        = f.select :winner_id, options_for_select([[match.team_1.full_name, match.team_1.id], [match.team_2.full_name, match.team_2.id]], prediction.winner_id), {include_blank: 'Select Winner'}, { class: 'js-winner-select form-control text-center' }
     - submit_text = prediction.persisted? ? 'Update' : 'Submit'
     = f.submit submit_text, class: 'btn btn-primary prediction-form__field'
   .col-md-2

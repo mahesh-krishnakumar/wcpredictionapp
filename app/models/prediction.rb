@@ -16,12 +16,30 @@ class Prediction < ApplicationRecord
     errors.add(:winner_id, 'Set winner only if predicted decider is a penalty shootout')
   end
 
+  validate :winner_must_be_present_for_penalty
+
+  def winner_must_be_present_for_penalty
+    return if decider != Match::DECIDER_TYPE_PENALTY
+    return if winner_id.present?
+    errors.add(:winner_id, 'Select winner for a penalty decider')
+  end
+
   validate :allow_draw_only_if_decider_is_penalty
 
   def allow_draw_only_if_decider_is_penalty
+    return if decider != Match::DECIDER_TYPE_PENALTY
+    return if team_1_goals == team_2_goals
+    errors.add(:team_1_goals, 'Only draw is allowed if selected decider is penalty')
+  end
+
+  validate :do_not_allow_draw_for_regular_and_extra_time
+
+  def do_not_allow_draw_for_regular_and_extra_time
+    binding.pry
     return if match.stage == Match::STAGE_GROUP
     return if decider == Match::DECIDER_TYPE_PENALTY
-    errors.add(:team_1_goals, 'Draw scores are only allowed if selected decider is penalty')
+    return if team_1_goals != team_2_goals
+    errors.add(:team_1_goals, 'Draw is only allowed if selected decider is penalty')
   end
 
   def winner

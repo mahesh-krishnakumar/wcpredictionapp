@@ -80,7 +80,22 @@ handlePredictionSubmission = ->
     else
       $('.prediction-form__penalty-notice').addClass('d-none')
 
+initializeSlick = ->
+  $('.prediction-card__date-strip').slick({
+    slidesToShow: 5,
+    infinite: false,
+    centerMode: true,
+    centerPadding: '20px',
+    asNavFor: '.prediction-card__match-strip'
+  })
+  $('.prediction-card__match-strip').slick({
+    arrows: false,
+    fade: true,
+    asNavFor: '.prediction-card__date-strip'
+  })
+
 
 $(document).on 'turbolinks:load', ->
+  initializeSlick()
   if $('.js-new-prediction-form').length
     handlePredictionSubmission()

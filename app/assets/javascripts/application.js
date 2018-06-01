@@ -17,6 +17,8 @@
 //= require popper
 //= require bootstrap
 
+//= require jquery.slick
+
 //= require user
 
 //= require_tree .

@@ -7,15 +7,29 @@
       .prediction-card-header__marquee.marquee
         p #{@presenter.closing_soon_text}
   .card-body.predictions-card__body
-    ul.nav.nav-tabs.justify-content-center.match-list__tab-bar role='tablist' id='myTab'
-      li.nav-item.match-list__tab
-        a.nav-link.match-list__tab-link.font-weight-bold.active id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true" Upcoming
-      - if @presenter.completed_matches.present?
-        li.nav-item
-          a.nav-link.font-weight-bold id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="true" Completed
-    .tab-content.match-list__tab-content id='myTabContent'
-      .tab-pane.fade.show.active id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab"
-        = render 'user/dashboard/upcoming_matches_list'
-      - if @presenter.completed_matches.present?
-        .tab-pane.fade id="completed" role="tabpanel" aria-labelledby="completed-tab"
-          = render 'user/dashboard/completed_matches_list'
+    .prediction-card__date-strip
+      - @presenter.upcoming_matches.each do |day, _matches|
+        .date-strip__item
+          .month.mt-1 #{day.strftime('%b')}
+          .day #{day.strftime('%d')}
+
+    .prediction-card__match-strip
+      - @presenter.upcoming_matches.each do |day, matches|
+        .match-strip__item
+          - matches.each do |match|
+            .match-time #{match.kick_off.strftime('%H:%M')}
+            .match-teams #{match.team_1.short_name.upcase} vs #{match.team_2.short_name.upcase}
+
+
+    /ul.nav.nav-tabs.justify-content-center.match-list__tab-bar role='tablist' id='myTab'
+    /  li.nav-item.match-list__tab
+    /    a.nav-link.match-list__tab-link.font-weight-bold.active id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true" Upcoming
+    /  - if @presenter.completed_matches.present?
+    /    li.nav-item
+    /      a.nav-link.font-weight-bold id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="true" Completed
+    /.tab-content.match-list__tab-content id='myTabContent'
+    /  .tab-pane.fade.show.active id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab"
+    /    = render 'user/dashboard/upcoming_matches_list'
+    /  - if @presenter.completed_matches.present?
+    /    .tab-pane.fade id="completed" role="tabpanel" aria-labelledby="completed-tab"
+    /      = render 'user/dashboard/completed_matches_list'

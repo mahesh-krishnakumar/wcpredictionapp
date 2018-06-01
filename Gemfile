@@ -81,6 +81,9 @@ gem 'groupdate'
 # For seeding both in dev and production.
 gem 'seedbank'
 
+# Slick, a jQuery plugin for cool carousels.
+gem 'jquery-slick-rails'
+
 # Rails form builder using Bootstrap 4
 gem 'bootstrap_form',
   git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',

@@ -294,3 +294,27 @@
   0%   { transform: translate(100%, 0); }
   100% { transform: translate(-400%, 0); }
 }
+
+.date-strip__item {
+  height: 75px;
+  border: 1px solid lightgrey;
+  .month {
+    font-size: smaller;
+  }
+  .day {
+    font-size: x-large;
+  }
+}
+
+.prediction-card__date-strip{
+  color: grey;
+  .slick-center {
+    color: #015386;
+  }
+}
+
+.match-strip__item {
+  height: 300px;
+  border: 1px solid grey;
+  color: #015386;
+}

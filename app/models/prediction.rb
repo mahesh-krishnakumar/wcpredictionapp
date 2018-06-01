@@ -8,9 +8,29 @@ class Prediction < ApplicationRecord
   validates :team_2_goals, presence: true, inclusion: { in: 0..99 }
   validates :decider, inclusion: { in: Match.valid_decider_types }, allow_nil: true
 
+  validate :set_winner_only_for_shootout_matches
+
+  def set_winner_only_for_shootout_matches
+    return if winner_id.blank?
+    return if decider == Match::DECIDER_TYPE_PENALTY
+    errors.add(:winner_id, 'Set winner only if predicted decider is a penalty shootout')
+  end
+
+  validate :allow_draw_only_if_decider_is_penalty
+
+  def allow_draw_only_if_decider_is_penalty
+    return if match.stage == Match::STAGE_GROUP
+    return if decider == Match::DECIDER_TYPE_PENALTY
+    errors.add(:team_1_goals, 'Draw scores are only allowed if selected decider is penalty')
+  end
+
   def winner
-    return if team_1_goals == team_2_goals
-    team_1_goals > team_2_goals ? match.team_1 : match.team_2
+    if winner_id.present?
+      Team.find(winner_id)
+    else
+      return if team_1_goals == team_2_goals
+      team_1_goals > team_2_goals ? match.team_1 : match.team_2
+    end
   end
 
   def short_text

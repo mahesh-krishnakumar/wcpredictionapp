@@ -28,6 +28,7 @@ class Match < ApplicationRecord
   validate :have_decider_only_for_knockout
   validate :both_teams_should_have_goals
   validate :scores_cannot_be_equal_for_knockout
+  validate :set_winner_only_for_shootout_matches
 
   scope :open_for_prediction, -> { where('kick_off > ?', Time.now + 15.minutes) }
   scope :locked_for_prediction, -> { where('kick_off < ?', Time.now + 15.minutes) }
@@ -36,7 +37,7 @@ class Match < ApplicationRecord
   scope :completed, -> { where.not(team_1_goals: nil) }
 
   scope :group_stage, -> { where(stage: STAGE_GROUP) }
-  scope :knock_out_stage, -> { where(stage: [STAGE_PRE_QUARTER, STAGE_QUARTER, STAGE_SEMI_FINAL, STAGE_FINAL])}
+  scope :knock_out_stage, -> { where(stage: [STAGE_PRE_QUARTER, STAGE_QUARTER, STAGE_SEMI_FINAL, STAGE_FINAL]) }
 
   def locked?
     Time.now >= (kick_off - 15.minutes)
@@ -61,13 +62,23 @@ class Match < ApplicationRecord
     end
   end
 
+  def set_winner_only_for_shootout_matches
+    return if winner_id.blank?
+    return if knock_out? && (decider == DECIDER_TYPE_PENALTY)
+    errors.add(:winner_id, 'Set winner only if result was from a penalty shootout')
+  end
+
   def ongoing?
     Time.now.between?(kick_off, kick_off + 2.hours)
   end
 
   def winner
-    return if team_1_goals == team_2_goals
-    team_1_goals > team_2_goals ? team_1 : team_2
+    if winner_id.present?
+      Team.find(winner_id)
+    else
+      return if team_1_goals == team_2_goals
+      team_1_goals > team_2_goals ? team_1 : team_2
+    end
   end
 
   def knock_out?

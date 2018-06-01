@@ -9,7 +9,7 @@ module Users
     end
 
     def upcoming_matches
-      @upcoming_matchs ||= Match.upcoming.group_by_day { |m| m.kick_off }
+      @upcoming_matchs ||= Match.unlocked.upcoming.group_by_day { |m| m.kick_off }
     end
 
     def completed_matches

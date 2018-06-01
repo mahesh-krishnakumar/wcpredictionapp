@@ -29,7 +29,8 @@ class Match < ApplicationRecord
   validate :both_teams_should_have_goals
   validate :scores_cannot_be_equal_for_knockout
 
-  scope :open_for_prediction, -> { where('kick_off > ?', Time.now + 15.minutes) }
+  scope :unlocked, -> { where(locked: false) }
+  scope :open_for_prediction, -> { unlocked.where('kick_off > ?', Time.now + 15.minutes) }
   scope :locked_for_prediction, -> { where('kick_off < ?', Time.now + 15.minutes) }
   scope :closing_soon, -> { open_for_prediction.where('kick_off < ?', 2.days.from_now) }
   scope :upcoming, -> { where(team_1_goals: nil) }

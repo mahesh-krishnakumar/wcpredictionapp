@@ -17,4 +17,7 @@ after 'teams' do
       stage: Match::STAGE_GROUP
     )
   end
+
+  # and `unlock` just the first six matches for now
+  Match.all.limit(6).update_all(locked: false)
 end

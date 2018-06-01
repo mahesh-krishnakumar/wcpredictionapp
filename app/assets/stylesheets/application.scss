@@ -29,7 +29,8 @@ html {
 }
 
 .header-bg {
-  background-image: asset_url('navbar-bg-red.png');
+  background-color: #D30208;
+  //background-image: asset_url('navbar-bg-red.png');
   background-size: cover;
   @include media-breakpoint-up(md) {
     background-size: 100%;

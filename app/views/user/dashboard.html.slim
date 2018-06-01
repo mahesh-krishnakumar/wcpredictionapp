@@ -31,23 +31,23 @@
                   .rankings__rank #{global_rank}
                   .rankings__point class="#{global_points.negative? ? 'red-text' : 'green-text'}"
                     | (#{global_points})
-          - if @matches_closing_soon.present?
       .card.predictions-card
         .card-header.predictions-card__header
           h5 Your Predictions
           .prediction-card-header__sub-title
             | Pending: 4/15
-          .prediction-card-header__marquee.marquee
-            - closing_soon_list = @matches_closing_soon.map {|m| "#{m.team_1.short_name} vs #{m.team_2.short_name}(#{m.kick_off.strftime('%b %d')})"}.join(', ')
-            p Closing soon: #{closing_soon_list}
+          - if @matches_closing_soon.present?
+            .prediction-card-header__marquee.marquee
+              - closing_soon_list = @matches_closing_soon.map {|m| "#{m.team_1.short_name} vs #{m.team_2.short_name}(#{m.kick_off.strftime('%b %d')})"}.join(', ')
+              p Closing soon: #{closing_soon_list}
         .card-body.predictions-card__body
-          ul.nav.nav-tabs.justify-content-center role='tablist' id='myTab'
+          ul.nav.nav-tabs.justify-content-center.match-list__tab-bar role='tablist' id='myTab'
             li.nav-item.match-list__tab
               a.nav-link.match-list__tab-link.font-weight-bold.active id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true" Upcoming
             - if @completed_matches.present?
               li.nav-item
                 a.nav-link.font-weight-bold id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="true" Completed
-          .tab-content id='myTabContent'
+          .tab-content.match-list__tab-content id='myTabContent'
             .tab-pane.fade.show.active id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab"
               - @upcoming_matches.each do |day, matches|
                 .card.match-list__header
@@ -81,7 +81,7 @@
                                 - elsif !match.locked?
                                   | Enter your predicted score below
                                 - else
-                                  | The match is locked for prediction
+                                  | This match is locked for prediction
                               .prediction-form__notice-subtext
                                 | Deadline: #{(match.kick_off - 15.minutes).strftime('%b %d, %H:%M')}
                           .col-md-2

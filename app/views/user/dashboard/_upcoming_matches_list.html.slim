@@ -1,0 +1,39 @@
+- @presenter.upcoming_matches.each do |day, matches|
+  .card.match-list__header
+    .card-header #{day.strftime('%b %d')}
+    - matches.each do |match|
+      - prediction = @presenter.prediction(match) || Prediction.new
+      .card.match-list__card
+        .card-header.d-flex.justify-content-center class=@presenter.match_list__card_header_classes(prediction) id="match#{match.id}-header" data-toggle="collapse" data-target="#match#{match.id}-details" aria-expanded="true" aria-controls="match#{match.id}-details"
+          .d-none.d-md-block.my-auto.match-card__team-name.text-right #{match.team_1.full_name.capitalize}
+          .d-md-none.my-auto.match-card__team-name.text-right #{match.team_1.short_name.upcase}
+          = image_tag match.team_1.flag, class: 'match-card__flag match-card__left-flag'
+          .match-card__kick-off.d-flex
+            - if match.ongoing?
+              .kick-off__live &#8226; LIVE
+            - else
+              .kick-off__time #{match.kick_off.strftime('%H:%M')}
+          = image_tag match.team_2.flag, class: 'match-card__flag match-card__right-flag'
+          .d-none.my-auto.d-md-block.match-card__team-name.text-left #{match.team_2.full_name.capitalize}
+          .d-md-none.my-auto.match-card__team-name.text-left #{match.team_2.short_name.upcase}
+        .collapse.js-match-details id="match#{match.id}-details" aria-labelledby="match#{match.id}-header" data-parent="#upcoming"
+          .card-body.match-card__card-body
+            .row
+              .col-md-2
+              .col-md-8
+                .prediction-form__notice class="#{prediction.persisted? ? 'prediction-form__notice--predicted' : ''}"
+                  .prediction-form__notice-title
+                    - if prediction.persisted?
+                      - prediction_text = prediction.winner.present? ? "#{prediction.winner.full_name} will win." : "It will be a draw."
+                      | Your prediction: #{prediction_text}
+                    - elsif !match.locked?
+                      | Enter your predicted score below
+                    - else
+                      | This match is locked for prediction
+                  .prediction-form__notice-subtext
+                    | Deadline: #{(match.kick_off - 15.minutes).strftime('%b %d, %H:%M')}
+              .col-md-2
+            - if !match.locked?
+              = render 'user/dashboard/prediction_form', prediction: prediction, match: match
+            - else
+              = render 'user/dashboard/locked_match_predictions', match: match

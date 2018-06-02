@@ -32,10 +32,7 @@ module Matches
     def knock_out_result(match, prediction, user_result)
       user_result[:match_result] = true
       user_result[:decider] = true if match.decider == prediction.decider
-
-      if match.decider == Match::DECIDER_TYPE_PENALTY && prediction.decider == Match::DECIDER_TYPE_PENALTY
-        user_result[:score] = true
-      elsif prediction.team_1_goals == match.team_1_goals && prediction.team_2_goals == match.team_2_goals
+      if prediction.team_1_goals == match.team_1_goals && prediction.team_2_goals == match.team_2_goals
         user_result[:score] = true
       end
       user_result

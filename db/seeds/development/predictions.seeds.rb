@@ -6,8 +6,8 @@ after 'development:users', 'matches', 'development:knock_out_matches' do
     Prediction.create!(
       match: group_match,
       user: user,
-      team_1_goals: rand(0..5),
-      team_2_goals: rand(0..5)
+      team_1_goals: rand(0..7),
+      team_2_goals: rand(0..7)
     )
   end
 
@@ -15,7 +15,7 @@ after 'development:users', 'matches', 'development:knock_out_matches' do
   User.all.each do |user|
     decider = Match.valid_decider_types.sample
     team_1_goals = rand(0..5)
-    team_2_goals = decider == Match::DECIDER_TYPE_PENALTY ? team_1_goals : ((0..5).to_a - [team_1_goals]).sample
+    team_2_goals = decider == Match::DECIDER_TYPE_PENALTY ? team_1_goals : ((0..7).to_a - [team_1_goals]).sample
     winner_id = decider == Match::DECIDER_TYPE_PENALTY ? [knock_out_match.team_1_id, knock_out_match.team_2_id].sample : nil
     Prediction.create!(
       match: knock_out_match,
@@ -29,5 +29,5 @@ after 'development:users', 'matches', 'development:knock_out_matches' do
 
   # Create a result for predicted matches
   Match.where(stage: Match::STAGE_GROUP).first.update!(team_1_goals: 2, team_2_goals: 1)
-  Match.where.not(stage: Match::STAGE_GROUP).first.update!(team_1_goals: 2, team_2_goals: 1, decider: Match::DECIDER_TYPE_EXTRA_TIME)
+  Match.where.not(stage: Match::STAGE_GROUP).first.update!(team_1_goals: 2, team_2_goals: 1, decider: Match::DECIDER_TYPE_PENALTY)
 end

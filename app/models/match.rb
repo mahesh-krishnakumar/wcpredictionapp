@@ -57,10 +57,16 @@ class Match < ApplicationRecord
     end
   end
 
-  def scores_cannot_be_equal_for_knockout
-    if knock_out? && team_1_goals.present? && team_2_goals.present? && (team_1_goals == team_2_goals)
-      errors.add(:team_1_goals, 'Knockouts cannot end in a draw')
-    end
+  def equal_goals_only_for_shootout
+    return if team_1_goals != team_2_goals
+    return if decider == DECIDER_TYPE_PENALTY
+    errors.add(:team_1_goals, 'Draw score only if decider is penalty')
+  end
+
+  def shootout_should_be_a_draw
+    return if decider != DECIDER_TYPE_PENALTY
+    return if team_1_goals == team_2_goals
+    errors.add(:team_1_goals, 'Penalty should have a draw score')
   end
 
   def set_winner_only_for_shootout_matches

@@ -13,12 +13,17 @@ after 'development:users', 'matches', 'development:knock_out_matches' do
 
   knock_out_match = Match.where.not(stage: Match::STAGE_GROUP).first
   User.all.each do |user|
+    decider = Match.valid_decider_types.sample
+    team_1_goals = rand(0..5)
+    team_2_goals = decider == Match::DECIDER_TYPE_PENALTY ? team_1_goals : ((0..5).to_a - [team_1_goals]).sample
+    winner_id = decider == Match::DECIDER_TYPE_PENALTY ? [knock_out_match.team_1_id, knock_out_match.team_2_id].sample : nil
     Prediction.create!(
       match: knock_out_match,
       user: user,
-      team_1_goals: rand(0..5),
-      team_2_goals: rand(0..5),
-      decider: Match.valid_decider_types.sample
+      decider: decider,
+      team_1_goals: team_1_goals,
+      team_2_goals: team_2_goals,
+      winner_id: winner_id
     )
   end
 

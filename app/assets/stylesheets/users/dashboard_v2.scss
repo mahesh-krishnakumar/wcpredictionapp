@@ -1,0 +1,46 @@
+.prediction-card__date-strip{
+  color: grey;
+  .slick-track {
+    border-top: 1px solid lightgrey;
+  }
+  .slick-slide {
+    //border-bottom: 5px solid lightgrey;
+    border-left: 1px dotted lightgrey;
+  }
+  .slick-current {
+    color: #015386;
+    border-bottom: 5px solid #015386;
+  }
+}
+
+.date-strip__item {
+  height: 75px;
+  .month {
+    font-size: smaller;
+  }
+  .day {
+    font-size: x-large;
+  }
+}
+
+.match-strip__item {
+  //height: 300px;
+  border-top: 3px solid #015386;
+  color: #015386;
+}
+
+.match-card__header {
+  color: #015386;
+  font-size: 22px;
+  padding: 0;
+  background-color: lightgrey;
+  border: 0;
+  border-top: 1px solid white;
+  height: 50px;
+  cursor: pointer;
+}
+
+.match-card-header__team-name {
+  min-width: 28%;
+  font-weight: bold;
+}

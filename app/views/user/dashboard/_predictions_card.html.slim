@@ -7,18 +7,39 @@
       .prediction-card-header__marquee.marquee
         p #{@presenter.closing_soon_text}
   .card-body.predictions-card__body
-    .prediction-card__date-strip
-      - @presenter.upcoming_matches.each do |day, _matches|
-        .date-strip__item
-          .month.mt-1 #{day.strftime('%b')}
-          .day #{day.strftime('%d')}
+    .container-fluid
+      .row
+        .col-1.slick__prev.my-auto
+          i.fa.fa-chevron-left
+        .col-10
+          .prediction-card__date-strip
+            - range = @presenter.date_strip_range
+            - (range[:start]..range[:end]).each do |date|
+              .date-strip__item
+                .month.mt-1 #{date.strftime('%b')}
+                .day #{date.strftime('%d')}
+        .col-1.slick__next.my-auto
+          i.fa.fa-chevron-right
 
     .prediction-card__match-strip
-      - @presenter.upcoming_matches.each do |day, matches|
+      - @presenter.unlocked_matches.each do |_day, matches|
         .match-strip__item
           - matches.each do |match|
-            .match-time #{match.kick_off.strftime('%H:%M')}
-            .match-teams #{match.team_1.short_name.upcase} vs #{match.team_2.short_name.upcase}
+            - prediction = @presenter.prediction(match) || Prediction.new
+            .match-card
+              .match-card__header.d-flex.justify-content-center id="match#{match.id}-header" data-toggle="collapse" data-target="#match#{match.id}-details" aria-expanded="true" aria-controls="match#{match.id}-details"
+                .d-none.d-md-block.my-auto.match-card-header__team-name.text-right #{match.team_1.full_name.capitalize}
+                .d-md-none.my-auto.match-card-header__team-name.text-right #{match.team_1.short_name.upcase}
+                = image_tag match.team_1.flag, class: 'match-card__flag match-card__left-flag'
+                .match-card__kick-off.d-flex
+                  - if match.ongoing?
+                    .kick-off__live &#8226; LIVE
+                  - else
+                    .kick-off__time #{match.kick_off.strftime('%H:%M')}
+                = image_tag match.team_2.flag, class: 'match-card__flag match-card__right-flag'
+                .d-none.my-auto.d-md-block.match-card-header__team-name.text-left #{match.team_2.full_name.capitalize}
+                .d-md-none.my-auto.match-card-header__team-name.text-left #{match.team_2.short_name.upcase}
+
 
 
     /ul.nav.nav-tabs.justify-content-center.match-list__tab-bar role='tablist' id='myTab'

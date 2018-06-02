@@ -84,9 +84,10 @@ initializeSlick = ->
   $('.prediction-card__date-strip').slick({
     slidesToShow: 5,
     infinite: false,
-    centerMode: true,
-    centerPadding: '20px',
-    asNavFor: '.prediction-card__match-strip'
+    asNavFor: '.prediction-card__match-strip',
+    focusOnSelect: true,
+    nextArrow: '.slick__next',
+    prevArrow: '.slick__prev'
   })
   $('.prediction-card__match-strip').slick({
     arrows: false,

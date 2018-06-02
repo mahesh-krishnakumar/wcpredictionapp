@@ -57,6 +57,8 @@ handlePredictionSubmission = ->
     if (teamOneScore == teamTwoScore) && $(event.target).find('.js-decider-select').val() != 'Penalty'
       $(event.target).find('input[type=submit]').attr('disabled', true)
       $(event.target).find('.js-knockout-score').addClass('prediction-form__score-input--error')
+    if $(event.target).find('.js-decider-select').val() == 'Penalty'
+      $(event.target).find('.prediction-form__penalty-winner').removeClass('d-none')
 
 
   $('.js-knockout-score').on 'change', (event) ->
@@ -70,19 +72,27 @@ handlePredictionSubmission = ->
       $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', false)
       $(event.target).closest('div.form-group').find('div.prediction-form__score-danger-alert').addClass('d-none')
       $(event.target.parentElement).find('.js-knockout-score').removeClass('prediction-form__score-input--error')
+    if (teamOneScore != teamTwoScore) && $(event.target).closest('div.form-group').find('.js-decider-select').val() == 'Penalty'
+      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', true)
+      $(event.target).closest('div.form-group').find('div.prediction-form__score-danger-alert').removeClass('d-none')
+      $(event.target.parentElement).find('input[type=number]').addClass('prediction-form__score-input--error')
 
   $('.js-decider-select').on 'change', (event) ->
     teamOneScore = parseInt($(event.target).closest('div.form-group').find('input[type=number]')[0].value)
     teamTwoScore = parseInt($(event.target).closest('div.form-group').find('input[type=number]')[1].value)
     selectedValue = $('.js-decider-select').val()
+
     if selectedValue == 'Penalty'
       $('.prediction-form__penalty-winner').removeClass('d-none')
-      $('.prediction-form__score-danger-alert').addClass('d-none')
-      $('.js-knockout-score').removeClass('prediction-form__score-input--error')
-      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', false)
     else
       $('.prediction-form__penalty-winner').addClass('d-none')
       $('.js-winner-select').val('')
+
+    if selectedValue == 'Penalty' && teamOneScore == teamTwoScore
+      $('.prediction-form__score-danger-alert').addClass('d-none')
+      $('.js-knockout-score').removeClass('prediction-form__score-input--error')
+      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', false)
+
     if (selectedValue == 'Extra Time' || selectedValue == 'Regular') && (teamOneScore == teamTwoScore)
       $('.prediction-form__score-danger-alert').removeClass('d-none')
       $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', true)

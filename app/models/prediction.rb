@@ -35,7 +35,6 @@ class Prediction < ApplicationRecord
   validate :do_not_allow_draw_for_regular_and_extra_time
 
   def do_not_allow_draw_for_regular_and_extra_time
-    binding.pry
     return if match.stage == Match::STAGE_GROUP
     return if decider == Match::DECIDER_TYPE_PENALTY
     return if team_1_goals != team_2_goals

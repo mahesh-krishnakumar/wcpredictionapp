@@ -140,6 +140,7 @@
 }
 
 .prediction-form__notice {
+  color: black;
   background-color: #F5EED5;
   margin: 20px 0 20px 0;
   width: 100%;
@@ -184,6 +185,7 @@
 }
 
 .prediction-form__decider-label {
+  color: black;
   padding: 5px 5px 5px 5px;
   text-align: center;
   width: 100%;
@@ -223,9 +225,10 @@
 }
 
 .prediction-form__penalty-winner {
+  color: black;
   align-items: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   width: 200px;
 }
 

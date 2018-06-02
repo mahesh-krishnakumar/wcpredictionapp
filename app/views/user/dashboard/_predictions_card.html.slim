@@ -1,4 +1,4 @@
-.card.predictions-card
+.card.predictions-card.mb-3
   .card-header.predictions-card__header
     h5 Your Predictions
     .prediction-card-header__sub-title
@@ -22,24 +22,17 @@
           i.fa.fa-chevron-right
 
     .prediction-card__match-strip
-      - @presenter.unlocked_matches.each do |_day, matches|
-        .match-strip__item
+      - @presenter.unlocked_matches.each do |day, matches|
+        .match-strip__item id="matches-#{day.strftime('%b%d')}"
           - matches.each do |match|
             - prediction = @presenter.prediction(match) || Prediction.new
             .match-card
-              .match-card__header.d-flex.justify-content-center id="match#{match.id}-header" data-toggle="collapse" data-target="#match#{match.id}-details" aria-expanded="true" aria-controls="match#{match.id}-details"
-                .d-none.d-md-block.my-auto.match-card-header__team-name.text-right #{match.team_1.full_name.capitalize}
-                .d-md-none.my-auto.match-card-header__team-name.text-right #{match.team_1.short_name.upcase}
-                = image_tag match.team_1.flag, class: 'match-card__flag match-card__left-flag'
-                .match-card__kick-off.d-flex
-                  - if match.ongoing?
-                    .kick-off__live &#8226; LIVE
-                  - else
-                    .kick-off__time #{match.kick_off.strftime('%H:%M')}
-                = image_tag match.team_2.flag, class: 'match-card__flag match-card__right-flag'
-                .d-none.my-auto.d-md-block.match-card-header__team-name.text-left #{match.team_2.full_name.capitalize}
-                .d-md-none.my-auto.match-card-header__team-name.text-left #{match.team_2.short_name.upcase}
-
+              = render 'user/dashboard_v2/match_card_header', match: match, prediction: prediction
+              .collapse id="match#{match.id}-details" data-parent="#matches-#{day.strftime('%b%d')}"
+                - if match.locked?
+                  | Match prediction table for match #{match.id}
+                - else
+                  = render 'user/dashboard_v2/prediction_form', match: match, prediction: prediction
 
 
     /ul.nav.nav-tabs.justify-content-center.match-list__tab-bar role='tablist' id='myTab'

@@ -51,8 +51,8 @@ module Users
       "Closing soon: #{list}"
     end
 
-    def match_list__card_header_classes(prediction)
-      'match-list__card-header' + (prediction.persisted? ? ' match-list__card-header--predicted' : '')
+    def match_card__header_classes(prediction)
+      'match-card__header' + (prediction.persisted? ? ' match-card__header--predicted' : '')
     end
 
     def date_strip_range

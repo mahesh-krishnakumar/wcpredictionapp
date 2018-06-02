@@ -29,12 +29,12 @@
   color: #015386;
 }
 
+//match card header classes
+
 .match-card__header {
   color: #015386;
   font-size: 22px;
-  padding: 0;
   background-color: lightgrey;
-  border: 0;
   border-top: 1px solid white;
   height: 50px;
   cursor: pointer;
@@ -43,4 +43,56 @@
 .match-card-header__team-name {
   min-width: 28%;
   font-weight: bold;
+}
+
+.match-card-header__flag {
+  height: 100%;
+}
+
+.match-card-header__left-flag {
+  margin-left: 5px;
+  #border-right: 3px solid white;
+}
+
+.match-card-header__right-flag {
+  margin-right: 5px;
+  #border-left: 3px solid white;
+}
+
+.match-card-header__kick-off {
+  background-color: #015386;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  height: 100%;
+  padding: .5rem;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+
+.kick-off__time {
+  margin: auto;
+  min-width: 34px;
+}
+
+.kick-off__live {
+  margin: auto;
+  min-width: 34px;
+  color: red;
+  animation:blinkingText 2s infinite;
+}
+
+@keyframes blinkingText{
+  0%{		color: red;	}
+  50%{	color: transparent;	}
+  100%{	color: red;	}
+}
+
+//prediction form classes
+
+.prediction-form__header {
+  color: grey;
+  border-bottom: 1px solid lightgrey;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 1rem;
 }

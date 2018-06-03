@@ -27,8 +27,9 @@ class Match < ApplicationRecord
 
   validate :have_decider_only_for_knockout
   validate :both_teams_should_have_goals
-  validate :scores_cannot_be_equal_for_knockout
+  validate :equal_goals_only_for_shootout
   validate :set_winner_only_for_shootout_matches
+  validate :shootout_should_be_a_draw
 
   scope :unlocked, -> { where(locked: false) }
   scope :open_for_prediction, -> { unlocked.where('kick_off > ?', Time.now + 15.minutes) }

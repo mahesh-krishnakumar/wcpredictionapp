@@ -30,6 +30,7 @@ class Match < ApplicationRecord
   validate :equal_goals_only_for_shootout
   validate :set_winner_only_for_shootout_matches
   validate :shootout_should_be_a_draw
+  validate :winner_must_be_present_for_penalty
 
   scope :unlocked, -> { where(locked: false) }
   scope :open_for_prediction, -> { unlocked.where('kick_off > ?', Time.now + 15.minutes) }
@@ -75,6 +76,12 @@ class Match < ApplicationRecord
     return if winner_id.blank?
     return if knock_out? && (decider == DECIDER_TYPE_PENALTY)
     errors.add(:winner_id, 'Set winner only if result was from a penalty shootout')
+  end
+
+  def winner_must_be_present_for_penalty
+    return if decider != DECIDER_TYPE_PENALTY
+    return if winner_id.present?
+    errors.add(:winner_id, 'Set winner for a penalty shootout')
   end
 
   def ongoing?

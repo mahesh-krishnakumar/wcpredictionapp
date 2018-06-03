@@ -29,5 +29,6 @@ after 'development:users', 'matches', 'development:knock_out_matches' do
 
   # Create a result for predicted matches
   Match.where(stage: Match::STAGE_GROUP).first.update!(team_1_goals: 2, team_2_goals: 1)
-  Match.where.not(stage: Match::STAGE_GROUP).first.update!(team_1_goals: 2, team_2_goals: 2, decider: Match::DECIDER_TYPE_PENALTY)
+  knock_out_match = Match.where.not(stage: Match::STAGE_GROUP).first
+  knock_out_match.update!(team_1_goals: 2, team_2_goals: 2, decider: Match::DECIDER_TYPE_PENALTY, winner_id: knock_out_match.team_2_id)
 end

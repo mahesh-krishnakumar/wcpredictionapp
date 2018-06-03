@@ -89,7 +89,9 @@ ActiveRecord::Schema.define(version: 2018_06_01_160051) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stage"
+    t.bigint "winner_id"
     t.boolean "locked", default: true
+    t.index ["winner_id"], name: "index_matches_on_winner_id"
   end
 
   create_table "predictions", force: :cascade do |t|
@@ -100,8 +102,10 @@ ActiveRecord::Schema.define(version: 2018_06_01_160051) do
     t.datetime "updated_at", null: false
     t.integer "team_1_goals"
     t.integer "team_2_goals"
+    t.bigint "winner_id"
     t.index ["match_id"], name: "index_predictions_on_match_id"
     t.index ["user_id"], name: "index_predictions_on_user_id"
+    t.index ["winner_id"], name: "index_predictions_on_winner_id"
   end
 
   create_table "teams", force: :cascade do |t|

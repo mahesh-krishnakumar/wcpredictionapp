@@ -96,12 +96,8 @@ module Groups
           correct_winner_predictors
         else
           true_result = matchx.send(metric_method[metricx])
-          if metricx == :score && matchx.decider == Match::DECIDER_TYPE_PENALTY
-            predictions(matchx).where(user: correct_winner_predictors).where(decider: Match::DECIDER_TYPE_PENALTY).pluck(:user_id)
-          else
-            predictions(matchx).where(user: correct_winner_predictors)
-              .select { |p| p.send(metric_method[metricx]) == true_result }.pluck(:user_id)
-          end
+          predictions(matchx).where(user: correct_winner_predictors)
+            .select { |p| p.send(metric_method[metricx]) == true_result }.pluck(:user_id)
         end
       end
 

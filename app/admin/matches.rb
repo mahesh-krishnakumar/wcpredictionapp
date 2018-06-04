@@ -1,5 +1,5 @@
 ActiveAdmin.register Match do
-  permit_params :team_1_id, :team_2_id, :venue, :kick_off, :team_1_goals, :team_2_goals, :stage, :decider, :locked
+  permit_params :team_1_id, :team_2_id, :venue, :kick_off, :team_1_goals, :team_2_goals, :stage, :decider, :winner_id, :locked
 
   scope :group_stage
   scope :knock_out_stage
@@ -18,6 +18,7 @@ ActiveAdmin.register Match do
       f.input :team_1_goals
       f.input :team_2_goals
       f.input :decider, as: :select, collection: Match.valid_decider_types
+      f.input :winner, as: :select, collection: Team.all
     end
 
     f.actions

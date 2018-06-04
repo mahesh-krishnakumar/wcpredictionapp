@@ -27,7 +27,10 @@ class Match < ApplicationRecord
 
   validate :have_decider_only_for_knockout
   validate :both_teams_should_have_goals
-  validate :scores_cannot_be_equal_for_knockout
+  validate :equal_goals_only_for_shootout
+  validate :set_winner_only_for_shootout_matches
+  validate :shootout_should_be_a_draw
+  validate :winner_must_be_present_for_penalty
 
   scope :unlocked, -> { where(locked: false) }
   scope :open_for_prediction, -> { unlocked.where('kick_off > ?', Time.now + 15.minutes) }
@@ -37,7 +40,7 @@ class Match < ApplicationRecord
   scope :completed, -> { where.not(team_1_goals: nil) }
 
   scope :group_stage, -> { where(stage: STAGE_GROUP) }
-  scope :knock_out_stage, -> { where(stage: [STAGE_PRE_QUARTER, STAGE_QUARTER, STAGE_SEMI_FINAL, STAGE_FINAL])}
+  scope :knock_out_stage, -> { where(stage: [STAGE_PRE_QUARTER, STAGE_QUARTER, STAGE_SEMI_FINAL, STAGE_FINAL]) }
 
   def locked?
     Time.now >= (kick_off - 15.minutes)
@@ -56,10 +59,29 @@ class Match < ApplicationRecord
     end
   end
 
-  def scores_cannot_be_equal_for_knockout
-    if knock_out? && team_1_goals.present? && team_2_goals.present? && (team_1_goals == team_2_goals)
-      errors.add(:team_1_goals, 'Knockouts cannot end in a draw')
-    end
+  def equal_goals_only_for_shootout
+    return if Match::STAGE_GROUP || team_1_goals.blank?
+    return if team_1_goals != team_2_goals
+    return if decider == DECIDER_TYPE_PENALTY
+    errors.add(:team_1_goals, 'Draw score only if decider is penalty')
+  end
+
+  def shootout_should_be_a_draw
+    return if decider != DECIDER_TYPE_PENALTY
+    return if team_1_goals == team_2_goals
+    errors.add(:team_1_goals, 'Penalty should have a draw score')
+  end
+
+  def set_winner_only_for_shootout_matches
+    return if winner_id.blank?
+    return if knock_out? && (decider == DECIDER_TYPE_PENALTY)
+    errors.add(:winner_id, 'Set winner only if result was from a penalty shootout')
+  end
+
+  def winner_must_be_present_for_penalty
+    return if decider != DECIDER_TYPE_PENALTY
+    return if winner_id.present?
+    errors.add(:winner_id, 'Set winner for a penalty shootout')
   end
 
   def ongoing?
@@ -67,8 +89,12 @@ class Match < ApplicationRecord
   end
 
   def winner
-    return if team_1_goals == team_2_goals
-    team_1_goals > team_2_goals ? team_1 : team_2
+    if winner_id.present?
+      Team.find(winner_id)
+    else
+      return if team_1_goals == team_2_goals
+      team_1_goals > team_2_goals ? team_1 : team_2
+    end
   end
 
   def knock_out?

@@ -140,6 +140,7 @@
 }
 
 .prediction-form__notice {
+  color: black;
   background-color: #F5EED5;
   margin: 20px 0 20px 0;
   width: 100%;
@@ -184,6 +185,7 @@
 }
 
 .prediction-form__decider-label {
+  color: black;
   padding: 5px 5px 5px 5px;
   text-align: center;
   width: 100%;
@@ -198,7 +200,7 @@
   color: red;
   margin-top: 5px;
   margin-bottom: 10px;
-  font-size: 15px;
+  font-size: 12px;
   width: 200px;
   text-align: center;
 }
@@ -222,11 +224,12 @@
   text-align: center;
 }
 
-.prediction-form__penalty-notice {
-  font-size: 12px;
-  font-weight: lighter;
-  margin: 5px 0;
-  text-align: center;
+.prediction-form__penalty-winner {
+  color: black;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 200px;
 }
 
 .profile-card {

@@ -24,20 +24,34 @@
 }
 
 .match-strip__item {
-  //height: 300px;
   border-top: 3px solid #015386;
   color: #015386;
+}
+
+.match-card {
+  margin: 10px;
+  background-color: #DDDDDD;
+  padding-top: 10px;
 }
 
 //match card header classes
 
 .match-card__header {
-  color: #015386;
+  color: white;
   font-size: 22px;
-  background-color: lightgrey;
-  border-top: 1px solid white;
-  height: 50px;
+  background-color: #015386;
+  //margin-top: 10px;
+  height: 45px;
   cursor: pointer;
+}
+
+.match-card__header--predicted {
+  border-left: 10px solid green;
+  border-right: 10px solid green;
+  @include media-breakpoint-up(md) {
+    border-left: 20px solid green;
+    border-right: 20px solid green;
+  }
 }
 
 .match-card-header__team-name {
@@ -90,9 +104,23 @@
 
 //prediction form classes
 
-.prediction-form__header {
-  color: grey;
-  border-bottom: 1px solid lightgrey;
+.prediction-form {
+  margin-bottom: 10px;
+  background-color: #DDDDDD;
   padding: 0.25rem 0.5rem;
-  margin-bottom: 1rem;
+}
+
+.prediction-form__form-row {
+  width: 100%;
+  margin: 0.75rem 0;
+}
+
+.prediction-form__submit-btn {
+  background-color: #015386;
+  color: white;
+}
+
+.prediction-form__footer {
+  color: grey;
+  font-size: smaller;
 }

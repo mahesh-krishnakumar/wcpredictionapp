@@ -3,19 +3,15 @@ handlePredictionSubmission = ->
     form = $(event.target)
     matchId = form.data('matchId')
 
-    # change content of notice
-    details = $('#match' + matchId + '-details')
-    notice = details.find('.prediction-form__notice')
-    deciderLabel = details.find('.prediction-form__decider-label')
-    notice.addClass('prediction-form__notice--predicted')
-    deciderLabel.addClass('prediction-form__decider-label--predicted')
-    notice.find('.prediction-form__notice-title').html('Prediction saved!')
-    deciderLabel.html('Selected Decider')
-    submitButton = details.find('input[type=submit]')
+    # show success message on footer
+    footerLeft = $('.js-prediction-form-footer__left--' + matchId)
+    currentText = footerLeft.html()
+    footerLeft.html('Prediction Saved!')
+    footerLeft.addClass('text-green')
 
     # change header styling to predicted
     header = $('#match' + matchId + '-header')
-    header.addClass('match-list__card-header--predicted')
+    header.addClass('match-card__header--predicted')
 
     # modify form to be an update form
     predictionId = event.detail[0].id
@@ -26,39 +22,21 @@ handlePredictionSubmission = ->
       value: 'patch'
     }).appendTo(form);
 
-    # auto-close details
-    hideDetails = () ->
-      details.collapse('hide')
-    setTimeout(hideDetails, 500)
-
   $('.js-new-prediction-form').on 'ajax:error', (event) ->
     form = $(event.target)
     matchId = form.data('matchId')
-    notice = $('#match' + matchId + '-details').find('.prediction-form__notice')
-    notice.addClass('prediction-form__notice--error')
-    notice.find('.prediction-form__notice-title').html('Something went wrong. Try again!')
-
+    # show error message on footer
+    footerLeft = $('.js-prediction-form-footer__left--' + matchId)
+    currentText = footerLeft.html()
+    footerLeft.html('Something went wrong. Try again!')
+    footerLeft.addClass('text-red')
 
   $('.js-new-prediction-form').on 'ajax:send', (event) ->
     form = $(event.target)
     matchId = form.data('matchId')
-    notice = $('#match' + matchId + '-details').find('.prediction-form__notice')
-    notice.removeClass('prediction-form__notice--error prediction-form__notice--predicted')
-
-  $('.js-match-details').on 'show.bs.collapse', (event) ->
-    detailsOpened = $(event.target)
-    submitButton = detailsOpened.find('input[type=submit]')
-    notice = detailsOpened.find('.prediction-form__notice')
-    if (submitButton.val() != 'Update') && notice.hasClass('prediction-form__notice--predicted')
-      submitButton.val('Update')
-    if $(event.target).find('input[type=number]').length
-      teamOneScore = parseInt($(event.target).find('input[type=number]')[0].value)
-      teamTwoScore = parseInt($(event.target).find('input[type=number]')[1].value)
-    if (teamOneScore == teamTwoScore) && $(event.target).find('.js-knockout-score').length
-      $(event.target).find('input[type=submit]').attr('disabled', true)
-      $(event.target).find('div.prediction-form__score-danger-alert').removeClass('d-none')
-      $(event.target).find('.js-knockout-score').addClass('prediction-form__score-input--error')
-
+    footerLeft = $('.js-prediction-form-footer__left--' + matchId)
+    footerLeft.removeClass('text-green text-red')
+    footerLeft.html('Saving...')
 
   $('.js-knockout-score').on 'change', (event) ->
     teamOneScore = parseInt($(event.target.parentElement).find('input[type=number]')[0].value)
@@ -87,12 +65,21 @@ initializeSlick = ->
     asNavFor: '.prediction-card__match-strip',
     focusOnSelect: true,
     nextArrow: '.slick__next',
-    prevArrow: '.slick__prev'
+    prevArrow: '.slick__prev',
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3
+        }
+      }
+    ]
   })
   $('.prediction-card__match-strip').slick({
     arrows: false,
     fade: true,
-    asNavFor: '.prediction-card__date-strip'
+    asNavFor: '.prediction-card__date-strip',
+    infinite: false
   })
 
 

@@ -28,11 +28,11 @@
             - prediction = @presenter.prediction(match) || Prediction.new
             .match-card
               = render 'user/dashboard_v2/match_card_header', match: match, prediction: prediction
-              .collapse id="match#{match.id}-details" data-parent="#matches-#{day.strftime('%b%d')}"
-                - if match.locked?
-                  | Match prediction table for match #{match.id}
-                - else
-                  = render 'user/dashboard_v2/prediction_form', match: match, prediction: prediction
+              /.collapse id="match#{match.id}-details" data-parent="#matches-#{day.strftime('%b%d')}"
+              - if match.locked?
+                | Match prediction table for match #{match.id}
+              - else
+                = render 'user/dashboard_v2/prediction_form', match: match, prediction: prediction
 
 
     /ul.nav.nav-tabs.justify-content-center.match-list__tab-bar role='tablist' id='myTab'

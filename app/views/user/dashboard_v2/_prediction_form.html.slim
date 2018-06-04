@@ -1,12 +1,20 @@
-.prediction-form__header.d-flex
-  .mr-auto
-    - if prediction.persisted?
-      | Current Prediction:&nbsp;
-      - current_prediction = prediction.winner.present? ? prediction.winner.full_name : 'Draw'
-      span.text-blue #{current_prediction}
-    - else
-      .text-blue Prediction Pending!
-  .my-auto
-    | Deadline:&nbsp;
-    span.text-blue #{(match.kick_off - 15.minutes).strftime('%b %d, %H:%M')}
-= render 'user/dashboard/prediction_form', prediction: prediction, match: match
+.prediction-form
+  = bootstrap_form_with model: prediction, layout: :inline, data: { match_id: match.id }, html: {class: 'js-new-prediction-form'} do |f|
+    = f.hidden_field :match_id, value: match.id
+    .form-row.prediction-form__form-row
+      = f.number_field :team_1_goals, value: (f.object.team_1_goals || 0), min: 0, max: 20, hide_label: true, append: match.team_1.short_name, wrapper: { class: 'mr-1' }
+      = f.number_field :team_2_goals, value: (f.object.team_2_goals || 0), min: 0, max: 20, hide_label: true, prepend: match.team_2.short_name, wrapper: { class: 'mr-1' }
+      - submit_text = prediction.persisted? ? 'Update' : 'Submit'
+      = f.submit submit_text, class: 'prediction-form__submit-btn'
+  .prediction-form__footer.d-flex
+    .d-none.d-md-inline.mr-auto class="js-prediction-form-footer__left--#{match.id}"
+      - if prediction.persisted?
+        | Current Prediction:&nbsp;
+        - current_prediction = prediction.winner.present? ? prediction.winner.full_name : 'Draw'
+        span.text-blue #{current_prediction}
+      - else
+        | Prediction Pending
+    .ml-auto
+      i.fa.fa-clock-o &nbsp;
+      span.d-none.d-md-inline Deadline:&nbsp;
+      span.text-blue #{(match.kick_off - 15.minutes).strftime('%b %d, %H:%M')}

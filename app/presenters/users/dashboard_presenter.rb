@@ -63,7 +63,15 @@ module Users
     end
 
     def unlocked_matches
-      @unlocked_matches ||= Match.unlocked.group_by_day { |m| m.kick_off }
+      @unlocked_matches ||= Match.unlocked
+    end
+
+    def unlocked_matches_by_day
+      @unlocked_matches_by_day ||= Match.unlocked.group_by_day { |m| m.kick_off }
+    end
+
+    def pending_predictions_count
+      unlocked_matches.count - @user.predictions.where(match: unlocked_matches).count
     end
   end
 end

@@ -102,6 +102,6 @@ class Match < ApplicationRecord
   end
 
   def score_as_string
-    "#{team_1_goals}:#{team_2_goals}"
+    "#{team_1_goals}-#{team_2_goals}"
   end
 end

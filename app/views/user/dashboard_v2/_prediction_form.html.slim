@@ -10,8 +10,7 @@
     .d-none.d-md-inline.mr-auto class="js-prediction-form-footer__left--#{match.id}"
       - if prediction.persisted?
         | Current Prediction:&nbsp;
-        - current_prediction = prediction.winner.present? ? prediction.winner.full_name : 'Draw'
-        span.text-blue #{current_prediction}
+        span.text-blue #{prediction.summary_text}
       - else
         | Prediction Pending
     .ml-auto

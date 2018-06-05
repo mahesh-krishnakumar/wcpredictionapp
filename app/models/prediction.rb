@@ -63,6 +63,10 @@ class Prediction < ApplicationRecord
   end
 
   def score_as_string
-    "#{team_1_goals}:#{team_2_goals}"
+    "#{team_1_goals}-#{team_2_goals}"
+  end
+
+  def summary_text
+    winner.present? ? "#{winner.full_name} (#{short_text})" : "Draw (#{short_text})"
   end
 end

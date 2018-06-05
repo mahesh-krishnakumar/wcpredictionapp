@@ -3,11 +3,18 @@ handlePredictionSubmission = ->
     form = $(event.target)
     matchId = form.data('matchId')
 
-    # show success message on footer
+    # flash success message in footer
     footerLeft = $('.js-prediction-form-footer__left--' + matchId)
     currentText = footerLeft.html()
     footerLeft.html('Prediction Saved!')
     footerLeft.addClass('text-green')
+    # update 'current prediction' in footer
+    setTimeout ->
+      summaryText = event.detail[0].prediction.summary
+      newHTML = 'Current Prediction: <span class=\'text-blue\'>' + summaryText + '</span>'
+      footerLeft.html(newHTML)
+      footerLeft.removeClass('text-green')
+    , 2000
 
     # change header styling to predicted
     header = $('#match' + matchId + '-header')
@@ -27,6 +34,7 @@ handlePredictionSubmission = ->
     totalCount = $('#total-predictions-count').data('matchCount')
     pendingCount = totalCount - predictedCount
     $('#total-predictions-count').html(pendingCount + '/' + totalCount)
+
 
   $('.js-new-prediction-form').on 'ajax:error', (event) ->
     form = $(event.target)

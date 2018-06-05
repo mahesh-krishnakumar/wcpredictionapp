@@ -35,7 +35,7 @@ class Match < ApplicationRecord
   scope :unlocked, -> { where(locked: false) }
   scope :open_for_prediction, -> { unlocked.where('kick_off > ?', Time.now + 15.minutes) }
   scope :locked_for_prediction, -> { where('kick_off < ?', Time.now + 15.minutes) }
-  scope :closing_soon, -> { open_for_prediction.where('kick_off < ?', 2.days.from_now) }
+  scope :closing_soon, -> { open_for_prediction.where('kick_off < ?', 1.day.from_now) }
   scope :upcoming, -> { where(team_1_goals: nil) }
   scope :completed, -> { where.not(team_1_goals: nil) }
 

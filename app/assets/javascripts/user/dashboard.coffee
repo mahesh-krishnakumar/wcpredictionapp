@@ -84,8 +84,10 @@ handlePredictionTableCollapse = ->
     toggleBar.html('<i class=\'fa fa-angle-double-down\'></i>&nbsp;View Predictions&nbsp;<i class=\'fa fa-angle-double-down\'></i>')
 
 initializeSlick = ->
+  initialSlide = $('.prediction-card__date-strip').data('initialSlide')
   $('.prediction-card__date-strip').slick({
     slidesToShow: 5,
+    initialSlide: initialSlide,
     infinite: false,
     asNavFor: '.prediction-card__match-strip',
     focusOnSelect: true,
@@ -104,12 +106,14 @@ initializeSlick = ->
     arrows: false,
     fade: true,
     asNavFor: '.prediction-card__date-strip',
-    infinite: false
+    infinite: false,
+    initialSlide: initialSlide
   })
 
 
 $(document).on 'turbolinks:load', ->
-  initializeSlick()
+  if $('.prediction-card__date-strip').length
+    initializeSlick()
   if $('.js-new-prediction-form').length
     handlePredictionSubmission()
   if $('.js-knock-out-goal-field').length

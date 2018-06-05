@@ -59,6 +59,10 @@ module Users
       Match.unlocked.pluck(:kick_off).map(&:to_date).uniq.sort!
     end
 
+    def date_strip_initial_slide
+      match_dates.index(Date.today) || 0
+    end
+
     def unlocked_matches
       @unlocked_matches ||= Match.unlocked
     end

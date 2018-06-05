@@ -14,7 +14,7 @@
         .col-1.slick__prev.my-auto
           i.fa.fa-chevron-left
         .col-10
-          .prediction-card__date-strip
+          .prediction-card__date-strip data-initial-slide=@presenter.date_strip_initial_slide
             - range = @presenter.match_dates
             - range.each do |date|
               .date-strip__item

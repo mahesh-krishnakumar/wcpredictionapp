@@ -55,11 +55,8 @@ module Users
       'match-card__header' + (prediction.persisted? ? ' match-card__header--predicted' : '')
     end
 
-    def date_strip_range
-      {
-        start: Match.unlocked.minimum(:kick_off).to_date,
-        end: Match.unlocked.maximum(:kick_off).to_date
-      }
+    def match_dates
+      Match.unlocked.pluck(:kick_off).map(&:to_date)
     end
 
     def unlocked_matches

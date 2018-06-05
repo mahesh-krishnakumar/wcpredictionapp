@@ -15,8 +15,8 @@
           i.fa.fa-chevron-left
         .col-10
           .prediction-card__date-strip
-            - range = @presenter.date_strip_range
-            - (range[:start]..range[:end]).each do |date|
+            - range = @presenter.match_dates
+            - range.each do |date|
               .date-strip__item
                 .month.mt-1 #{date.strftime('%b')}
                 .day #{date.strftime('%d')}
@@ -37,20 +37,6 @@
               = render 'user/dashboard_v2/match_card_header', match: match, prediction: prediction
               /.collapse id="match#{match.id}-details" data-parent="#matches-#{day.strftime('%b%d')}"
               - if match.locked?
-                | Match prediction table for match #{match.id}
+                = render 'user/dashboard_v2/predictions_list', match: match, prediction: prediction
               - else
                 = render 'user/dashboard_v2/prediction_form', match: match, prediction: prediction
-
-
-    /ul.nav.nav-tabs.justify-content-center.match-list__tab-bar role='tablist' id='myTab'
-    /  li.nav-item.match-list__tab
-    /    a.nav-link.match-list__tab-link.font-weight-bold.active id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true" Upcoming
-    /  - if @presenter.completed_matches.present?
-    /    li.nav-item
-    /      a.nav-link.font-weight-bold id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="true" Completed
-    /.tab-content.match-list__tab-content id='myTabContent'
-    /  .tab-pane.fade.show.active id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab"
-    /    = render 'user/dashboard/upcoming_matches_list'
-    /  - if @presenter.completed_matches.present?
-    /    .tab-pane.fade id="completed" role="tabpanel" aria-labelledby="completed-tab"
-    /      = render 'user/dashboard/completed_matches_list'

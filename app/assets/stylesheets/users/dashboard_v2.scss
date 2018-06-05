@@ -127,3 +127,33 @@
   color: grey;
   font-size: smaller;
 }
+
+.prediction-list__header {
+  color: grey;
+  font-size: smaller;
+}
+
+.match-status-icon__ongoing {
+  color: green;
+  margin: auto;
+  min-width: 34px;
+  animation:blinkingStatus 2s infinite;
+}
+
+@keyframes blinkingStatus{
+  0%{		color: green;	}
+  50%{	color: transparent;	}
+  100%{	color: green;	}
+}
+
+.match-result__correct-prediction {
+  color: green;
+}
+
+.match-result__wrong-prediction {
+  color: red;
+}
+
+.prediction-list__toggle-button {
+  font-size: smaller;
+}

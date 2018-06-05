@@ -3,7 +3,7 @@
   .d-md-none.my-auto.match-card-header__team-name.text-right #{match.team_1.short_name.upcase}
   = image_tag match.team_1.flag, class: 'match-card-header__flag match-card-header__left-flag'
   .match-card-header__kick-off.d-flex
-    - if match.ongoing?
+    - if match.ongoing? && !match.completed?
       .kick-off__live &#8226; LIVE
     - else
       .kick-off__time #{match.kick_off.strftime('%H:%M')}

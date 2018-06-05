@@ -104,4 +104,24 @@ class Match < ApplicationRecord
   def score_as_string
     "#{team_1_goals}-#{team_2_goals}"
   end
+
+  def completed?
+    team_1_goals.present?
+  end
+
+  def short_text
+    knock_out? ? "#{team_1_goals}-#{team_2_goals}(#{decider_short_text(decider)})" : "#{team_1_goals}-#{team_2_goals}"
+  end
+
+  def decider_short_text(decider)
+    {
+      Match::DECIDER_TYPE_PENALTY => 'PS',
+      Match::DECIDER_TYPE_EXTRA_TIME => 'ET',
+      Match::DECIDER_TYPE_REGULAR_TIME => 'RT'
+    }[decider]
+  end
+
+  def summary_text
+    winner.present? ? "#{winner.full_name} (#{short_text})" : "Draw (#{short_text})"
+  end
 end

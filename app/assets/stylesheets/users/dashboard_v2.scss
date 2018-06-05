@@ -2,6 +2,7 @@
   color: grey;
   .slick-track {
     border-top: 1px solid lightgrey;
+    cursor: pointer;
   }
   .slick-slide {
     //border-bottom: 5px solid lightgrey;
@@ -35,6 +36,7 @@
   margin: 10px;
   background-color: #DDDDDD;
   padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 //match card header classes
@@ -45,7 +47,6 @@
   background-color: #015386;
   //margin-top: 10px;
   height: 45px;
-  cursor: pointer;
 }
 
 .match-card__header--predicted {
@@ -156,4 +157,31 @@
 
 .prediction-list__toggle-button {
   font-size: smaller;
+}
+
+.prediction-table {
+  margin-bottom: 0;
+}
+
+.prediction-table>thead>tr>th, .prediction-table>tbody>tr>th, .prediction-table>tfoot>tr>th, .prediction-table>thead>tr>td, .prediction-table>tbody>tr>td, .prediction-table>tfoot>tr>td{
+  padding: 7px;
+}
+
+.predictions-table-header__left-pane {
+  border-right: 1px solid grey;
+}
+
+.predictions-table-header__sub-text {
+  color: grey;
+  font-size: small;
+}
+
+.prediction-table__toggle-bar {
+  background-color: #015386;
+  color: white;
+}
+
+.prediction-table__toggle-btn {
+  font-size: small;
+  cursor: pointer;
 }

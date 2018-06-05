@@ -61,47 +61,6 @@ handlePredictionSubmission = ->
     footerLeft.removeClass('text-green text-red')
     footerLeft.html('Saving...')
 
-  $('.js-knockout-score').on 'change', (event) ->
-    teamOneScore = parseInt($(event.target.parentElement).find('input[type=number]')[0].value)
-    teamTwoScore = parseInt($(event.target.parentElement).find('input[type=number]')[1].value)
-    if (teamOneScore == teamTwoScore) && $(event.target).closest('div.form-group').find('.js-decider-select').val() != 'Penalty'
-      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', true)
-      $(event.target).closest('div.form-group').find('div.prediction-form__score-danger-alert').removeClass('d-none')
-      $(event.target.parentElement).find('input[type=number]').addClass('prediction-form__score-input--error')
-    else
-      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', false)
-      $(event.target).closest('div.form-group').find('div.prediction-form__score-danger-alert').addClass('d-none')
-      $(event.target.parentElement).find('.js-knockout-score').removeClass('prediction-form__score-input--error')
-    if (teamOneScore != teamTwoScore) && $(event.target).closest('div.form-group').find('.js-decider-select').val() == 'Penalty'
-      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', true)
-      $(event.target).closest('div.form-group').find('div.prediction-form__score-danger-alert').removeClass('d-none')
-      $(event.target.parentElement).find('input[type=number]').addClass('prediction-form__score-input--error')
-
-  $('.js-decider-select').on 'change', (event) ->
-    teamOneScore = parseInt($(event.target).closest('div.form-group').find('input[type=number]')[0].value)
-    teamTwoScore = parseInt($(event.target).closest('div.form-group').find('input[type=number]')[1].value)
-    selectedValue = $('.js-decider-select').val()
-
-    if selectedValue == 'Penalty'
-      $('.prediction-form__penalty-winner').removeClass('d-none')
-    else
-      $('.prediction-form__penalty-winner').addClass('d-none')
-      $('.js-winner-select').val('')
-
-    if selectedValue == 'Penalty' && teamOneScore == teamTwoScore
-      $('.prediction-form__score-danger-alert').addClass('d-none')
-      $('.js-knockout-score').removeClass('prediction-form__score-input--error')
-      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', false)
-
-    if (selectedValue == 'Extra Time' || selectedValue == 'Regular') && (teamOneScore == teamTwoScore)
-      $('.prediction-form__score-danger-alert').removeClass('d-none')
-      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', true)
-      $('.js-knockout-score').addClass('prediction-form__score-input--error')
-    else
-      $('.prediction-form__score-danger-alert').addClass('d-none')
-      $('.js-knockout-score').removeClass('prediction-form__score-input--error')
-      $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', false)
-
 handlePredictionFormChanges = ->
   $('.js-knock-out-goal-field').on 'change', (event) ->
     formRow = $(event.target).closest('.form-row')
@@ -113,6 +72,16 @@ handlePredictionFormChanges = ->
     else
       formRow.find('.js-winner-form-group').addClass('d-none')
       formRow.find('.js-decider-form-group').removeClass('d-none')
+
+handlePredictionTableCollapse = ->
+  $('.js-prediction-table__collapse').on 'show.bs.collapse', (event) ->
+    matchId = $(event.target).data('matchId')
+    toggleBar = $('#prediction-table__toggle-btn-' + matchId)
+    toggleBar.html('<i class=\'fa fa-angle-double-up\'></i>&nbsp;Hide Predictions&nbsp;<i class=\'fa fa-angle-double-up\'></i>')
+  $('.js-prediction-table__collapse').on 'hide.bs.collapse', (event) ->
+    matchId = $(event.target).data('matchId')
+    toggleBar = $('#prediction-table__toggle-btn-' + matchId)
+    toggleBar.html('<i class=\'fa fa-angle-double-down\'></i>&nbsp;View Predictions&nbsp;<i class=\'fa fa-angle-double-down\'></i>')
 
 initializeSlick = ->
   $('.prediction-card__date-strip').slick({
@@ -145,3 +114,5 @@ $(document).on 'turbolinks:load', ->
     handlePredictionSubmission()
   if $('.js-knock-out-goal-field').length
     handlePredictionFormChanges()
+  if $('.js-prediction-table__collapse').length
+    handlePredictionTableCollapse()

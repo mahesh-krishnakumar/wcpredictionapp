@@ -14,13 +14,19 @@ handlePredictionSubmission = ->
     header.addClass('match-card__header--predicted')
 
     # modify form to be an update form
-    predictionId = event.detail[0].id
+    predictionId = event.detail[0].prediction.id
     form.attr('action', '/predictions/' + predictionId)
     $('<input>').attr({
       type: 'hidden',
       name: '_method',
       value: 'patch'
     }).appendTo(form);
+
+    # update 'total pending predictions' count
+    predictedCount = event.detail[0].matches_predicted.length
+    totalCount = $('#total-predictions-count').data('matchCount')
+    pendingCount = totalCount - predictedCount
+    $('#total-predictions-count').html(pendingCount + '/' + totalCount)
 
   $('.js-new-prediction-form').on 'ajax:error', (event) ->
     form = $(event.target)

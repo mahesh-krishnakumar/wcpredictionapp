@@ -2,7 +2,9 @@
   .card-header.predictions-card__header
     h5 Your Predictions
     .prediction-card-header__sub-title
-      | Pending: #{@presenter.pending_predictions_count}/#{@presenter.unlocked_matches.count}
+      | Pending:
+      - match_count = @presenter.unlocked_matches.count
+      span#total-predictions-count data-match-count=match_count #{@presenter.pending_predictions_count}/#{match_count}
     - if @presenter.closing_soon_text.present?
       .prediction-card-header__marquee.marquee
         p #{@presenter.closing_soon_text}

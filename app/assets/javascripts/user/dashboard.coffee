@@ -39,7 +39,6 @@ handlePredictionSubmission = ->
     badge = $('#pending-predictions-badge-' + matchDate)
     completedCount = event.detail[0].completed_this_day
     totalCount = badge.data('matchCount')
-    debugger
     if completedCount == totalCount
       badge.html('<i class=\'fa fa-check text-green\'></i>')
     else
@@ -103,6 +102,18 @@ handlePredictionSubmission = ->
       $('.js-knockout-score').removeClass('prediction-form__score-input--error')
       $(event.target).closest('div.form-group').find('input[type=submit]').attr('disabled', false)
 
+handlePredictionFormChanges = ->
+  $('.js-knock-out-goal-field').on 'change', (event) ->
+    formRow = $(event.target).closest('.form-row')
+    team1Goal = parseInt(formRow.find("input[name='prediction[team_1_goals]']").val())
+    team2Goal = parseInt(formRow.find("input[name='prediction[team_2_goals]']").val())
+    if team1Goal == team2Goal
+      formRow.find('.js-decider-form-group').addClass('d-none')
+      formRow.find('.js-winner-form-group').removeClass('d-none')
+    else
+      formRow.find('.js-winner-form-group').addClass('d-none')
+      formRow.find('.js-decider-form-group').removeClass('d-none')
+
 initializeSlick = ->
   $('.prediction-card__date-strip').slick({
     slidesToShow: 5,
@@ -132,3 +143,5 @@ $(document).on 'turbolinks:load', ->
   initializeSlick()
   if $('.js-new-prediction-form').length
     handlePredictionSubmission()
+  if $('.js-knock-out-goal-field').length
+    handlePredictionFormChanges()

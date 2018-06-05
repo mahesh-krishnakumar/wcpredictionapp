@@ -51,7 +51,7 @@ class Prediction < ApplicationRecord
   end
 
   def short_text
-    match.knock_out? ? "#{team_1_goals}-#{team_2_goals}(#{decider_short_text(decider)})" : "#{team_1_goals}-#{team_2_goals}"
+    match.knock_out? ? "#{team_1_goals}-#{team_2_goals}, #{decider_short_text(decider)}" : "#{team_1_goals}-#{team_2_goals}"
   end
 
   def decider_short_text(decider)

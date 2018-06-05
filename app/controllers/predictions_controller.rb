@@ -3,7 +3,14 @@ class PredictionsController < ApplicationController
     prediction = current_user.predictions.new(prediction_params)
     match = Match.find(prediction_params[:match_id])
     return head(:bad_request) if match.locked?
-    prediction.decider = prediction_params[:decider] if match.knock_out?
+    prediction.attributes = prediction_params
+    if match.knock_out?
+      if prediction.team_1_goals != prediction.team_2_goals
+        prediction.winner_id = nil
+      else
+        prediction.decider = Match::DECIDER_TYPE_PENALTY
+      end
+    end
     prediction.save!
     render status: :ok, json: prediction_response(prediction)
   end
@@ -12,7 +19,15 @@ class PredictionsController < ApplicationController
     prediction = current_user.predictions.find_by(match_id: prediction_params[:match_id])
     match = Match.find(prediction_params[:match_id])
     return head(:bad_request) if match.locked?
-    prediction.update!(prediction_params)
+    prediction.attributes = prediction_params
+    if match.knock_out?
+      if prediction.team_1_goals != prediction.team_2_goals
+        prediction.winner_id = nil
+      else
+        prediction.decider = Match::DECIDER_TYPE_PENALTY
+      end
+    end
+    prediction.save!
     render status: :ok, json: prediction_response(prediction)
   end
 

@@ -2,8 +2,20 @@
   = bootstrap_form_with model: prediction, layout: :inline, data: { match_id: match.id, match_date: match.kick_off.strftime('%b%d') }, html: {class: 'js-new-prediction-form'} do |f|
     = f.hidden_field :match_id, value: match.id
     .form-row.prediction-form__form-row
-      = f.number_field :team_1_goals, value: (f.object.team_1_goals || 0), min: 0, max: 20, hide_label: true, append: match.team_1.short_name, wrapper: { class: 'mr-1' }
-      = f.number_field :team_2_goals, value: (f.object.team_2_goals || 0), min: 0, max: 20, hide_label: true, prepend: match.team_2.short_name, wrapper: { class: 'mr-1' }
+      - goal_field_class = match.knock_out? ? 'js-knock-out-goal-field' : ''
+      = f.number_field :team_1_goals, value: (f.object.team_1_goals || 0), min: 0, max: 20, hide_label: true, append: match.team_1.short_name, class: goal_field_class, wrapper: { class: 'mr-1' }
+      = f.number_field :team_2_goals, value: (f.object.team_2_goals || 0), min: 0, max: 20, hide_label: true, prepend: match.team_2.short_name, class: goal_field_class, wrapper: { class: 'mr-1' }
+      - if match.knock_out?
+        /figure out initial classes to apply:
+        - decider_wrapper_class = 'mr-1 js-decider-form-group'
+        - winner_wrapper_class = 'mr-1 js-winner-form-group'
+        - if f.object.persisted?
+          - if f.object.winner_id.present?
+            - decider_wrapper_class += ' d-none'
+          - else
+            - winner_wrapper_class += ' d-none'
+        = f.select :decider, options_for_select(Match.valid_decider_types, prediction.decider), { prepend: 'Decider', hide_label: true }, wrapper: { class: decider_wrapper_class }
+        = f.select :winner_id, options_for_select([[match.team_1.short_name, match.team_1_id], [match.team_2.short_name, match.team_2_id]]), { prepend: 'Winner (PEN)', hide_label: true }, wrapper: { class: winner_wrapper_class }
       - submit_text = prediction.persisted? ? 'Update' : 'Submit'
       = f.submit submit_text, class: 'prediction-form__submit-btn'
   .prediction-form__footer.d-flex

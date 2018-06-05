@@ -5,10 +5,7 @@ class PredictionsController < ApplicationController
     return head(:bad_request) if match.locked?
     prediction.decider = prediction_params[:decider] if match.knock_out?
     prediction.save!
-    render status: :ok, json: {
-      prediction: prediction_response(prediction),
-      matches_predicted: predicted_match_ids
-    }
+    render status: :ok, json: prediction_response(prediction)
   end
 
   def update
@@ -16,10 +13,7 @@ class PredictionsController < ApplicationController
     match = Match.find(prediction_params[:match_id])
     return head(:bad_request) if match.locked?
     prediction.update!(prediction_params)
-    render status: :ok, json: {
-      prediction: prediction_response(prediction),
-      matches_predicted: predicted_match_ids
-    }
+    render status: :ok, json: prediction_response(prediction)
   end
 
   private
@@ -31,11 +25,18 @@ class PredictionsController < ApplicationController
   def prediction_response(prediction)
     {
       id: prediction.id,
-      summary: prediction.summary_text
+      summary: prediction.summary_text,
+      total_pending: total_pending,
+      completed_this_day: completed_this_day(prediction.match.kick_off)
     }
   end
 
-  def predicted_match_ids
-    current_user.predictions.pluck(:match_id)
+  def total_pending
+    Match.unlocked.count - current_user.predictions.where(match: Match.unlocked).count
+  end
+
+  def completed_this_day(day)
+    matches = Match.unlocked.where(kick_off: day.beginning_of_day..day.end_of_day)
+    current_user.predictions.where(match: matches).count
   end
 end

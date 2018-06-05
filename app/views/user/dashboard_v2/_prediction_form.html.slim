@@ -1,5 +1,5 @@
 .prediction-form
-  = bootstrap_form_with model: prediction, layout: :inline, data: { match_id: match.id }, html: {class: 'js-new-prediction-form'} do |f|
+  = bootstrap_form_with model: prediction, layout: :inline, data: { match_id: match.id, match_date: match.kick_off.strftime('%b%d') }, html: {class: 'js-new-prediction-form'} do |f|
     = f.hidden_field :match_id, value: match.id
     .form-row.prediction-form__form-row
       = f.number_field :team_1_goals, value: (f.object.team_1_goals || 0), min: 0, max: 20, hide_label: true, append: match.team_1.short_name, wrapper: { class: 'mr-1' }

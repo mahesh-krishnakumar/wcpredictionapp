@@ -10,7 +10,7 @@ handlePredictionSubmission = ->
     footerLeft.addClass('text-green')
     # update 'current prediction' in footer
     setTimeout ->
-      summaryText = event.detail[0].prediction.summary
+      summaryText = event.detail[0].summary
       newHTML = 'Current Prediction: <span class=\'text-blue\'>' + summaryText + '</span>'
       footerLeft.html(newHTML)
       footerLeft.removeClass('text-green')
@@ -21,7 +21,7 @@ handlePredictionSubmission = ->
     header.addClass('match-card__header--predicted')
 
     # modify form to be an update form
-    predictionId = event.detail[0].prediction.id
+    predictionId = event.detail[0].id
     form.attr('action', '/predictions/' + predictionId)
     $('<input>').attr({
       type: 'hidden',
@@ -30,10 +30,20 @@ handlePredictionSubmission = ->
     }).appendTo(form);
 
     # update 'total pending predictions' count
-    predictedCount = event.detail[0].matches_predicted.length
+    pendingCount = event.detail[0].total_pending
     totalCount = $('#total-predictions-count').data('matchCount')
-    pendingCount = totalCount - predictedCount
     $('#total-predictions-count').html(pendingCount + '/' + totalCount)
+
+    # update 'pending predictions' badge for the day
+    matchDate = form.data('matchDate')
+    badge = $('#pending-predictions-badge-' + matchDate)
+    completedCount = event.detail[0].completed_this_day
+    totalCount = badge.data('matchCount')
+    debugger
+    if completedCount == totalCount
+      badge.html('<i class=\'fa fa-check text-green\'></i>')
+    else
+      badge.html('<i class=\'fa fa-check-square-o text-yellow\'>&nbsp;' + completedCount + '/' + totalCount + '</i>')
 
 
   $('.js-new-prediction-form').on 'ajax:error', (event) ->

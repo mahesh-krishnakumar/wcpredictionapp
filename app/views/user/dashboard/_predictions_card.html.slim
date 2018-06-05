@@ -20,6 +20,11 @@
               .date-strip__item
                 .month.mt-1 #{date.strftime('%b')}
                 .day #{date.strftime('%d')}
+                .pending-predictions-badge id="pending-predictions-badge-#{date.strftime('%b%d')}" data-match-count=@presenter.match_count(date)
+                  - if @presenter.predictions_complete?(date)
+                    i.fa.fa-check.text-green
+                  - else
+                    i.fa.fa-check-square-o.text-yellow &nbsp;#{@presenter.predictions_completed_text(date)}
         .col-1.slick__next.my-auto
           i.fa.fa-chevron-right
 

@@ -17,7 +17,7 @@ module Users
     end
 
     def prediction(match)
-      @user.predictions.where(match: match).first
+      user_predictions.where(match: match).first
     end
 
     def predictions_result
@@ -71,7 +71,33 @@ module Users
     end
 
     def pending_predictions_count
-      unlocked_matches.count - @user.predictions.where(match: unlocked_matches).count
+      unlocked_matches.count - user_predictions.where(match: unlocked_matches).count
+    end
+
+    def predictions_completed_text(day)
+      "#{predictions_by_day(day).count}/#{matches_by_day(day).count}"
+    end
+
+    def match_count(day)
+      matches_by_day(day).count
+    end
+
+    def predictions_complete?(day)
+      match_count(day) == predictions_by_day(day).count
+    end
+
+    private
+
+    def user_predictions
+      @user_predictions ||= @user.predictions
+    end
+
+    def matches_by_day(day)
+      unlocked_matches_by_day[day]
+    end
+
+    def predictions_by_day(day)
+      user_predictions.where(match: matches_by_day(day))
     end
   end
 end

@@ -5,6 +5,8 @@
   .match-card-header__kick-off.d-flex
     - if match.ongoing? && !match.completed?
       .kick-off__live &#8226; LIVE
+    - elsif match.completed?
+      .match__score #{match.score_as_string}
     - else
       .kick-off__time #{match.kick_off.strftime('%H:%M')}
   = image_tag match.team_2.flag, class: 'match-card-header__flag match-card-header__right-flag'

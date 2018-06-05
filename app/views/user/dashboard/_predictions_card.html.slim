@@ -37,6 +37,6 @@
               = render 'user/dashboard_v2/match_card_header', match: match, prediction: prediction
               /.collapse id="match#{match.id}-details" data-parent="#matches-#{day.strftime('%b%d')}"
               - if match.locked?
-                = render 'user/dashboard_v2/predictions_list', match: match, prediction: prediction
+                = render 'user/dashboard_v2/predictions_table', match: match, prediction: prediction
               - else
                 = render 'user/dashboard_v2/prediction_form', match: match, prediction: prediction

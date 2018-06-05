@@ -1,37 +1,23 @@
 #prediction-header
   - if match.locked? && !match.completed?
-    .prediction-list__header.d-flex
-      - match_status_text = match.ongoing? ? 'Match Ongoing' : 'Match Locked'
-      - match_status_icon = match.ongoing? ? 'fa fa-circle match-status-icon__ongoing' : 'fa fa-lock'
-      .d-none.d-md-inline.mr-auto class="js-prediction-form-footer__left--#{match.id}"
-        i class= "#{match_status_icon}" &nbsp;
-        | #{match_status_text}
-      .ml-auto
-        span.d-none.d-md-inline
-          - current_prediction = prediction.persisted? ? prediction.summary_text : ''
-          - if prediction.persisted?
-            | Your Prediction:&nbsp;
-          - else
-            i.fa.fa-exclamation-triangle &nbsp;
-            | You missed predicting!
-        span.text-blue #{current_prediction}
+    .row
+      .col-md-6
+        .text-blue This match has started!
+        div Good Luck!
+      .col-md-6
+        div Your prediction was:
+        div Argentina, (3-2), ET
     #expand-prediction-list.text-blue.prediction-list__toggle-button data-toggle="collapse" href="#prediction-table-#{match.id}" role="button" aria-expanded="false" aria-controls="prediction-table-#{match.id}"
       i.fa.fa-angle-double-down
-      | &nbsp; View Predictions
+      | &nbsp; View all Predictions
   - if match.completed?
-    .prediction-list__header.d-flex
-      .d-none.d-md-inline.mr-auto class="js-prediction-form-footer__left--#{match.id}"
-        | Match Result: &nbsp;
-        span.text-blue #{match.summary_text}
-      .ml-auto
-        span.d-none.d-md-inline
-          - current_prediction = prediction.persisted? ? prediction.summary_text : ''
-          - if prediction.persisted?
-            | Your Prediction:&nbsp;
-          - else
-            i.fa.fa-exclamation-triangle &nbsp;
-            | You missed predicting!
-        span.text-blue #{current_prediction}
+    .row
+      .col-md-6
+        .text-blue Argentina won!
+        div 2-1, Extra Time
+      .col-md-6
+        div Your prediction was:
+        div Argentina, (3-2), ET
     #expand-result-list.text-blue.prediction-list__toggle-button data-toggle="collapse" href="#prediction-table-#{match.id}" role="button" aria-expanded="false" aria-controls="prediction-table-#{match.id}"
       i.fa.fa-angle-double-down
       | &nbsp; View Results
@@ -66,7 +52,7 @@
                 tr
                   th Player
                   th Prediction
-                  th Result
+                  th Winner
                   th Score
                   - if match.knock_out?
                     th Decider

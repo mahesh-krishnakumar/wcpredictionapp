@@ -56,7 +56,7 @@ module Users
     end
 
     def match_dates
-      Match.unlocked.pluck(:kick_off).map(&:to_date)
+      Match.unlocked.pluck(:kick_off).map(&:to_date).sort!
     end
 
     def unlocked_matches

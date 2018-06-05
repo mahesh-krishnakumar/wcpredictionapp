@@ -14,7 +14,7 @@
             - decider_wrapper_class += ' d-none'
           - else
             - winner_wrapper_class += ' d-none'
-        = f.select :decider, options_for_select(Match.valid_decider_types, prediction.decider), { prepend: 'Decider', hide_label: true }, wrapper: { class: decider_wrapper_class }
+        = f.select :decider, options_for_select(Match.valid_decider_types - [Match::DECIDER_TYPE_PENALTY], prediction.decider), { prepend: 'Decider', hide_label: true }, wrapper: { class: decider_wrapper_class }
         = f.select :winner_id, options_for_select([[match.team_1.short_name, match.team_1_id], [match.team_2.short_name, match.team_2_id]]), { prepend: 'Winner (PEN)', hide_label: true }, wrapper: { class: winner_wrapper_class }
       - submit_text = prediction.persisted? ? 'Update' : 'Submit'
       = f.submit submit_text, class: 'prediction-form__submit-btn'

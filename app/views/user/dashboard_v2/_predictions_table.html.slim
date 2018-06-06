@@ -59,29 +59,49 @@
               table.table.table-striped.prediction-table
                 thead.text-center
                   tr
-                    th Player
-                    th Prediction
-                    th Winner
-                    th Score
+                    th.d-md-none.align-text-top Prediction
+                    th.d-none.d-md-table-cell Player
+                    th.d-none.d-md-table-cell Prediction
+                    th.d-none.d-md-table-cell Winner
+                    th.d-none.d-md-table-cell Score
                     - if match.knock_out?
-                      th Decider
-                    th Points
+                      th.d-none.d-md-table-cell Decider
+                    th.d-md-none
+                      | Results
+                      span.text-gray *
+                    th.align-text-top Points
+                  tr.d-md-none
+                    - result_header_subtext = match.knock_out? ? '* Winner|Score|Decider' : '* Winner|Score'
+                    td.text-gray-extra-small.prediction-table__help-text #{result_header_subtext}
+
                 tbody.text-center
                   - results[match.id].each do |result|
                     - user = User.find(result[:user_id])
+                    - user_prediction = Prediction.where(user_id: result[:user_id], match_id: match.id).first
+                    - prediction_text = user_prediction.present? ? user_prediction.short_text : 'N/A'
+                    - icon_for_result = result[:match_result] ? right_prediction_icon : wrong_prediction_icon
+                    - icon_for_score = result[:score] ? right_prediction_icon : wrong_prediction_icon
+                    - icon_for_decider = result[:decider] ? right_prediction_icon : wrong_prediction_icon
                     tr class="#{user == current_user ? 'current-user-row' : ''}"
-                      td #{user.nick_name}
+                      td.d-md-none
+                        | #{user.nick_name}
+                        .text-gray-small #{prediction_text}
+                      td.d-none.d-md-table-cell #{user.nick_name}
                       - user_prediction = Prediction.where(user_id: result[:user_id], match_id: match.id).first
                       - prediction_text = user_prediction.present? ? user_prediction.short_text : 'N/A'
-                      td #{prediction_text}
-                      - icon_for_result = result[:match_result] ? right_prediction_icon : wrong_prediction_icon
-                      td
+                      td.d-none.d-md-table-cell #{prediction_text}
+                      td.d-none.d-md-table-cell
                         i.fa class='#{icon_for_result}'
-                      - icon_for_score = result[:score] ? right_prediction_icon : wrong_prediction_icon
-                      td
+
+                      td.d-none.d-md-table-cell
                         i.fa class='#{icon_for_score}'
                       - if match.knock_out?
-                        - icon_for_decider = result[:decider] ? right_prediction_icon : wrong_prediction_icon
-                        td
+                        td.d-none.d-md-table-cell
                           i.fa class='#{icon_for_decider}'
+                      td.d-md-none
+                        span
+                          i.fa.prediction-table__result-icon class='#{icon_for_result}'
+                          i.fa.prediction-table__result-icon class='#{icon_for_score}'
+                          - if match.knock_out?
+                            i.fa.prediction-table__result-icon class='#{icon_for_decider}'
                       td class="#{result[:match_share].negative? ? 'red-text' : 'green-text'}" #{result[:match_share].positive? ? '+' : ''}#{'%g' % result[:match_share].round(1)}

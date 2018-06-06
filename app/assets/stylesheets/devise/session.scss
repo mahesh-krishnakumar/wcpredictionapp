@@ -13,20 +13,8 @@
   }
 }
 
-.login-form__text-field {
-  width: 300px;
-  margin-bottom: 20px;
-  height: 45px;
-}
-
-.login-form__remember-me-label {
-  margin-left: 5px;
-  margin-bottom: 0;
-  color: white;
-}
-
-.login-form__login-button {
-  margin-top: 20px;
+.login-form__input-group {
+  min-width: 300px;
 }
 
 .login-form__error-box {

@@ -185,3 +185,17 @@
   font-size: small;
   cursor: pointer;
 }
+
+.prediction-table__pill-title  {
+  color: #015386;
+}
+
+.prediction-table__pill-title.active  {
+  color: white;
+  background-color: #015386 !important;
+}
+
+.prediction-table__pills {
+  padding-top: 10px;
+}
+

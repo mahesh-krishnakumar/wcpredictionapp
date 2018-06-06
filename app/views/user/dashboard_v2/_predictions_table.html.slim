@@ -25,6 +25,10 @@
 
   .collapse.js-prediction-table__collapse id="prediction-table-#{match.id}" data-parent="#matches-#{match.kick_off.strftime('%b%d')}" data-match-id=match.id
     - if match.locked? && !match.completed?
+      ul.nav.nav-pills.justify-content-center.match-list__tabs.prediction-table__pills role='tablist' id='predictionTabs'
+        - @presenter.groups.each_with_index do |group, index|
+          li.nav-item
+            a.nav-link.prediction-table__pill-title id="group#{group.id}-tab" data-toggle="tab" href="#group#{group.id}match#{match.id}" role="tab" class=(index == 0 ? 'active' : '') #{group.name}
       .tab-content id='predictionTabsContent'
         - @presenter.predictions_list.each_with_index do |(group_id, predictions), index|
           .tab-pane.fade id="group#{group_id}match#{match.id}" role="tabpanel" class=(index == 0 ? 'show active' : '')
@@ -44,6 +48,10 @@
     - if match.completed?
       - right_prediction_icon = 'fa-check match-result__correct-prediction'
       - wrong_prediction_icon = 'fa-times match-result__wrong-prediction'
+      ul.nav.nav-pills.justify-content-center.match-list__tabs.prediction-table__pills role='tablist' id='resultTabs'
+        - @presenter.groups.each_with_index do |group, index|
+          li.nav-item
+            a.nav-link.prediction-table__pill-title id="group#{group.id}-tab" data-toggle="tab" href="#group#{group.id}match#{match.id}" role="tab" class=(index == 0 ? 'active' : '') #{group.name}
       .tab-content id='resultTabsContent'
         - @presenter.predictions_result.each_with_index do |(group_id, results), index|
           .tab-pane.fade id="group#{group_id}match#{match.id}" role="tabpanel" class=(index == 0 ? 'show active' : '')

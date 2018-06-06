@@ -68,7 +68,12 @@ module Users
     end
 
     def unlocked_matches_by_day
-      @unlocked_matches_by_day ||= Match.unlocked.group_by_day { |m| m.kick_off }
+      @unlocked_matches_by_day ||= begin
+        matches = Match.unlocked.group_by_day { |m| m.kick_off }
+        matches.each_with_object({}) do |(day, matches), hash|
+          hash[day] = matches.sort_by(&:kick_off)
+        end
+      end
     end
 
     def pending_predictions_count

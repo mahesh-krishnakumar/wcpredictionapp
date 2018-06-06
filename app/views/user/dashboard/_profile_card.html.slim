@@ -2,14 +2,24 @@
   .card-body
     .row.profile-card__info-row
       .d-none.d-lg-flex.col-lg-3.profile-card__flag-container.px-0
+        .profile-card__flag-header Your Team
         - if current_user.team.present?
           = image_tag current_user.team.flag, class: 'profile-card__flag'
+          .profile-card__flag-footer
+            = link_to 'Change', edit_user_registration_path
+        - else
+          = image_tag 'unknown_flag.png', class: 'profile-card__flag'
+          .profile-card__flag-footer
+            = link_to 'Add', edit_user_registration_path
       .col-lg-9.profile-card__info-container
         h5 Welcome, #{current_user.name}.
-        - if current_user.team.present?
-          .d-block.d-lg-none
-            | Your team: #{current_user.team.short_name}
+        .d-block.d-lg-none
+          | Your team:&nbsp;
+          - if current_user.team.present?
             = image_tag current_user.team.flag, class: 'profile-card__flag-icon'
+            = link_to 'Change', edit_user_registration_path, class: 'profile-card__link'
+          - else
+            = link_to 'Add', edit_user_registration_path, class: 'profile-card__link'
         .profile-card__rankings-header Your current rankings:
         .profile-card__rankings.d-flex
           - @presenter.groups.each do |group|

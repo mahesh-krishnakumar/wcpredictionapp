@@ -1,7 +1,10 @@
 .container.d-flex.update-form__container
   .card.update-form__card#update-form__card
-    .card-header.update-form__header
-      | Edit Your Profile
+    .card-header.update-form__header.d-flex
+      .mr-auto Edit Your Profile
+      .ml-auto
+        = link_to root_path do
+          i.fa.fa-home.white-text
     .card-body
       = bootstrap_form_for(resource, as: resource_name, url: user_registration_path, html: { method: :patch }) do |f|
         .card.mb-3.update-form__sub-card
@@ -12,7 +15,7 @@
           .card-body.collapse.show#basic-info-fields data-parent="#update-form__card"
             = f.text_field :name
             = f.text_field :nick_name
-            = f.select :team_id, Team.all.map { |team| [team.full_name, team.id] }
+            = f.select :team_id, Team.all.map { |team| [team.full_name, team.id] }, include_blank: true
         .card.mb-3.update-form__sub-card
           .card-header.d-flex.bg-warning.text-white.update-form__sub-header data-toggle="collapse" data-target="#change-password-fields"
             .my-auto.mr-1

@@ -240,11 +240,24 @@
 
 .profile-card__flag-container {
   border-right: 1px solid lightgrey;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-card__flag-header {
+  color: grey;
+  font-size: small;
 }
 
 .profile-card__flag {
   width: 120px;
-  margin: auto;
+}
+
+.profile-card__flag-footer>a {
+  color: #015386;
+  font-size: x-small;
+  text-decoration: underline;
 }
 
 .profile-card__info-container {
@@ -252,9 +265,17 @@
   color: darkgrey;
 }
 
+.profile-card__link {
+  color: #015386;
+  font-size: small;
+  text-decoration: underline;
+  text-underline: #015386;
+}
+
 .profile-card__flag-icon {
   width: 15px;
   margin-left: 5px;
+  margin-right: 5px;
 }
 
 .profile-card__rankings-header, .profile-card__rankings {

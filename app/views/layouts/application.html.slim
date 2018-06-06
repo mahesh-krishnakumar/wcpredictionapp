@@ -18,19 +18,21 @@ html lang='en'
             span.navbar-toggler-icon
           #navLinks.collapse.navbar-collapse
             ul.navbar-nav.ml-auto
-              li.nav-item.active.navbar-nav__nav-item
-                a.nav-link.white-text href=root_path Dashboard
-              li.nav-item.navbar-nav__nav-item
-                a.nav-link.white-text href=leaderboard_path Leaderboard
+              - if current_user
+                li.nav-item.active.navbar-nav__nav-item
+                  a.nav-link.white-text href=root_path Dashboard
+                li.nav-item.navbar-nav__nav-item
+                  a.nav-link.white-text href=leaderboard_path Leaderboard
               li.nav-item.navbar-nav__nav-item
                 a.nav-link.white-text href=rules_path Rules
-              li.nav-item.navbar-nav__nav-item.d-lg-none
-                = link_to('Edit Profile', edit_user_registration_path, class: 'nav-link white-text')
-              li.nav-item.navbar-nav__nav-item.d-lg-none
-                = link_to('Logout', destroy_user_session_path, method: :delete, class: 'nav-link white-text')
-              li.nav-item.dropdown.d-none.d-lg-block
-                a.nav-link.dropdown-toggle.white-text href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" #{current_user.nick_name}
-                .dropdown-menu.navbar__dropdown-menu.dropdown-menu-right aria-labelledby="navbarDropdown"
-                  = link_to('Edit Profile', edit_user_registration_path, class: 'nav-item white-text dropdown-item')
-                  = link_to('Logout', destroy_user_session_path, method: :delete, class: 'nav-item white-text dropdown-item')
+              - if current_user
+                li.nav-item.navbar-nav__nav-item.d-lg-none
+                  = link_to('Edit Profile', edit_user_registration_path, class: 'nav-link white-text')
+                li.nav-item.navbar-nav__nav-item.d-lg-none
+                  = link_to('Logout', destroy_user_session_path, method: :delete, class: 'nav-link white-text')
+                li.nav-item.dropdown.d-none.d-lg-block
+                  a.nav-link.dropdown-toggle.white-text href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" #{current_user.nick_name}
+                  .dropdown-menu.navbar__dropdown-menu.dropdown-menu-right aria-labelledby="navbarDropdown"
+                    = link_to('Edit Profile', edit_user_registration_path, class: 'nav-item white-text dropdown-item')
+                    = link_to('Logout', destroy_user_session_path, method: :delete, class: 'nav-item white-text dropdown-item')
     = yield

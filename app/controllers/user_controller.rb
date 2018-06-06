@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :rules
 
   def dashboard
     @presenter = Users::DashboardPresenter.new(current_user)

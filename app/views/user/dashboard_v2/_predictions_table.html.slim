@@ -18,12 +18,15 @@
       - else
         .predictions-table-header__sub-text You missed prediction.
   .row.d-flex.mx-0.prediction-table__toggle-bar.justify-content-center
+
     .prediction-table__toggle-btn id="prediction-table__toggle-btn-#{match.id}" data-toggle="collapse" href="#prediction-table-#{match.id}"
+      - prediction_table_toggle_button_text = match.completed? ? 'View Results' : 'View Predictions'
       i.fa.fa-angle-double-down
-      | &nbsp;View Predictions&nbsp;
+      | &nbsp;#{prediction_table_toggle_button_text}&nbsp;
       i.fa.fa-angle-double-down
 
-  .collapse.js-prediction-table__collapse id="prediction-table-#{match.id}" data-parent="#matches-#{match.kick_off.strftime('%b%d')}" data-match-id=match.id
+  - match_completion_status = match.completed?
+  .collapse.js-prediction-table__collapse id="prediction-table-#{match.id}" data-parent="#matches-#{match.kick_off.strftime('%b%d')}" data-match-id=match.id data-match-complete="#{match_completion_status}"
     - if match.locked? && !match.completed?
       ul.nav.nav-pills.justify-content-center.match-list__tabs.prediction-table__pills role='tablist' id='predictionTabs'
         - @presenter.groups.each_with_index do |group, index|

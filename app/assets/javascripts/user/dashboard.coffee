@@ -79,12 +79,20 @@ handlePredictionFormChanges = ->
 handlePredictionTableCollapse = ->
   $('.js-prediction-table__collapse').on 'show.bs.collapse', (event) ->
     matchId = $(event.target).data('matchId')
+    matchStatusComplete = $(event.target).data('matchComplete')
     toggleBar = $('#prediction-table__toggle-btn-' + matchId)
-    toggleBar.html('<i class=\'fa fa-angle-double-up\'></i>&nbsp;Hide Predictions&nbsp;<i class=\'fa fa-angle-double-up\'></i>')
+    if matchStatusComplete
+      toggleBar.html('<i class=\'fa fa-angle-double-up\'></i>&nbsp;Hide Results&nbsp;<i class=\'fa fa-angle-double-up\'></i>')
+    else
+      toggleBar.html('<i class=\'fa fa-angle-double-up\'></i>&nbsp;Hide Predictions&nbsp;<i class=\'fa fa-angle-double-up\'></i>')
   $('.js-prediction-table__collapse').on 'hide.bs.collapse', (event) ->
     matchId = $(event.target).data('matchId')
+    matchStatusComplete = $(event.target).data('matchComplete')
     toggleBar = $('#prediction-table__toggle-btn-' + matchId)
-    toggleBar.html('<i class=\'fa fa-angle-double-down\'></i>&nbsp;View Predictions&nbsp;<i class=\'fa fa-angle-double-down\'></i>')
+    if matchStatusComplete
+      toggleBar.html('<i class=\'fa fa-angle-double-down\'></i>&nbsp;View Results&nbsp;<i class=\'fa fa-angle-double-down\'></i>')
+    else
+      toggleBar.html('<i class=\'fa fa-angle-double-down\'></i>&nbsp;View Predictions&nbsp;<i class=\'fa fa-angle-double-down\'></i>')
 
 initializeSlick = ->
   initialSlide = parseInt($('.prediction-card__date-strip').data('initialSlide'))

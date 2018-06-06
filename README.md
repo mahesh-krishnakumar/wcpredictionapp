@@ -1,6 +1,6 @@
 # World-Cup Prediction Game 
 ### A simple Rails (5.2) app to compete with friends in predicting match results for the world-cup (Russia 2018). 
-### [View Site](https://http://wcprediction.herokuapp.com/)
+### [View Site](https://wcprediction.herokuapp.com/)
 
 Features include:
 * Playing in multiple groups/leagues with leaderboard for each.
@@ -12,8 +12,8 @@ Features include:
 Tech:
 * Rails 5.2
 * Bootstrap 4
-* Slick Carousel
+* Slick Carousel.
 * ActiveAdmin - admin backend.
-* Devise - authentication
-* Slim - HTML template engine
-* Google Cloud Storage - activestorage
+* Devise - authentication.
+* Slim - HTML template engine.
+* Google Cloud Storage - ActiveStorage service.

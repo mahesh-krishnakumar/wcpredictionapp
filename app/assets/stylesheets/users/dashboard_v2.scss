@@ -109,7 +109,6 @@
 //prediction form classes
 
 .prediction-form {
-  margin-bottom: 10px;
   background-color: #DDDDDD;
   padding: 0.25rem 0.5rem;
 }
@@ -117,11 +116,34 @@
 .prediction-form__form-row {
   width: 100%;
   margin: 0.75rem 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+    justify-content: left;
+  }
+}
+
+.prediction-form__goal-fields {
+  display: flex;
+  justify-content: center;
+}
+
+.prediction-form__form-group {
+  margin-left: 0.25rem;
+  &:first-child {
+    margin-left: 0;
+  }
 }
 
 .prediction-form__submit-btn {
   background-color: #015386;
   color: white;
+  max-width: 40%;
+  @include media-breakpoint-up(md) {
+    margin-left: 0.25rem;
+  }
 }
 
 .prediction-form__footer {

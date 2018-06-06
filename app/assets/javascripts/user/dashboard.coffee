@@ -11,7 +11,7 @@ handlePredictionSubmission = ->
     # update 'current prediction' in footer
     setTimeout ->
       summaryText = event.detail[0].summary
-      newHTML = 'Current Prediction: <span class=\'text-blue\'>' + summaryText + '</span>'
+      newHTML = 'Current Prediction: <span class=\'text-blue d-block d-md-inline\'>' + summaryText + '</span>'
       footerLeft.html(newHTML)
       footerLeft.removeClass('text-green')
     , 2000
@@ -51,8 +51,11 @@ handlePredictionSubmission = ->
     # show error message on footer
     footerLeft = $('.js-prediction-form-footer__left--' + matchId)
     currentText = footerLeft.html()
-    footerLeft.html('Something went wrong. Try again!')
+    footerLeft.html('Something went wrong. Reloading page!')
     footerLeft.addClass('text-red')
+    setTimeout ->
+      location.reload(true);
+    , 1000
 
   $('.js-new-prediction-form').on 'ajax:send', (event) ->
     form = $(event.target)

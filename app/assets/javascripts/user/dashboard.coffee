@@ -87,23 +87,15 @@ handlePredictionTableCollapse = ->
     toggleBar.html('<i class=\'fa fa-angle-double-down\'></i>&nbsp;View Predictions&nbsp;<i class=\'fa fa-angle-double-down\'></i>')
 
 initializeSlick = ->
-  initialSlide = $('.prediction-card__date-strip').data('initialSlide')
+  initialSlide = parseInt($('.prediction-card__date-strip').data('initialSlide'))
   $('.prediction-card__date-strip').slick({
-    slidesToShow: 5,
+    slidesToShow: 3,
     initialSlide: initialSlide,
     infinite: false,
     asNavFor: '.prediction-card__match-strip',
     focusOnSelect: true,
     nextArrow: '.slick__next',
-    prevArrow: '.slick__prev',
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3
-        }
-      }
-    ]
+    prevArrow: '.slick__prev'
   })
   $('.prediction-card__match-strip').slick({
     arrows: false,

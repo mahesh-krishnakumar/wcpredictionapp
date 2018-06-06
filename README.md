@@ -1,24 +1,19 @@
-# README
+# World-Cup Prediction Game 
+### A simple Rails (5.2) app to compete with friends in predicting match results for the world-cup (Russia 2018). 
+### [View Site](https://http://wcprediction.herokuapp.com/)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Features include:
+* Playing in multiple groups/leagues with leaderboard for each.
+* Predicting the winner, score & decider of each match.
+* Auto-locking matches before kick-off.
+* Displaying prediction result for all completed matches.
+* Etc ..
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Tech:
+* Rails 5.2
+* Bootstrap 4
+* Slick Carousel
+* ActiveAdmin - admin backend.
+* Devise - authentication
+* Slim - HTML template engine
+* Google Cloud Storage - activestorage

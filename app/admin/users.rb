@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-  permit_params :name, :nick_name, :team_id, group_ids: []
+  permit_params :email, :password, :password_confirmation, :name, :nick_name, :team_id, group_ids: []
 
   index do
     selectable_column
@@ -43,10 +43,15 @@ ActiveAdmin.register User do
 
   form do |f|
     f.inputs do
+      f.input :email
       f.input :name
       f.input :nick_name
       f.input :group_ids, as: :select, collection: Group.all, input_html: {:multiple => true}
       f.input :team
+      unless f.object.persisted?
+        f.input :password
+        f.input :password_confirmation
+      end
     end
     f.actions
   end

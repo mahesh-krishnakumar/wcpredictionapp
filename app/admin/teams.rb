@@ -9,7 +9,7 @@ ActiveAdmin.register Team do
       row :full_name
       row :short_name
       row :flag do |team|
-        team.flag.attached? ? image_tag(url_for(team.flag)) : 'N/A'
+        team.flag.attached? ? image_tag(url_for(team.flag)) : '-'
       end
     end
   end

@@ -18,7 +18,7 @@ module Matches
         prediction = Prediction.where(user: user, match: match).first
         predictions <<
           if prediction.blank?
-            { user_id: user.id, prediction: 'N/A' }
+            { user_id: user.id, prediction: '-' }
           else
             { user_id: user.id, prediction: prediction.short_text }
           end

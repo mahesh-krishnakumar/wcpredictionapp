@@ -1,1 +1,21 @@
-h1 Test
+.container.mt-3
+  .row
+    .offset-md-2.col-md-8
+      .content-box
+        h5.update-result-table__title Update Match Results
+        - @matches.each do |match|
+          - match_title = "#{match.team_1.full_name} vs #{match.team_2.full_name}, #{match.kick_off.strftime('%b %d, %H:%M')}"
+          .card.match-update-form
+            .card-header.font-weight-bold.mb-10.d-flex
+              .mr-auto #{match_title}
+              - if match.team_1_goals.present?
+                .ml-auto.text-green
+                  i.fa.fa-check
+            .card-body
+              = bootstrap_form_for(match) do |f|
+                = f.number_field :team_1_goals
+                = f.number_field :team_2_goals
+                - if match.knock_out?
+                  = f.select :decider,  Match.valid_decider_types
+                  = f.select :winner_id, [[match.team_1.full_name, match.team_1.id], [match.team_2.full_name, match.team_2.id]], include_blank: 'Not Applicable'
+                = f.submit

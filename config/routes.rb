@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root 'user#dashboard'
   get 'leaderboard', to: 'user#leaderboard', as: 'leaderboard'
   get 'rules', to: 'user#rules', as: 'rules'
+  get 'update_match_result', to: 'matches#update_result', as: 'update_match_result'
 
   devise_for :users, skip: :sessions, controllers: { registrations: 'registrations' }
   as :user do
@@ -14,4 +15,5 @@ Rails.application.routes.draw do
   end
 
   resources :predictions
+  resources :matches, only: [:edit, :update]
 end

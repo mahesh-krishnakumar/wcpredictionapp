@@ -60,7 +60,7 @@ class Match < ApplicationRecord
   end
 
   def equal_goals_only_for_shootout
-    return if Match::STAGE_GROUP || team_1_goals.blank?
+    return if stage == Match::STAGE_GROUP || team_1_goals.blank?
     return if team_1_goals != team_2_goals
     return if decider == DECIDER_TYPE_PENALTY
     errors.add(:team_1_goals, 'Draw score only if decider is penalty')

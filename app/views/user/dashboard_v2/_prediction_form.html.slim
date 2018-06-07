@@ -28,4 +28,4 @@
     .ml-auto
       i.fa.fa-clock-o &nbsp;
       span.d-none.d-md-inline Deadline:&nbsp;
-      span.text-blue #{(match.kick_off - 15.minutes).strftime('%b %d, %H:%M')}
+      span.text-blue #{local_time(match.kick_off - 15.minutes, '%b %d, %H:%M')}

@@ -16,6 +16,7 @@
 //= require jquery3
 //= require popper
 //= require bootstrap
+//= require local-time
 
 //= require jquery.slick
 

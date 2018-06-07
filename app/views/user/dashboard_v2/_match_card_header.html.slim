@@ -8,7 +8,7 @@
     - elsif match.completed?
       .match__score #{match.score_as_string}
     - else
-      .kick-off__time #{match.kick_off.strftime('%H:%M')}
+      .kick-off__time #{local_time(match.kick_off, '%H:%M')}
   = image_tag match.team_2.flag, class: 'match-card-header__flag match-card-header__right-flag'
   .d-none.my-auto.d-md-block.match-card-header__team-name.text-left #{match.team_2.full_name.capitalize}
   .d-md-none.my-auto.match-card-header__team-name.text-left #{match.team_2.short_name.upcase}

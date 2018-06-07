@@ -89,6 +89,9 @@ gem 'bootstrap_form',
   git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
   branch: 'master'
 
+# Rails engine for cache-friendly, client-side local time
+gem 'local_time'
+
 group :production do
   gem 'google-cloud-storage', '~> 1.8', require: false
 end

@@ -18,8 +18,8 @@
             - range = @presenter.match_dates
             - range.each do |date|
               .date-strip__item
-                .month.mt-1 #{date.strftime('%b')}
-                .day #{date.strftime('%d')}
+                .month.mt-1 #{local_time(date, '%b')}
+                .day #{local_time(date, '%d')}
                 .pending-predictions-badge id="pending-predictions-badge-#{date.strftime('%b%d')}" data-match-count=@presenter.match_count(date)
                   - if @presenter.predictions_complete?(date)
                     i.fa.fa-check.text-green

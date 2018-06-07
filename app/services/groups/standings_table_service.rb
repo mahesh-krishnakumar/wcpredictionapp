@@ -106,11 +106,11 @@ module Groups
 
     def pot_split
       {
-        group: { winner: 20, score: 10 },
-        pre_quarter: { winner: 10, score: 10, decider: 10 },
-        quarter: { winner: 10, score: 10, decider: 10 },
-        semi_final: { winner: 30, score: 10, decider: 10 },
-        final: { winner: 70, score: 10, decider: 20 }
+        group: { winner: 20, score: 20 },
+        pre_quarter: { winner: 20, score: 20, decider: 10 },
+        quarter: { winner: 20, score: 20, decider: 10 },
+        semi_final: { winner: 30, score: 20, decider: 10 },
+        final: { winner: 70, score: 20, decider: 10 }
       }.with_indifferent_access
     end
 

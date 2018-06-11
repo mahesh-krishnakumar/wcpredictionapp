@@ -14,6 +14,7 @@
             li Making no predictions for a match, will be treated as a wrong prediction.
             li A player gets to see others predictions in the same group, only after the lock time.
             li If predictions are wrong for all players in the group for a game/decider, there won't be any change in points.
+
           hr
           h6.pb-2 Group Stage
           ul
@@ -27,6 +28,20 @@
             li Points are awarded in three parts: correct winning side, score and the decider.
             li Decider and score will be checked for correctness only if the winning side is predicted right.
             li If the selected decider is penalty, you need to predict the draw score till the end of 120 mins.
+
+          hr
+            h6.pb-2 Point System
+            ul
+              li Every prediction 'costs' points. Once a match is complete, points from wrong predictions are split equally between the right predictions.
+              li
+                | The points are split as follows:
+                ul
+                  li Group stage: { winner: &plusmn20, score: &plusmn20 }
+                  li Pre-Quarters, Quarters: { winner: &plusmn20, score: &plusmn20, decider: &plusmn10 }
+                  li Semi-Finals: { winner: &plusmn30, score: &plusmn20, decider: &plusmn10 }
+                  li Final: { winner: &plusmn70, score: &plusmn20, decider: &plusmn10 }
+
+
           hr
     .col-md-2
 

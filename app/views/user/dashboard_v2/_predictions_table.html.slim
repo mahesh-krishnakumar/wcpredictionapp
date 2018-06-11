@@ -3,10 +3,10 @@
     - prediction = current_user.predictions.where(match: match).first
     .col-md-6.my-3.predictions-table-header__left-pane
       - if match.completed?
-        div Match Complete
+        div #{@presenter.match_status_text(match)}
         .predictions-table-header__sub-text Result: #{match.summary_text}
       - else
-        div Match Ongoing!
+        div #{@presenter.match_status_text(match)}
         - if prediction.present?
           .predictions-table-header__sub-text Good luck with your prediction
         - else

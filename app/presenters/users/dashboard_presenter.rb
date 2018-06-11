@@ -92,6 +92,18 @@ module Users
       match_count(day) == predictions_by_day(day).count
     end
 
+    def match_status_text(match)
+      if match.completed?
+        'Match Complete'
+      elsif match.kick_off > Time.now
+        'Match Starting'
+      elsif Time.now.between?(match.kick_off, match.kick_off + 2.hours)
+        'Match Ongoing'
+      else
+        'Awaiting Results'
+      end
+    end
+
     private
 
     def user_predictions

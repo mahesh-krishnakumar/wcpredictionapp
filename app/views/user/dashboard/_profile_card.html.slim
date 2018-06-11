@@ -37,3 +37,4 @@
             .rankings__rank #{global_rank}
             .rankings__point class="#{global_points.negative? ? 'red-text' : 'green-text'}"
               | (#{global_points})
+        = link_to 'View Leaderboard', leaderboard_path, class: 'profile-card__link'

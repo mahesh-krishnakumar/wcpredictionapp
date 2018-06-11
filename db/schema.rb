@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_01_160051) do
+ActiveRecord::Schema.define(version: 2018_06_11_125105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2018_06_01_160051) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name"
+    t.string "code"
   end
 
   create_table "groups_users", id: false, force: :cascade do |t|
@@ -89,8 +90,8 @@ ActiveRecord::Schema.define(version: 2018_06_01_160051) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stage"
-    t.bigint "winner_id"
     t.boolean "locked", default: true
+    t.bigint "winner_id"
     t.index ["winner_id"], name: "index_matches_on_winner_id"
   end
 

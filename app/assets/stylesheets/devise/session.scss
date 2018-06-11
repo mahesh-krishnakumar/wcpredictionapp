@@ -2,15 +2,19 @@
   height: 100vh;
 }
 
-.login-form {
+.login-form, .signup-form {
   background-color: rgba(52, 98, 183, 0.8);
   width: 350px;
-  height: 500px;
+  min-height: 500px;
   margin: auto;
   display: flex;
   form {
     margin: auto;
   }
+}
+
+.signup-form {
+  min-height: 650px;
 }
 
 .login-form__input-group {

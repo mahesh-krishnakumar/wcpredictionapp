@@ -20,7 +20,7 @@ module Matches
           if prediction.blank?
             { user_id: user.id, prediction: '-' }
           else
-            { user_id: user.id, prediction: prediction.short_text }
+            { user_id: user.id, prediction: prediction.summary_text }
           end
       end
     end

@@ -67,6 +67,6 @@ class Prediction < ApplicationRecord
   end
 
   def summary_text
-    winner.present? ? "#{winner.full_name} (#{short_text})" : "Draw (#{short_text})"
+    winner.present? ? "#{winner.short_name} (#{short_text})" : "Draw (#{short_text})"
   end
 end

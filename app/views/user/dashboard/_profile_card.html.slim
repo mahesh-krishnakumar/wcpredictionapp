@@ -23,14 +23,14 @@
         .profile-card__rankings-header Your current rankings:
         .profile-card__rankings.d-flex
           - @presenter.groups.each do |group|
-            .pr-3.mr-3.rankings__group-container
+            .pr-3.mr-3.rankings__group-container.d-flex.flex-column.justify-content-between
               - rank = @presenter.current_standing[group.id][:rank]
               - points = @presenter.current_standing[group.id][:points]
               .rankings__group-name #{group.name}
               .rankings__rank #{rank}
               .rankings__point class="#{points.negative? ? 'red-text' : 'green-text'}"
                 | (#{points})
-          .pr-3.mr-3.rankings__group-container
+          .pr-3.mr-3.rankings__group-container.d-flex.flex-column.justify-content-between
             - global_rank = @presenter.current_standing[:global][:rank]
             - global_points = @presenter.current_standing[:global][:points]
             .rankings__group-name Global

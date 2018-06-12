@@ -6,37 +6,20 @@
 @import 'slick';
 
 html {
-  height: 100%;
+  min-height: 100%;
+}
+
+.body {
+  background-color: #DDDDDD;
 }
 
 .body-with-bg {
-  min-height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #DDDDDD;
-  //background-image: asset-url('Russia_2018_BG.jpg');
+  background: asset-url('login_bg.jpg') no-repeat center center fixed;
   background-size: cover;
-  @include media-breakpoint-up(md) {
-    background-size: 100% 100%;
-  }
-}
-
-.body-with-bg--zabivaka {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-image: asset-url('login_bg.jpg');
-  min-width: 100%;
-  max-width: 100%;
 }
 
 .header-bg {
   background-color: #D30208;
-  //background-image: asset_url('navbar-bg-red.png');
-  background-size: cover;
-  @include media-breakpoint-up(md) {
-    background-size: 100%;
-  }
 }
 
 .navbar-logo {

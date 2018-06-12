@@ -1,11 +1,14 @@
 .login-form-container {
-  height: 100vh;
+  min-height: 100vh;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .login-form, .signup-form {
   background-color: rgba(52, 98, 183, 0.8);
-  width: 350px;
-  min-height: 500px;
+  border: 1px solid white;
+  width: 300px;
+  min-height: 350px;
   margin: auto;
   display: flex;
   form {
@@ -18,7 +21,7 @@
 }
 
 .login-form__input-group {
-  min-width: 300px;
+  min-width: 250px;
 }
 
 .login-form__error-box {

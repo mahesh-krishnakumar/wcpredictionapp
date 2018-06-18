@@ -1,5 +1,5 @@
 ActiveAdmin.register Group do
-  permit_params :name, :code
+  permit_params :name, :code, :created_at
 
   filter :name
 
@@ -7,6 +7,7 @@ ActiveAdmin.register Group do
     f.inputs do
       f.input :name
       f.input :code
+      f.input :created_at, as: :datetime_picker
     end
     f.actions
   end

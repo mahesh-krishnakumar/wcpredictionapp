@@ -4,7 +4,7 @@ module Groups
       @group = group
       @users = group.present? ? group.users : User.all
       @users_count = @users.count
-      @all_predictions = group.present? ? group.predictions : Prediction.all
+      @all_predictions = group.present? ? group.predictions.where('predictions.updated_at > ?', @group.created_at) : Prediction.all
     end
 
     def table

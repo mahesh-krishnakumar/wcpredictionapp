@@ -5,7 +5,7 @@ module Users
     end
 
     def groups
-      @groups ||= @user.groups
+      @groups ||= @user.groups.includes(:users)
     end
 
     def upcoming_matches
@@ -17,7 +17,7 @@ module Users
     end
 
     def prediction(match)
-      user_predictions.where(match: match).first
+      user_predictions.find { |p| p.match_id == match.id }
     end
 
     def predictions_result
@@ -41,7 +41,7 @@ module Users
     end
 
     def closing_soon_text
-      matches = Match.closing_soon
+      matches = Match.closing_soon.includes(:team_1, :team_2)
       return nil if matches.empty?
 
       list = matches.map do |match|
@@ -64,12 +64,12 @@ module Users
     end
 
     def unlocked_matches
-      @unlocked_matches ||= Match.unlocked
+      @unlocked_matches ||= Match.unlocked.to_a
     end
 
     def unlocked_matches_by_day
       @unlocked_matches_by_day ||= begin
-        matches = Match.unlocked.group_by_day { |m| m.kick_off }
+        matches = Match.unlocked.includes(team_1: [flag_attachment: :blob], team_2: [flag_attachment: :blob]).group_by_day { |m| m.kick_off }
         matches.each_with_object({}) do |(day, matches), hash|
           hash[day] = matches.sort_by(&:kick_off)
         end
@@ -77,7 +77,7 @@ module Users
     end
 
     def pending_predictions_count
-      unlocked_matches.count - user_predictions.where(match: unlocked_matches).count
+      unlocked_matches.length - user_predictions.select { |p| p.match_id.in?(unlocked_matches.map(&:id)) }.length
     end
 
     def predictions_completed_text(day)
@@ -104,10 +104,14 @@ module Users
       end
     end
 
+    def users
+      @users ||= groups.flat_map(&:users)
+    end
+
     private
 
     def user_predictions
-      @user_predictions ||= @user.predictions
+      @user_predictions ||= @user.predictions.includes(match: [:team_1, :team_2]).to_a
     end
 
     def matches_by_day(day)
@@ -115,7 +119,7 @@ module Users
     end
 
     def predictions_by_day(day)
-      user_predictions.where(match: matches_by_day(day))
+      user_predictions.select { |p| p.match_id.in?(matches_by_day(day).map(&:id)) }
     end
   end
 end

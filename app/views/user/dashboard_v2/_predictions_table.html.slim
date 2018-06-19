@@ -43,7 +43,7 @@
                     th Prediction
                 tbody.text-center
                   - predictions[match.id].each do |prediction|
-                    - user = User.find(prediction[:user_id])
+                    - user = @presenter.users.find { |user| user.id == prediction[:user_id] }
                     tr class="#{user == current_user ? 'current-user-row' : ''}"
                       td #{user.nick_name}
                       td #{prediction[:prediction]}

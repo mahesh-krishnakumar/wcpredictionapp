@@ -14,13 +14,13 @@ module Matches
     private
 
     def prediction_list(match)
-      @group.users.each_with_object([]) do |user, predictions|
-        prediction = Prediction.where(user: user, match: match).first
+      @group.users.pluck(:id).each_with_object([]) do |user_id, predictions|
+        prediction = Prediction.where(user_id: user_id, match: match).first
         predictions <<
           if prediction.blank?
-            { user_id: user.id, prediction: '-' }
+            { user_id: user_id, prediction: '-' }
           else
-            { user_id: user.id, prediction: prediction.summary_text }
+            { user_id: user_id, prediction: prediction.summary_text }
           end
       end
     end

@@ -15,9 +15,9 @@ module Matches
     private
 
     def result(match)
-      @group.users.each_with_object([]) do |user, results|
-        user_result = { user_id: user.id, match_result: false, score: false, decider: false }
-        prediction = Prediction.where(user: user, match: match).first
+      @group.users.pluck(:id).each_with_object([]) do |user_id, results|
+        user_result = { user_id: user_id, match_result: false, score: false, decider: false }
+        prediction = Prediction.where(user_id: user_id, match: match).first
         results <<
           if prediction.blank? || (match.winner != prediction.winner)
             user_result

@@ -2,39 +2,41 @@ module Groups
   class StandingsTableService
     def initialize(group = nil)
       @group = group
-      @users = group.present? ? group.users : User.all
-      @users_count = @users.count
-      @all_predictions = group.present? ? group.predictions.where(match: Match.where('kick_off > ?', @group.created_at)) : Prediction.all
+      @user_ids = @group.present? ? @group.users.pluck(:id) : User.all.pluck(:id)
+      @users_count = @user_ids.length
+      @all_predictions = group.present? ? group.predictions.includes(:match).where(match: Match.where('kick_off > ?', @group.created_at)) : Prediction.all.includes(:match)
     end
 
     def table
-      # Initialize an empty result
-      result = @users.each_with_object({}) do |user, resultx|
-        resultx[user.id] = 0
+      @table ||= begin
+        # Initialize an empty result
+        result = @user_ids.each_with_object({}) do |id, resultx|
+          resultx[id] = 0
+        end
+
+        # Populate points
+        Match.completed.includes(:team_1, :team_2).each do |match|
+          # skip if nobody is even got the winners right
+          next unless pot_share(match, :winner).present?
+
+          # Add the winner pot share
+          result = add_to_pot(result, match, :winner)
+          # Add the score pot share,
+          result = add_to_pot(result, match, :score)
+          # Add the decider pot share, except for group stage
+          result = add_to_pot(result, match, :decider) if match.knock_out?
+        end
+
+        # round all points to one decimal
+        result = result.map { |user_id, points| [user_id, points.round(1)] }
+
+        # sort by points
+        result.sort_by! { |e| -(e.second) }
+
+        # add ranks
+        sorted_points = result.map(&:second).sort.uniq.reverse
+        result.each { |e| e << sorted_points.index(e[1]) + 1 }
       end
-
-      # Populate points
-      Match.completed.each do |match|
-        # skip if nobody is even got the winners right
-        next unless pot_share(match, :winner).present?
-
-        # Add the winner pot share
-        result = add_to_pot(result, match, :winner)
-        # Add the score pot share,
-        result = add_to_pot(result, match, :score)
-        # Add the decider pot share, except for group stage
-        result = add_to_pot(result, match, :decider) if match.knock_out?
-      end
-
-      # round all points to one decimal
-      result = result.map { |user_id, points| [user_id, points.round(1)] }
-
-      # sort by points
-      result.sort_by! { |e| -(e.second) }
-
-      # add ranks
-      sorted_points = result.map(&:second).sort.uniq.reverse
-      result.each { |e| e << sorted_points.index(e[1]) + 1 }
     end
 
     def match_share(match, user_id)
@@ -73,7 +75,7 @@ module Groups
 
       total_pot = @users_count * pot_split[match.stage][metric]
       winners_share = total_pot.to_f / correct_predictors(match, metric).count
-      @users.pluck(:id).each_with_object({}) do |user_id, result|
+      @user_ids.each_with_object({}) do |user_id, result|
         result[user_id] = -pot_split[match.stage][metric]
         result[user_id] += winners_share if user_id.in?(correct_predictors(match, metric))
       end
@@ -81,7 +83,7 @@ module Groups
 
     def predictions(match)
       @predictions ||= Hash.new do |hash, key|
-        hash[key] = @all_predictions.where(match: key)
+        hash[key] = @all_predictions.where(match: key).to_a
       end
 
       @predictions[match]
@@ -96,7 +98,7 @@ module Groups
           correct_winner_predictors
         else
           true_result = matchx.send(metric_method[metricx])
-          predictions(matchx).where(user: correct_winner_predictors)
+          predictions(matchx).select{ |p| p.user_id.in?(correct_winner_predictors) }
             .select { |p| p.send(metric_method[metricx]) == true_result }.pluck(:user_id)
         end
       end

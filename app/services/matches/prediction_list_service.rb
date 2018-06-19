@@ -3,7 +3,7 @@ module Matches
     def initialize(group)
       @group = group
       @user_ids = @group.users.pluck(:id)
-      @group_predictions = Prediction.includes(:match).where(user_id: @user_ids).to_a
+      @group_predictions = Prediction.where(user_id: @user_ids).to_a
       @locked_match_ids = Match.locked_for_prediction.pluck(:id)
     end
 

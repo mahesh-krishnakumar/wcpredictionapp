@@ -2,7 +2,7 @@ module Matches
   class PredictionResultService
     def initialize(group)
       @group = group
-      @completed_matches = Match.completed
+      @completed_matches = Match.completed.includes(:team_1, :team_2)
     end
 
     def results
@@ -17,7 +17,7 @@ module Matches
     def result(match)
       @group.users.pluck(:id).each_with_object([]) do |user_id, results|
         user_result = { user_id: user_id, match_result: false, score: false, decider: false }
-        prediction = Prediction.where(user_id: user_id, match: match).first
+        prediction = all_predictions.find { |p| (p.match_id == match.id) && (p.user_id == user_id) }
         results <<
           if prediction.blank? || (match.winner != prediction.winner)
             user_result
@@ -51,11 +51,15 @@ module Matches
     def add_match_share(results)
       @standings_table_service = Groups::StandingsTableService.new(@group)
       results.each_with_object({}) do |(match_id, result), results_with_share|
-        match = Match.find(match_id)
+        match = @completed_matches.find { |m| m.id == match_id }
         results_with_share[match_id] = result.each do |user_result|
           user_result[:match_share] = @standings_table_service.match_share(match, user_result[:user_id])
         end
       end
+    end
+
+    def all_predictions
+      @all_predictions ||= Prediction.where(user: @group.users).includes(match: [:team_1, :team_2]).to_a
     end
   end
 end

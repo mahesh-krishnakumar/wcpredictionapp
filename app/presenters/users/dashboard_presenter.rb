@@ -16,6 +16,10 @@ module Users
       @completed_matches ||= Match.completed.group_by_day { |m| m.kick_off }
     end
 
+    def user_prediction(match_id, user_id)
+      all_predictions.find { |p| (p.match_id == match_id) && (p.user_id == user_id) }
+    end
+
     def prediction(match)
       user_predictions.find { |p| p.match_id == match.id }
     end
@@ -109,6 +113,10 @@ module Users
     end
 
     private
+
+    def all_predictions
+      @all_predictions ||= Prediction.where(user: users).includes(match: [:team_1, :team_2]).to_a
+    end
 
     def user_predictions
       @user_predictions ||= @user.predictions.includes(match: [:team_1, :team_2]).to_a

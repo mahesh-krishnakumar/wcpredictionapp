@@ -4,7 +4,7 @@ module Groups
       @group = group
       @user_ids = @group.present? ? @group.users.pluck(:id) : User.all.pluck(:id)
       @users_count = @user_ids.length
-      @all_predictions = group.present? ? group.predictions.includes(:match).where(match: Match.where('kick_off > ?', @group.created_at)) : Prediction.all.includes(:match)
+      @all_predictions = group.present? ? group.predictions.includes(match: [:team_1, :team_2]).where(match: Match.where('kick_off > ?', @group.created_at)).to_a : Prediction.all.includes(match: [:team_1, :team_2]).to_a
     end
 
     def table
@@ -83,7 +83,7 @@ module Groups
 
     def predictions(match)
       @predictions ||= Hash.new do |hash, key|
-        hash[key] = @all_predictions.where(match: key).to_a
+        hash[key] = @all_predictions.select { |p| p.match_id == key.id }
       end
 
       @predictions[match]
@@ -92,7 +92,7 @@ module Groups
     def correct_predictors(match, metric)
       @correct_predictors ||= Hash.new do |hash, key|
         matchx = key[0]; metricx = key[1]
-        true_winner = matchx.winner
+        true_winner = winner(matchx)
         correct_winner_predictors = predictions(matchx).select { |p| p.winner == true_winner }.pluck(:user_id)
         hash[key] = if metricx == :winner
           correct_winner_predictors
@@ -104,6 +104,13 @@ module Groups
       end
 
       @correct_predictors[[match, metric]]
+    end
+
+    def winner(match)
+      @winner ||= Hash.new do |hash, key|
+        hash[key] = key.winner
+      end
+      @winner[match]
     end
 
     def pot_split

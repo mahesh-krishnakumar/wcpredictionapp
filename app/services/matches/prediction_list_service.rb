@@ -2,20 +2,22 @@ module Matches
   class PredictionListService
     def initialize(group)
       @group = group
-      @locked_matches = Match.locked_for_prediction
+      @user_ids = @group.users.pluck(:id)
+      @group_predictions = Prediction.includes(:match).where(user_id: @user_ids).to_a
+      @locked_match_ids = Match.locked_for_prediction.pluck(:id)
     end
 
     def list
-      @locked_matches.each_with_object({}) do |match, predictions|
-        predictions[match.id] = prediction_list(match)
+      @locked_match_ids.each_with_object({}) do |match_id, predictions|
+        predictions[match_id] = prediction_list(match_id)
       end
     end
 
     private
 
-    def prediction_list(match)
-      @group.users.pluck(:id).each_with_object([]) do |user_id, predictions|
-        prediction = Prediction.where(user_id: user_id, match: match).first
+    def prediction_list(match_id)
+      @user_ids.each_with_object([]) do |user_id, predictions|
+        prediction = @group_predictions.find { |p| (p.user_id == user_id) && (p.match_id == match_id) }
         predictions <<
           if prediction.blank?
             { user_id: user_id, prediction: '-' }

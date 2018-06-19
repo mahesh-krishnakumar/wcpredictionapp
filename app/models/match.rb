@@ -109,10 +109,6 @@ class Match < ApplicationRecord
     team_1_goals.present?
   end
 
-  def short_text
-    knock_out? ? "#{team_1_goals}-#{team_2_goals}(#{decider_short_text(decider)})" : "#{team_1_goals}-#{team_2_goals}"
-  end
-
   def decider_short_text(decider)
     {
       Match::DECIDER_TYPE_PENALTY => 'PS',
@@ -121,7 +117,12 @@ class Match < ApplicationRecord
     }[decider]
   end
 
-  def summary_text
-    winner.present? ? "#{winner.full_name} (#{short_text})" : "Draw (#{short_text})"
+  before_save :set_short_and_summary_texts
+
+  def set_short_and_summary_texts
+    return unless team_1_goals.present?
+
+    self.short_text = knock_out? ? "#{team_1_goals}-#{team_2_goals}, #{decider_short_text(decider)}" : "#{team_1_goals}-#{team_2_goals}"
+    self.summary_text = winner.present? ? "#{winner.short_name} (#{short_text})" : "Draw (#{short_text})"
   end
 end

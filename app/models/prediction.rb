@@ -50,10 +50,6 @@ class Prediction < ApplicationRecord
     end
   end
 
-  def short_text
-    match.knock_out? ? "#{team_1_goals}-#{team_2_goals}, #{decider_short_text(decider)}" : "#{team_1_goals}-#{team_2_goals}"
-  end
-
   def decider_short_text(decider)
     {
       Match::DECIDER_TYPE_PENALTY => 'PS',
@@ -66,7 +62,10 @@ class Prediction < ApplicationRecord
     "#{team_1_goals}-#{team_2_goals}"
   end
 
-  def summary_text
-    winner.present? ? "#{winner.short_name} (#{short_text})" : "Draw (#{short_text})"
+  before_save :set_short_and_summary_texts
+
+  def set_short_and_summary_texts
+    self.short_text = match.knock_out? ? "#{team_1_goals}-#{team_2_goals}, #{decider_short_text(decider)}" : "#{team_1_goals}-#{team_2_goals}"
+    self.summary_text = winner.present? ? "#{winner.short_name} (#{short_text})" : "Draw (#{short_text})"
   end
 end

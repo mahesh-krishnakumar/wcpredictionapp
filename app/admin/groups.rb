@@ -7,7 +7,6 @@ ActiveAdmin.register Group do
     f.inputs do
       f.input :name
       f.input :code
-      f.input :created_at, as: :datetime_picker
     end
     f.actions
   end

@@ -81,10 +81,13 @@ handlePredictionTableCollapse = ->
     matchId = $(event.target).data('matchId')
     matchStatusComplete = $(event.target).data('matchComplete')
     toggleBar = $('#prediction-table__toggle-btn-' + matchId)
+    loadingSpinner = $(event.target).find('.fa-spinner')
     if matchStatusComplete
       toggleBar.html('<i class=\'fa fa-angle-double-up\'></i>&nbsp;Hide Results&nbsp;<i class=\'fa fa-angle-double-up\'></i>')
     else
       toggleBar.html('<i class=\'fa fa-angle-double-up\'></i>&nbsp;Hide Predictions&nbsp;<i class=\'fa fa-angle-double-up\'></i>')
+    if loadingSpinner.length
+      $(event.target).find('#show-prediction-table-' + matchId).trigger('click')
   $('.js-prediction-table__collapse').on 'hide.bs.collapse', (event) ->
     matchId = $(event.target).data('matchId')
     matchStatusComplete = $(event.target).data('matchComplete')

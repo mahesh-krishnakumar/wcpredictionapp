@@ -1,0 +1,1 @@
+$("#prediction-table-" + '<%= @match.id%>').html("<%= escape_javascript(render partial: 'predictions', locals: { match: @match } ) %>");

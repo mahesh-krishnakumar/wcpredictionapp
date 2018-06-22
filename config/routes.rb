@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'leaderboard', to: 'user#leaderboard', as: 'leaderboard'
   get 'rules', to: 'user#rules', as: 'rules'
   get 'update_match_result', to: 'matches#update_result', as: 'update_match_result'
+  get '/matches/:id/predictions/:user_id', to: 'matches#predictions', as: 'match_predictions'
 
   devise_for :users, skip: :sessions, controllers: { registrations: 'registrations' }
   as :user do

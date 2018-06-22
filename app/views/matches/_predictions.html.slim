@@ -1,0 +1,81 @@
+- if match.locked? && !match.completed?
+  ul.nav.nav-pills.justify-content-center.match-list__tabs.prediction-table__pills role='tablist' id='predictionTabs'
+    - @presenter.groups.each_with_index do |group, index|
+      li.nav-item
+        a.nav-link.prediction-table__pill-title id="group#{group.id}-tab" data-toggle="tab" href="#group#{group.id}match#{match.id}" role="tab" class=(index == 0 ? 'active' : '') #{group.name}
+  .tab-content id='predictionTabsContent'
+    - @presenter.predictions_list.each_with_index do |(group_id, predictions), index|
+      .tab-pane.fade id="group#{group_id}match#{match.id}" role="tabpanel" class=(index == 0 ? 'show active' : '')
+        .table-responsive
+          table.table.table-striped.prediction-table
+            thead.text-center
+              tr
+                th Player
+                th Prediction
+            tbody.text-center
+              - predictions[match.id].each do |prediction|
+                - user = @presenter.users.find { |user| user.id == prediction[:user_id] }
+                tr class="#{user == current_user ? 'current-user-row' : ''}"
+                  td #{user.nick_name}
+                  td #{prediction[:prediction]}
+
+- if match.completed?
+  - right_prediction_icon = 'fa-check match-result__correct-prediction'
+  - wrong_prediction_icon = 'fa-times match-result__wrong-prediction'
+  ul.nav.nav-pills.justify-content-center.match-list__tabs.prediction-table__pills role='tablist' id='resultTabs'
+    - @presenter.groups.each_with_index do |group, index|
+      li.nav-item
+        a.nav-link.prediction-table__pill-title id="group#{group.id}-tab" data-toggle="tab" href="#group#{group.id}match#{match.id}" role="tab" class=(index == 0 ? 'active' : '') #{group.name}
+  .tab-content id='resultTabsContent'
+    - @presenter.predictions_result.each_with_index do |(group_id, results), index|
+      .tab-pane.fade id="group#{group_id}match#{match.id}" role="tabpanel" class=(index == 0 ? 'show active' : '')
+        .table-responsive
+          table.table.table-striped.prediction-table
+            thead.text-center
+              tr
+                th.d-md-none.align-text-top Prediction
+                th.d-none.d-md-table-cell Player
+                th.d-none.d-md-table-cell Prediction
+                th.d-none.d-md-table-cell Winner
+                th.d-none.d-md-table-cell Score
+                - if match.knock_out?
+                  th.d-none.d-md-table-cell Decider
+                th.d-md-none
+                  | Results
+                  span.text-gray *
+                th.align-text-top Points
+              tr.d-md-none
+                - result_header_subtext = match.knock_out? ? '* Winner|Score|Decider' : '* Winner|Score'
+                td.text-gray-extra-small.prediction-table__help-text #{result_header_subtext}
+
+            tbody.text-center
+              - results[match.id].each do |result|
+                - user = @presenter.users.find { |u| u.id === result[:user_id] }
+                - user_prediction = @presenter.user_prediction(match.id, result[:user_id])
+                - prediction_text = user_prediction.present? ? user_prediction.short_text : '-'
+                - icon_for_result = result[:match_result] ? right_prediction_icon : wrong_prediction_icon
+                - icon_for_score = result[:score] ? right_prediction_icon : wrong_prediction_icon
+                - icon_for_decider = result[:decider] ? right_prediction_icon : wrong_prediction_icon
+                tr class="#{user == current_user ? 'current-user-row' : ''}"
+                  td.d-md-none
+                    | #{user.nick_name}
+                    .text-gray-small #{prediction_text}
+                  td.d-none.d-md-table-cell #{user.nick_name}
+                  - user_prediction = @presenter.user_prediction(match.id, result[:user_id])
+                  - prediction_text = user_prediction.present? ? user_prediction.short_text : '-'
+                  td.d-none.d-md-table-cell #{prediction_text}
+                  td.d-none.d-md-table-cell
+                    i.fa class='#{icon_for_result}'
+
+                  td.d-none.d-md-table-cell
+                    i.fa class='#{icon_for_score}'
+                  - if match.knock_out?
+                    td.d-none.d-md-table-cell
+                      i.fa class='#{icon_for_decider}'
+                  td.d-md-none
+                    span
+                      i.fa.prediction-table__result-icon class='#{icon_for_result}'
+                      i.fa.prediction-table__result-icon class='#{icon_for_score}'
+                      - if match.knock_out?
+                        i.fa.prediction-table__result-icon class='#{icon_for_decider}'
+                  td class="#{result[:match_share].negative? ? 'red-text' : 'green-text'}" #{result[:match_share].positive? ? '+' : ''}#{'%g' % result[:match_share].round(1)}

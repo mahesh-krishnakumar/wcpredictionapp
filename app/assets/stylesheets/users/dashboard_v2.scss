@@ -231,3 +231,16 @@
 .prediction-table__help-text {
   padding: 3px !important;
 }
+
+.prediction-table__loading-text {
+  font-size: small;
+  color: grey;
+}
+
+.prediction-table__loading-icon {
+  margin: 2px;
+}
+
+.prediction-table__link {
+  display: none;
+}

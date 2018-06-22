@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_20_071649) do
+ActiveRecord::Schema.define(version: 2018_06_22_101918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,17 @@ ActiveRecord::Schema.define(version: 2018_06_20_071649) do
   create_table "teams", force: :cascade do |t|
     t.string "full_name"
     t.string "short_name"
+  end
+
+  create_table "user_ranks", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "group_id"
+    t.integer "rank"
+    t.float "points"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_user_ranks_on_group_id"
+    t.index ["user_id"], name: "index_user_ranks_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

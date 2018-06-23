@@ -8,8 +8,14 @@ class UserController < ApplicationController
   def leaderboard
     @groups = current_user.groups
     @leaderboards = @groups.each_with_object({}) do |group, leaderboard|
-      leaderboard[group.id] = Groups::StandingsTableService.new(group).table
+      leaderboard[group.id] = begin
+        user_ranks = UserRank.where(group_id: group.id).order(points: :desc)
+        user_ranks.map { |entry| [entry.user_id, entry.points, entry.rank] }
+      end
     end
-    @global_leaderboard = Groups::StandingsTableService.new.table
+    @global_leaderboard = begin
+      user_ranks = UserRank.where(group_id:0).order(points: :desc)
+      user_ranks.map { |entry| [entry.user_id, entry.points, entry.rank] }
+    end
   end
 end

@@ -10,7 +10,8 @@ html {
 }
 
 .body {
-  background-color: #DDDDDD;
+  background-color: #f0f0f0;
+  font-family: 'Play', sans-serif;
 }
 
 .body-with-bg {
@@ -20,6 +21,14 @@ html {
 
 .header-bg {
   background-color: #D30208;
+  background: asset-url('WC_bg.jpg') no-repeat;
+  background-size: cover;
+  position: relative;
+  box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.5);
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e5c685;
+  border-bottom-left-radius: 50% 20%;
+  border-bottom-right-radius: 50% 20%;
 }
 
 .navbar-logo {

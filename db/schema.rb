@@ -92,8 +92,8 @@ ActiveRecord::Schema.define(version: 2018_06_20_071649) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stage"
-    t.boolean "locked", default: true
     t.bigint "winner_id"
+    t.boolean "locked", default: true
     t.string "summary_text"
     t.string "short_text"
     t.index ["winner_id"], name: "index_matches_on_winner_id"

@@ -7,9 +7,10 @@ html lang='en'
     = csrf_meta_tags
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play"
     link rel="icon" href=image_url('football-icon.png')
   body.body
-    header.header-bg
+    header.header-bg.mb-3
       .container
         nav.navbar.navbar-expand-lg.navbar-light.rounded-bottom
           a.navbar-brand href=root_path
@@ -38,5 +39,5 @@ html lang='en'
                 li.nav-item.navbar-nav__nav-item
                   a.nav-link.white-text href=rules_path Rules
                 li.nav-item.navbar-nav__nav-item
-                  = link_to('Login', new_user_session_path, class: 'nav-link white-text')  
+                  = link_to('Login', new_user_session_path, class: 'nav-link white-text')
     = yield

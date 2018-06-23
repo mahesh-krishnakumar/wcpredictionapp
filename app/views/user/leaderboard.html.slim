@@ -20,7 +20,7 @@
                     th scope='col' Points
                 tbody
                   - @leaderboards[group.id].each.with_index(1) do |(user_id, points, rank), index|
-                    - user = User.find(user_id)
+                    - user = @users.find { |user| user.id == user_id }
                     tr class="#{user == current_user ? 'current-user-row' : ''}"
                       td.fit scope='row' #{rank}
                       td.fit scope='row'
@@ -46,7 +46,7 @@
                   th scope='col' Points
               tbody
                 - @global_leaderboard.each.with_index(1) do |(user_id, points, rank), index|
-                  - user = User.find(user_id)
+                  - user = @users.find { |user| user.id == user_id }
                   tr class="#{user == current_user ? 'current-user-row' : ''}"
                     td.fit scope='row' #{rank}
                     td.fit scope='row'

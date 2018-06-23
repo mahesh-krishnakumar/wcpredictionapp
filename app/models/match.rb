@@ -125,4 +125,12 @@ class Match < ApplicationRecord
     self.short_text = knock_out? ? "#{team_1_goals}-#{team_2_goals}, #{decider_short_text(decider)}" : "#{team_1_goals}-#{team_2_goals}"
     self.summary_text = winner.present? ? "#{winner.short_name} (#{short_text})" : "Draw (#{short_text})"
   end
+
+  after_save :update_user_ranks_and_points
+
+  def update_user_ranks_and_points
+    saved_changes = self.saved_changes
+    return unless saved_changes.keys.include?('team_1_goals') || saved_changes.keys.include?('team_2_goals') || saved_changes.keys.include?('decider')
+    Users::UpdateRanksService.new.execute
+  end
 end

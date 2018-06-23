@@ -10,4 +10,10 @@ class User < ApplicationRecord
   # validates :group, presence: true
   validates :name, presence: true
   validates :nick_name, presence: true
+
+  after_save :update_ranks_and_points
+
+  def update_ranks_and_points
+    Users::UpdateRanksService.new.execute
+  end
 end

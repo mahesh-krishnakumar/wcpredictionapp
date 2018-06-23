@@ -8,10 +8,16 @@ module Users
     def ranks
       # First the global rank
       ranks = {}
-      ranks[:global] = Groups::StandingsTableService.new.standing(@user)
+      ranks[:global] = begin
+        user_rank = UserRank.where(user: @user, group_id: 0).first
+        { rank: user_rank.rank, points: user_rank.points }
+      end
 
       @groups.each do |group|
-        ranks[group.id] = Groups::StandingsTableService.new(group).standing(@user)
+        ranks[group.id] = begin
+          user_rank = UserRank.where(user: @user, group_id: group.id).first
+          { rank: user_rank.rank, points: user_rank.points }
+        end
       end
 
       ranks

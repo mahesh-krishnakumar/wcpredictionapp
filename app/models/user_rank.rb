@@ -4,6 +4,4 @@ class UserRank < ApplicationRecord
 
   validates :user, presence: true, uniqueness: { scope: :group }
   validates :group, uniqueness: { scope: :user }
-  validates :points, presence: true
-  validates :rank, presence: true
 end

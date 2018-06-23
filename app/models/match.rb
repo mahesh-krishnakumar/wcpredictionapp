@@ -125,4 +125,11 @@ class Match < ApplicationRecord
     self.short_text = knock_out? ? "#{team_1_goals}-#{team_2_goals}, #{decider_short_text(decider)}" : "#{team_1_goals}-#{team_2_goals}"
     self.summary_text = winner.present? ? "#{winner.short_name} (#{short_text})" : "Draw (#{short_text})"
   end
+
+  after_save :update_user_ranks_and_points
+
+  def update_user_ranks_and_points
+    return unless team_1_goals_changed? || team_2_goals_changed? || decider_changed?
+    Users::UpdateRanksService.new.execute
+  end
 end

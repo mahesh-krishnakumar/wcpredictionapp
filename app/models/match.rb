@@ -129,7 +129,8 @@ class Match < ApplicationRecord
   after_save :update_user_ranks_and_points
 
   def update_user_ranks_and_points
-    return unless team_1_goals_changed? || team_2_goals_changed? || decider_changed?
+    saved_changes = self.saved_changes
+    return unless saved_changes.keys.include?('team_1_goals') || saved_changes.keys.include?('team_2_goals') || saved_changes.keys.include?('decider')
     Users::UpdateRanksService.new.execute
   end
 end

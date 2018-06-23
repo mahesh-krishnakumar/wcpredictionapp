@@ -6,6 +6,7 @@ class UserController < ApplicationController
   end
 
   def leaderboard
+    @users = User.all.includes(team: [flag_attachment: :blob]).to_a
     @groups = current_user.groups
     @leaderboards = @groups.each_with_object({}) do |group, leaderboard|
       leaderboard[group.id] = begin
@@ -14,7 +15,7 @@ class UserController < ApplicationController
       end
     end
     @global_leaderboard = begin
-      user_ranks = UserRank.where(group_id:0).order(points: :desc)
+      user_ranks = UserRank.where(group_id: 0).order(points: :desc)
       user_ranks.map { |entry| [entry.user_id, entry.points, entry.rank] }
     end
   end

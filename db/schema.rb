@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_22_101918) do
+ActiveRecord::Schema.define(version: 2018_06_24_172010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,8 +92,8 @@ ActiveRecord::Schema.define(version: 2018_06_22_101918) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stage"
-    t.bigint "winner_id"
     t.boolean "locked", default: true
+    t.bigint "winner_id"
     t.string "summary_text"
     t.string "short_text"
     t.index ["winner_id"], name: "index_matches_on_winner_id"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(version: 2018_06_22_101918) do
     t.float "points"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "change_in_rank"
     t.index ["group_id"], name: "index_user_ranks_on_group_id"
     t.index ["user_id"], name: "index_user_ranks_on_user_id"
   end

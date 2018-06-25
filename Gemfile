@@ -88,6 +88,9 @@ gem 'jquery-slick-rails'
 # Skylight agent for Ruby
 gem 'skylight'
 
+# Exception tracking and logging from Ruby to Rollbar
+gem 'rollbar'
+
 # Rails form builder using Bootstrap 4
 gem 'bootstrap_form',
   git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',

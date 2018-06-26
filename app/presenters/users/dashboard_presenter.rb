@@ -24,10 +24,10 @@ module Users
       user_predictions.find { |p| p.match_id == match.id }
     end
 
-    def predictions_result
+    def predictions_result(match)
       @predictions_result ||= begin
         groups.each_with_object({}) do |group, result|
-          result[group.id] = Matches::PredictionResultService.new(group).results
+          result[group.id] = Matches::PredictionResultService.new(group, match).results
         end
       end
     end

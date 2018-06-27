@@ -2,8 +2,10 @@ module Users
   class UpdateRanksService
     def execute
       generate_rank_tables
-      update_group_ranks
-      update_global_ranks
+      UserRank.transaction do
+        update_group_ranks
+        update_global_ranks
+      end
     end
 
     private
@@ -13,9 +15,11 @@ module Users
         leaderboard = @leaderboards[group.id]
         group.users.pluck(:id).each do |user_id|
           user_rank = UserRank.find_or_create_by(group: group, user_id: user_id)
+          previous_rank = user_rank.rank
           points = leaderboard.find { |entry| entry[0] == user_id }.second
           rank = leaderboard.find { |entry| entry[0] == user_id }.third
-          user_rank.update!(points: points, rank: rank)
+          change_in_rank = previous_rank.present? ? previous_rank - rank : 0
+          user_rank.update!(points: points, rank: rank, change_in_rank: change_in_rank)
         end
       end
     end
@@ -23,9 +27,11 @@ module Users
     def update_global_ranks
       User.pluck(:id).each do |user_id|
         user_rank = UserRank.find_or_create_by(group_id: 0, user_id: user_id)
+        previous_rank = user_rank.rank
         points = @global_leaderboard.find { |entry| entry[0] == user_id }.second
         rank = @global_leaderboard.find { |entry| entry[0] == user_id }.third
-        user_rank.update!(points: points, rank: rank)
+        change_in_rank = previous_rank.present? ? previous_rank - rank : 0
+        user_rank.update!(points: points, rank: rank, change_in_rank: change_in_rank)
       end
     end
 

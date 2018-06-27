@@ -19,15 +19,21 @@
                     th scope='col' Name
                     th scope='col' Points
                 tbody
-                  - @leaderboards[group.id].each.with_index(1) do |(user_id, points, rank), index|
+                  - @leaderboards[group.id].each.with_index(1) do |(user_id, points, rank, change_in_rank), index|
                     - user = @users.find { |user| user.id == user_id }
                     tr class="#{user == current_user ? 'current-user-row' : ''}"
-                      td.fit scope='row' #{rank}
                       td.fit scope='row'
+                        .d-flex.align-items-center
+                          span.leaderboard__rank-change.d-flex.flex-column.align-items-center
+                            i.fa class=@presenter.change_in_rank_icon(change_in_rank)
+                            - unless change_in_rank.zero?
+                              span.leaderboard__rank-delta = change_in_rank.positive? ? "+#{change_in_rank}" : change_in_rank
+                          span.leaderboard__rank-number.ml-auto #{rank}
+                      td.fit.align-middle scope='row'
                         - if user.team.present?
                           = image_tag user.team.flag, class: 'leaderboard__flag'
-                      td #{user.nick_name}
-                      td class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{'%g' % points.round(1)}
+                      td.align-middle #{user.nick_name}
+                      td.align-middle class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{'%g' % points.round(1)}
       / Also the Global ranking
       .card.leaderboard__card
         .card-header.d-flex.pl-3.leaderboard__card-header id="groupglobal-header" data-toggle="collapse" data-target="#groupglobal-table" aria-expanded="true" aria-controls="groupglobal-table"
@@ -45,13 +51,19 @@
                   th scope='col' Name
                   th scope='col' Points
               tbody
-                - @global_leaderboard.each.with_index(1) do |(user_id, points, rank), index|
+                - @global_leaderboard.each.with_index(1) do |(user_id, points, rank, change_in_rank), index|
                   - user = @users.find { |user| user.id == user_id }
                   tr class="#{user == current_user ? 'current-user-row' : ''}"
-                    td.fit scope='row' #{rank}
                     td.fit scope='row'
+                      .d-flex.align-items-center
+                        span.leaderboard__rank-change.d-flex.flex-column.align-items-center
+                          i.fa class=@presenter.change_in_rank_icon(change_in_rank)
+                          - unless change_in_rank.zero?
+                            span.leaderboard__rank-delta = change_in_rank.positive? ? "+#{change_in_rank}" : change_in_rank
+                        span.leaderboard__rank-number.ml-auto #{rank}
+                    td.fit.align-middle scope='row'
                       - if user.team.present?
                         = image_tag user.team.flag, class: 'leaderboard__flag'
-                    td #{user.nick_name}
-                    td class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{'%g' % points.round(1)}
+                    td.align-middle #{user.nick_name}
+                    td.align-middle class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{'%g' % points.round(1)}
     .col-md-2

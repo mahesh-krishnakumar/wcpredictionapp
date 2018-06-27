@@ -50,3 +50,31 @@
   white-space: nowrap;
   width: 1%;
 }
+
+.leaderboard__rank-change {
+  line-height: 1;
+}
+
+.leaderboard__rank-icon {
+  font-size: x-large;
+  color: #0F9D58;
+}
+
+.leaderboard__rank-icon--green {
+  color: #0F9D58;
+}
+
+.leaderboard__rank-icon--red {
+  color: #d9534f;
+}
+
+.leaderboard__rank-icon--grey {
+  font-size: xx-small !important;
+  color: #999999;
+}
+
+.leaderboard__rank-delta {
+  font-size: 12px;
+  color: darkgray;
+  line-height: 1;
+}

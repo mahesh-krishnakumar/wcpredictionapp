@@ -1,7 +1,11 @@
 class PredictionsController < ApplicationController
   def create
-    prediction = current_user.predictions.new(prediction_params)
     match = Match.find(prediction_params[:match_id])
+    if current_user.predictions.where(match: match).present?
+      update
+      return
+    end
+    prediction = current_user.predictions.new(prediction_params)
     return head(:bad_request) if match.locked?
     prediction.attributes = prediction_params
     if match.knock_out?

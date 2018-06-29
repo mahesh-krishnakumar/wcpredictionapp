@@ -24,7 +24,7 @@
                     tr class="#{user == current_user ? 'current-user-row' : ''}"
                       td.fit scope='row'
                         .d-flex.align-items-center
-                          span.leaderboard__rank-change.d-flex.flex-column.align-items-center
+                          span.leaderboard__rank-change.d-flex.flex-column
                             i.fa class=@presenter.change_in_rank_icon(change_in_rank)
                             - unless change_in_rank.zero?
                               span.leaderboard__rank-delta = change_in_rank.positive? ? "+#{change_in_rank}" : change_in_rank

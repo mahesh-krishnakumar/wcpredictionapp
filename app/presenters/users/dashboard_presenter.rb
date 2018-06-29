@@ -64,7 +64,8 @@ module Users
     end
 
     def date_strip_initial_slide
-      match_dates.index(Date.today) || 0
+      next_match_date = Match.unlocked.where('kick_off > ?', Time.now).order(:kick_off)&.first&.kick_off&.to_date
+      match_dates.index(next_match_date) || 0
     end
 
     def unlocked_matches

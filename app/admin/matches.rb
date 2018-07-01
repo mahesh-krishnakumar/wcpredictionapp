@@ -18,7 +18,7 @@ ActiveAdmin.register Match do
       f.input :team_1_goals
       f.input :team_2_goals
       f.input :decider, as: :select, collection: Match.valid_decider_types
-      f.input :winner, as: :select, collection: Team.all
+      f.input :winner_id, as: :select, collection: Team.all
     end
 
     f.actions

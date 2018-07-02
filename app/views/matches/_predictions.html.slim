@@ -61,8 +61,6 @@
                     | #{user.nick_name}
                     .text-gray-small #{prediction_text}
                   td.d-none.d-md-table-cell #{user.nick_name}
-                  - user_prediction = @presenter.user_prediction(match.id, result[:user_id])
-                  - prediction_text = user_prediction.present? ? user_prediction.short_text : '-'
                   td.d-none.d-md-table-cell #{prediction_text}
                   td.d-none.d-md-table-cell
                     i.fa class='#{icon_for_result}'

@@ -46,7 +46,7 @@
                 th.align-text-top Points
               tr.d-md-none
                 - result_header_subtext = match.knock_out? ? '* Winner|Score|Decider' : '* Winner|Score'
-                td.text-gray-extra-small.prediction-table__help-text #{result_header_subtext}
+                td.text-gray-extra-small.prediction-table__help-text colspan="3" #{result_header_subtext}
 
             tbody.text-center
               - results.each do |result|

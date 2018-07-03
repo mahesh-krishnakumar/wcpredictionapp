@@ -130,7 +130,7 @@ class Match < ApplicationRecord
 
   def update_user_ranks_and_points
     saved_changes = self.saved_changes
-    return unless saved_changes.keys.include?('team_1_goals') || saved_changes.keys.include?('team_2_goals') || saved_changes.keys.include?('decider')
+    return unless saved_changes.keys.include?('team_1_goals') || saved_changes.keys.include?('team_2_goals') || saved_changes.keys.include?('decider') && saved_changes['decider'][1] != ''
     Users::UpdateRanksService.new.execute
   end
 end

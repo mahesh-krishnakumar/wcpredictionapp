@@ -10,11 +10,14 @@
 .prediction-card__notice {
   color: white;
   font-size: 15px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .predictions-card__notice-container {
   background: linear-gradient(to right, #2993FC , #61bffd, #2993FC);
+  padding: 1rem;
 }
 
 .predictions-card__notice-icon {
@@ -25,7 +28,6 @@
 
 .prediction-card__notice-sub-text {
   font-size: small;
-  text-align: center;
 }
 
 .predictions-card__header {

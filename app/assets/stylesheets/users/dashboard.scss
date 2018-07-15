@@ -10,8 +10,17 @@
 .prediction-card__notice {
   color: white;
   font-size: 15px;
-  background: linear-gradient(to right, #931ED1 , #c551d1, #931ED1);
   text-align: center;
+}
+
+.predictions-card__notice-container {
+  background: linear-gradient(to right, #2993FC , #61bffd, #2993FC);
+}
+
+.predictions-card__notice-icon {
+  width: 60px;
+  height: 60px;
+  padding: 3px;
 }
 
 .prediction-card__notice-sub-text {

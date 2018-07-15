@@ -1,9 +1,13 @@
 .card.predictions-card.mb-3
-  .prediction-card__notice.p-3
-    strong Its the Semi-finals!
-    .prediction-card__notice-sub-text.mt-1
-      strong New points :&nbsp;&nbsp;
-      | Winner: 30, Score: 20, Decider: 10
+  .container-fluid
+    .predictions-card__notice-container.row
+      .prediction-card__notice.p-1.col-9
+        strong Its the Finals!
+        .prediction-card__notice-sub-text.mt-1
+          strong New points :&nbsp;&nbsp;
+          | Winner: 70, Score: 20, Decider: 10
+      .col-3
+        =image_tag 'trophy.png', class: 'predictions-card__notice-icon'
   .card-header.predictions-card__header
     h5 Your Predictions
     .prediction-card-header__sub-title

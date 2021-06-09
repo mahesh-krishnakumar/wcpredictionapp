@@ -45,7 +45,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 #
 gem 'jquery-rails' #Required by bootstrap
-gem 'bootstrap', '~> 4.0.0'
+gem 'bootstrap', '~> 4.3.1'
 gem 'font-awesome-rails'
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 

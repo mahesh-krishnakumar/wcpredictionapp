@@ -1,4 +1,4 @@
-ruby '2.5.1'
+ruby '2.7.0'
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
@@ -8,21 +8,21 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.0'
+gem 'rails', '~> 6.0.0'
 
 gem 'dotenv-rails', '~> 2.2', groups: %i[development test]
 
-gem 'activeadmin', '~> 1.1'
+gem 'activeadmin', '~> 2.6.0'
 gem 'active_admin_datetimepicker'
 
-gem 'bootsnap', require: false
+gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'devise'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -92,9 +92,7 @@ gem 'skylight'
 gem 'rollbar'
 
 # Rails form builder using Bootstrap 4
-gem 'bootstrap_form',
-  git: 'https://github.com/bootstrap-ruby/bootstrap_form.git',
-  branch: 'master'
+gem 'bootstrap_form'
 
 # Rails engine for cache-friendly, client-side local time
 gem 'local_time'

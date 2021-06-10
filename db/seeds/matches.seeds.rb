@@ -2,7 +2,7 @@ puts 'Seeding Matches'
 
 require 'csv'
 
-fixture_csv = File.read(Rails.root.join('WCFixtures_UTC.csv'))
+fixture_csv = File.read(Rails.root.join('uefa-euro-2020-UTC.csv'))
 
 csv = CSV.parse(fixture_csv, headers: true)
 

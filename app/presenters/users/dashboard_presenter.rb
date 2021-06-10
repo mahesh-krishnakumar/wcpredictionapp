@@ -64,6 +64,8 @@ module Users
     end
 
     def date_strip_initial_slide
+      return 0 if Match.completed.blank?
+
       next_match_date = Match.completed.last.kick_off&.to_date
       match_dates.index(next_match_date) || 0
     end

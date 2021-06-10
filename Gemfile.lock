@@ -318,11 +318,6 @@ GEM
     ruby2_keywords (0.0.4)
     ruby_dep (1.5.0)
     rubyzip (2.3.0)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -433,7 +428,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 RUBY VERSION
-   ruby 2.7.0p0
+   ruby 2.7.3p183
 
 BUNDLED WITH
    2.1.4

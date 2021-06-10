@@ -30,7 +30,7 @@
                               span.leaderboard__rank-delta = change_in_rank.positive? ? "+#{change_in_rank}" : change_in_rank
                           span.leaderboard__rank-number.ml-auto #{rank}
                       td.fit.align-middle scope='row'
-                        - if user.team.present?
+                        - if user&.team.present?
                           = image_tag user.team.flag, class: 'leaderboard__flag'
                       td.align-middle #{user.nick_name}
                       td.align-middle class="#{points.negative? ? 'red-text' : 'green-text'}" #{points.positive? ? '+' : ''}#{'%g' % points.round(1)}

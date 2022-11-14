@@ -98,5 +98,5 @@ gem 'bootstrap_form'
 gem 'local_time'
 
 group :production do
-  gem 'google-cloud-storage', '~> 1.8', require: false
+  gem 'aws-sdk-s3', require: false
 end

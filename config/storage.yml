@@ -15,6 +15,14 @@ local:
 #   bucket: your_own_bucket
 
 # Remember not to checkin your GCS keyfile to a repository
+
+digital_ocean:
+  access_key_id: <%= ENV['DO_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['DO_SECRET_ACCESS_KEY'] %>
+  bucket: <%= ENV['DO_BUCKET'] %>
+  endpoint: <%= ENV['DO_ENDPOINT'] %>
+  region: unused
+
 google:
   service: GCS
   project: <%= Rails.application.credentials.dig(:gcs, :project_id) %>
